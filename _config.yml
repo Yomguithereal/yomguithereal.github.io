@@ -25,6 +25,7 @@ links:
 timezone:    Europe/Paris
 future:      true
 highlighter: pygments
+markdown:    redcarpet
 
 sass:
   style: :compressed
