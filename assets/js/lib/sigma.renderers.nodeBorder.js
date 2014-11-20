@@ -28,8 +28,8 @@
     context.closePath();
     context.fill();
 
-    context.lineWidth = 1;
-    context.strokeStyle = '#fff';
+    context.lineWidth = node.borderWidth || 1;
+    context.strokeStyle = node.borderColor || '#fff';
     context.stroke();
   };
 }).call(this);

@@ -114,4 +114,53 @@
 
   intro.startForceAtlas2({slowDown: 3});
   outro.startForceAtlas2({slowDown: 3});
+
+  // Example
+  var example = new sigma({
+    graph: {
+      nodes: [
+        {
+          id: 'm',
+          label: 'Murat',
+          x: 75,
+          y: 0,
+          size: 5,
+          color: '#94B8B5',
+          borderColor: '#fff',
+        },
+        {
+          id: 'n',
+          label: 'Ney',
+          x: 75,
+          y: 75,
+          size: 8,
+          color: '#C46446',
+          borderColor: '#000',
+          borderWidth: 3
+        },
+        {
+          id: 'd',
+          label: 'Davout',
+          x: 0,
+          y: 75,
+          size: 8,
+          color: '#A761B1',
+          borderColor: '#000',
+        }
+      ],
+      edges: [
+        {id: 'e01', source: 'm', target: 'n'},
+        {id: 'e02', source: 'm', target: 'd'},
+        {id: 'e03', source: 'n', target: 'd'},
+      ]
+    },
+    renderer: {
+      type: 'canvas',
+      container: 'example-graph'
+    },
+    settings: {
+      autoRescale: false,
+      defaultNodeType: 'border'
+    }
+  });
 }).call(this);

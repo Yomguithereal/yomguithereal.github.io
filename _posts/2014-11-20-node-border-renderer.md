@@ -9,6 +9,8 @@ tags: [sigma, graph, javascript]
 
 <div id="intro-graph" class="graph"></div>
 
+*Figure 1: An imaginary graph*
+
 ---
 
 Every now and then I find people gruntling about the fact that [sigma](http://sigmajs.org/) does not support node borders.
@@ -85,7 +87,132 @@ sig.graph.nodes().forEach(function(node) {
 
 ---
 
-To create a custom node renderer – note that one may create other kind of custom renderers such as *edge*, *hover* and *label* – one must understand how does sigma works behind the hood.
+<h3 id="custom-renderer">Creating our custom renderer</h3>
+
+Creating a custom node renderer is as simple as mimicking sigma's built-in renderers. Here is the default [node renderer](https://github.com/jacomyal/sigma.js/blob/master/src/renderers/canvas/sigma.canvas.nodes.def.js) and can be expressed in a simpler way as follows:
+
+```js
+// The node renderer is merely a function taking the following args:
+//    1) 'node': the node object to render
+//    2) 'context': the canvas context where the macro-renderer operates
+//    3) 'settings': the sigma instance's settings
+sigma.canvas.nodes.def = function(node, context, settings) {
+
+  // Bit technical, determining the prefix on which the renderer must act
+  var prefix = settings('prefix') || '';
+
+  // Creating a circle and filling it with the desired color
+  // This is plain canvas
+  context.fillStyle = node.color || settings('defaultNodeColor');
+  context.beginPath();
+  context.arc(
+    node[prefix + 'x'],
+    node[prefix + 'y'],
+    node[prefix + 'size'],
+    0,
+    Math.PI * 2,
+    true
+  );
+
+  context.closePath();
+  context.fill();
+};
+```
+
+Let's say, for instance, that we want to add a border on our nodes and be able to set both this border's color and size. We could alter our renderer thusly:
+
+```js
+// We should give a better name to our renderer
+sigma.canvas.nodes.border = function(node, context, settings) {
+  var prefix = settings('prefix') || '';
+
+  context.fillStyle = node.color || settings('defaultNodeColor');
+  context.beginPath();
+  context.arc(
+    node[prefix + 'x'],
+    node[prefix + 'y'],
+    node[prefix + 'size'],
+    0,
+    Math.PI * 2,
+    true
+  );
+
+  context.closePath();
+  context.fill();
+
+  // Adding a border
+  context.lineWidth = node.borderWidth || 1;
+  context.strokeStyle = node.borderColor || '#fff';
+  context.stroke();
+};
+```
+
+---
+
+<h3 id="wrapping-things-up">Wrapping things up</h3>
+
+Now that we have our custom renderer, let's use it to display a nice graph.
+
+```js
+var example = new sigma({
+  graph: {
+    nodes: [
+      {
+        id: 'm',
+        label: 'Murat',
+        x: 75,
+        y: 0,
+        size: 5,
+        color: '#94B8B5',
+        borderColor: '#fff',
+      },
+      {
+        id: 'n',
+        label: 'Ney',
+        x: 75,
+        y: 75,
+        size: 8,
+        color: '#C46446',
+        borderColor: '#000',
+        borderWidth: 3
+      },
+      {
+        id: 'd',
+        label: 'Davout',
+        x: 0,
+        y: 75,
+        size: 8,
+        color: '#A761B1',
+        borderColor: '#000',
+      }
+    ],
+    edges: [
+      {id: 'e01', source: 'm', target: 'n'},
+      {id: 'e02', source: 'm', target: 'd'},
+      {id: 'e03', source: 'n', target: 'd'},
+    ]
+  },
+  renderer: {
+    type: 'canvas',
+    container: 'example-graph'
+  },
+  settings: {
+    autoRescale: false,
+    defaultNodeType: 'border'
+  }
+});
+```
+
+---
+
+<div id="example-graph" class="graph"></div>
+
+*Figure 2: The graph generated above*
+
+---
+
+
+probably adjust to node size
 
 Tada iwanthue
 
@@ -93,11 +220,13 @@ link to the source
 
 fly away (silly edge)
 
+code is here and works for canvas (possible to do webgl but way harder)
+
 ---
 
 <div id="outro-graph" class="graph"></div>
 
----
+*Figure 3: An unreadable but nonetheless beautiful graph*
 
 <script type="text/javascript" src="{{ site.url }}/assets/js/lib/faker.min.js"></script>
 <script type="text/javascript" src="{{ site.url }}/assets/js/lib/sigma.min.js"></script>
