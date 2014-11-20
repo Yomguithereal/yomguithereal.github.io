@@ -15,8 +15,8 @@ owner:
 # Links to include in top navigation
 # For external links add external: true
 links:
-  - title: About
-    url: /about
+  - title: Projects
+    url: /projects
   - title: Github
     url: https://github.com/Yomguithereal
     external: true
@@ -27,7 +27,7 @@ future:      true
 highlighter: pygments
 
 sass:
-    style: :compressed
+  style: :compressed
 
 # https://github.com/mojombo/jekyll/wiki/Permalinks
 permalink:   /:categories/:title

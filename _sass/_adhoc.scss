@@ -1,0 +1,9 @@
+/************ Adhoc Post Styles *************/
+
+.graph {
+  width: 100%;
+  height: 350px;
+  background-color: #EBEBEB;
+  margin-bottom: 33px;
+  @include bxshd(1px, 1px, 5px, #c0c0c0, inset);
+}
