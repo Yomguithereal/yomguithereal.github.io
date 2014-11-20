@@ -1,0 +1,33 @@
+title:            Mizu no oto
+tagline:          'A blog about code, litterature and other miscellaneous shenanigans.'
+description:      'A blog about code, litterature and other miscellaneous shenanigans.'
+
+# Owner/author information
+owner:
+  name:           Guillaume Plique
+  avatar:         avatar.png
+  twitter:        Yomguithereal
+  github:         Yomguithereal
+  disqus:         yomguithereal
+  location:       "Paris, France"
+  # Plug in your disqus shortname!
+
+# Links to include in top navigation
+# For external links add external: true
+links:
+  - title: About
+    url: /about
+  - title: Github
+    url: https://github.com/Yomguithereal
+    external: true
+
+# http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+timezone:    Europe/Paris
+future:      true
+highlighter: pygments
+
+sass:
+    style: :compressed
+
+# https://github.com/mojombo/jekyll/wiki/Permalinks
+permalink:   /:categories/:title
