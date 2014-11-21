@@ -5,6 +5,7 @@ displayTitle: "On the topic of sigma custom renderers<br>-<br>Node borders"
 description: "The intention of this post is to inform any potential reader about the reasons why custom sigma renderers are the ultimate solution when dealing with visual shenanigans."
 category: articles
 tags: [sigma, graph, javascript]
+comments: true
 ---
 
 <div id="intro-graph" class="graph"></div>
