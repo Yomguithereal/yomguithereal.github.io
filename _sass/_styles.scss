@@ -49,6 +49,10 @@ small {
     background: $hilite;
 }
 
+.accroche {
+    font-size: 0.7em;
+}
+
 blockquote, blockquote p {
     font-style: italic;
     line-height: 1.3em;
@@ -72,7 +76,7 @@ code {
     padding: 12px;
     border-radius: 4px;
     margin-bottom: $lh;
-    overflow-x: scroll;
+    overflow-x: auto;
 
     code {
         color: $black;

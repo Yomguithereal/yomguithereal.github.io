@@ -4,7 +4,8 @@
         <section class="article archive">
           <article class="archive-wrap">
               <ol class="post-list">
-                 <lh><h2><span class="bb">{{ page.title }}</span></h2></lh>
+                 <lh><h2><span class="bb">{{ page.title }}</span>{% if page.description %}<br><br><em class="accroche">{{ page.description }}</em>{% endif %}</h2></lh>
+                  {% if page.description %}<hr>{% endif %}
                   {% for post in site.posts %}
                   <li>
                     <div class="deets" itemscope itemtype="http://schema.org/BlogPosting" itemprop="blogPost">

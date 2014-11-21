@@ -36,7 +36,7 @@ But, within the library, renderers obey to a tacit hierarchy. Here are both kind
 * The *macro-renderers*, like the `canvas` one, whose goal is to orchestrate the whole rendering process.
 * The *sub-renderers* whose mission is simpler: they only have to draw a precise graph entity, a node if you will.
 
-The kind of renderer that need here is a subaltern one, and more precisely the one in charge of drawing the nodes.
+The kind of renderer needed in our case is a subaltern one, and more precisely the one in charge of drawing the nodes.
 
 ---
 

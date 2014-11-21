@@ -1,7 +1,5 @@
 ---
 layout: home
-title: "Recent Posts"
-tags: [Jekyll, theme, responsive, blog, template]
-image:
-  feature: typewriter.jpg
+title: "Mizu no oto"
+description: "A blog about code, litterature and other miscellaneous shenanigans."
 ---
