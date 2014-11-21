@@ -15,11 +15,11 @@ tags: [sigma, graph, javascript]
 
 Every now and then I find people gruntling about the fact that [sigma](http://sigmajs.org/) does not support node borders.
 
-While it is easy to understand why this absence may cause unrest in the library's community, one has to understand that the library was not conceived in a holistic way.
+While it is easy to understand why this absence may cause unrest within the library's community, one has to understand that the library was not conceived in a holistic way.
 
 Truth is sigma has never been designed to embrace every visual option known to creation but rather to enable its user to develop easily his/her graph's desired appearance.
 
-So, if no option currently exists in sigma to add fancy borders to nodes, what can we do about it?
+So yes, no option currently exists in sigma to add fancy borders to nodes. What can we do about it?
 
 The answer is pretty simple: create a **custom node renderer** so we can display the wondrous graph shown above.
 
@@ -27,7 +27,7 @@ The answer is pretty simple: create a **custom node renderer** so we can display
 
 <h3 id="sigma-and-its-renderers">Sigma and its renderers</h3>
 
-What sigma call a *renderer* is a mere function aiming at displaying the graph on screen.
+What sigma calls a *renderer* is a mere function aiming at displaying the graph on screen.
 
 You can therefore ask sigma to display the graph using different renderers such as the built-in `canvas` and `webgl` ones.
 
@@ -42,11 +42,11 @@ The kind of renderer that need here is a subaltern one, and more precisely the o
 
 <h3 id="node-rendering">Node rendering</h3>
 
-When asked to render a node, sigma will ask to the *macro-renderer* the correct renderer to use. By default, if no custom renderer is defined, sigma will use the `def` renderer.
+When asked to render a node, sigma will ask to the *macro-renderer* the correct renderer to use. By default, if no custom renderer is defined, sigma will use the one called `def` renderer. Else it will user a renderer matching the type of the graph element to render.
 
-There are at least three ways to choose the renderer used to draw a node then – note also that one may choose a custom renderer *à la carte* for each of his/her nodes.
+There are at least three ways to choose the renderer used to draw a node – note that one may choose a custom renderer *à la carte* for each one of his/her nodes.
 
-*Changing the default node renderer globally - aka, the foolishly dangerous way*
+*Changing the default node renderer globally - aka, the fast but foolishly dangerous way*
 
 ```js
 sigma.canvas.nodes.def = sigma.canvas.nodes.mySillyType;
@@ -66,7 +66,7 @@ var sig = new sigma({
 sig.settings('defaultNodeType', 'myOtherSillyType');
 ```
 
-*Changing one nodes's renderer*
+*Changing one nodes's type*
 
 ```js
 // When adding a node
@@ -89,13 +89,13 @@ sig.graph.nodes().forEach(function(node) {
 
 <h3 id="custom-renderer">Creating our custom renderer</h3>
 
-Creating a custom node renderer is as simple as mimicking sigma's built-in renderers. Here is the default [node renderer](https://github.com/jacomyal/sigma.js/blob/master/src/renderers/canvas/sigma.canvas.nodes.def.js) and can be expressed in a simpler way as follows:
+Creating a custom node renderer is as simple as mimicking sigma's built-in renderers. Here is the default [node renderer](https://github.com/jacomyal/sigma.js/blob/master/src/renderers/canvas/sigma.canvas.nodes.def.js) and can be expressed in a simpler way as follows and accepts three arguments:
+
+* *node*: the node object to render.
+* *context*: the canvas context used by the macro-renderer.
+* *settings*: the sigma instance's settings merged with the macro-renderer's ones.
 
 ```js
-// The node renderer is merely a function taking the following args:
-//    1) 'node': the node object to render
-//    2) 'context': the canvas context where the macro-renderer operates
-//    3) 'settings': the sigma instance's settings
 sigma.canvas.nodes.def = function(node, context, settings) {
 
   // Bit technical, determining the prefix on which the renderer must act
@@ -119,10 +119,10 @@ sigma.canvas.nodes.def = function(node, context, settings) {
 };
 ```
 
-Let's say, for instance, that we want to add a border on our nodes and be able to set both this border's color and size. We could alter our renderer thusly:
+Let's say, for instance, that we want to add a border on our nodes and be able to set both their border's color and size. We could alter our renderer thusly:
 
 ```js
-// We should give a better name to our renderer
+// We gave our own name 'border' to the custom renderer
 sigma.canvas.nodes.border = function(node, context, settings) {
   var prefix = settings('prefix') || '';
 
@@ -142,7 +142,7 @@ sigma.canvas.nodes.border = function(node, context, settings) {
 
   // Adding a border
   context.lineWidth = node.borderWidth || 1;
-  context.strokeStyle = node.borderColor || '#fff';
+  context.strokeStyle = node.borderColor || '#fff';
   context.stroke();
 };
 ```
@@ -151,7 +151,7 @@ sigma.canvas.nodes.border = function(node, context, settings) {
 
 <h3 id="wrapping-things-up">Wrapping things up</h3>
 
-Now that we have our custom renderer, let's use it to display a nice graph.
+Now that we have our custom renderer, let's use it to display a somewhat informative graph.
 
 ```js
 var example = new sigma({
@@ -211,16 +211,15 @@ var example = new sigma({
 
 ---
 
+<h3 id="final-words">Final words</h3>
 
-probably adjust to node size
+So now we know how to create a custom sigma renderer to fit our needs. The node border renderer presented here is not perfect (one could adjust the border width to match more properly the node's size for instance) but does the job on most of cases.
 
-Tada iwanthue
+You can get the full code <a href="{{ site.url }}/assets/js/lib/sigma.renderers.nodeBorder.js" target="_blank">here</a> if you need it.
 
-link to the source
+Note finally that I only presented here a `canvas` custom renderer for the sake of simplicity but one could build a `webgl` one the same way with this tiny difference: `webgl` is not easy at all.
 
-fly away (silly edge)
-
-code is here and works for canvas (possible to do webgl but way harder)
+So now fly away and create as many silly renderers you want and you will be able to display surrealistic graphs with squared edges and fancy decorations.
 
 ---
 
