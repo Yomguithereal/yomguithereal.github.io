@@ -108,6 +108,10 @@
     type: 'canvas'
   });
 
+  // Dropping orphans
+  intro.graph.dropOrphans();
+  outro.graph.dropOrphans();
+
   // Refreshing
   intro.refresh();
   outro.refresh();

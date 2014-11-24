@@ -231,6 +231,7 @@ So now fly away and create as many silly renderers you want and you will be able
 <script type="text/javascript" src="{{ site.baseurl }}/assets/js/lib/faker.min.js"></script>
 <script type="text/javascript" src="{{ site.baseurl }}/assets/js/lib/sigma.min.js"></script>
 <script type="text/javascript" src="{{ site.baseurl }}/assets/js/lib/sigma.forceatlas.min.js"></script>
+<script type="text/javascript" src="{{ site.baseurl }}/assets/js/lib/sigma.graph.dropOrphans.js"></script>
 <script type="text/javascript" src="{{ site.baseurl }}/assets/js/lib/sigma.renderers.nodeBorder.js"></script>
 <script type="text/javascript" src="{{ site.baseurl }}/assets/js/lib/sigma.renderers.edgeSilly.js"></script>
 <script type="text/javascript" src="{{ site.baseurl }}/assets/js/articles/node_renderer/index.js"></script>
