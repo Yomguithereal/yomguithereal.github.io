@@ -32,7 +32,7 @@ What sigma calls a *renderer* is a mere function aiming at displaying the graph 
 
 You can therefore ask sigma to display the graph using different renderers such as the built-in `canvas` and `webgl` ones.
 
-But, within the library, renderers obey to a tacit hierarchy. Here are both kind:
+But, within the library, renderers obey to a tacit hierarchy. Here are both kinds:
 
 * The *macro-renderers*, like the `canvas` one, whose goal is to orchestrate the whole rendering process.
 * The *sub-renderers* whose mission is simpler: they only have to draw a precise graph entity, a node if you will.
@@ -43,7 +43,7 @@ The kind of renderer needed in our case is a subaltern one, and more precisely t
 
 <h3 id="node-rendering">Node rendering</h3>
 
-When asked to render a node, sigma will ask to the *macro-renderer* the correct renderer to use. By default, if no custom renderer is defined, sigma will use the one called `def` renderer. Else it will user a renderer matching the type of the graph element to render.
+When asked to render a node, sigma will ask to the *macro-renderer* in charge for the correct renderer to use. By default, if no custom renderer is defined, sigma will use the one called `def` for *default*. Else it will user a renderer matching the type of the graph element to render.
 
 There are at least three ways to choose the renderer used to draw a node – note that one may choose a custom renderer *à la carte* for each one of his/her nodes.
 
@@ -67,7 +67,7 @@ var sig = new sigma({
 sig.settings('defaultNodeType', 'myOtherSillyType');
 ```
 
-*Changing one nodes's type*
+*Changing nodes' types*
 
 ```js
 // When adding a node
@@ -92,9 +92,9 @@ sig.graph.nodes().forEach(function(node) {
 
 Creating a custom node renderer is as simple as mimicking sigma's built-in renderers. Here is the default [node renderer](https://github.com/jacomyal/sigma.js/blob/master/src/renderers/canvas/sigma.canvas.nodes.def.js) and can be expressed in a simpler way as follows and accepts three arguments:
 
-* *node*: the node object to render.
-* *context*: the canvas context used by the macro-renderer.
-* *settings*: the sigma instance's settings merged with the macro-renderer's ones.
+* *node* the node object to render.
+* *context* the canvas context used by the macro-renderer.
+* *settings* the sigma instance's settings merged with the macro-renderer's ones.
 
 ```js
 sigma.canvas.nodes.def = function(node, context, settings) {
