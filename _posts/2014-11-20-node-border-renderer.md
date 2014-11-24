@@ -1,7 +1,7 @@
 ---
 layout: post-no-feature
 title: "How to display node borders with sigma.js"
-displayTitle: "On the topic of sigma custom renderers<br>-<br>Node borders"
+displayTitle: "On the topic of sigma custom renderers<br>–<br>Node borders"
 description: "The intention of this post is to inform any potential reader about the reasons why custom sigma renderers are the ultimate solution when dealing with visual shenanigans."
 category: articles
 tags: [sigma, graph, javascript]
