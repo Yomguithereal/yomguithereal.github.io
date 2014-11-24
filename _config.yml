@@ -1,11 +1,12 @@
 title:            Mizu no oto
 tagline:          'A blog about code, litterature and other miscellaneous shenanigans.'
 description:      'A blog about code, litterature and other miscellaneous shenanigans.'
+url:              'https://yomguithereal.github.io'
+baseurl:          ''
 
 # Owner/author information
 owner:
   name:           Guillaume Plique
-  avatar:         avatar.png
   twitter:        Yomguithereal
   github:         Yomguithereal
   disqus:         mizunooto

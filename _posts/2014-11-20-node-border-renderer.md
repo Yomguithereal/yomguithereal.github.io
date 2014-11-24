@@ -1,6 +1,6 @@
 ---
 layout: post-no-feature
-title: "A custom sigma renderer to display node borders"
+title: "How to display node borders with sigma.js"
 displayTitle: "On the topic of sigma custom renderers<br>-<br>Node borders"
 description: "The intention of this post is to inform any potential reader about the reasons why custom sigma renderers are the ultimate solution when dealing with visual shenanigans."
 category: articles
@@ -216,7 +216,7 @@ var example = new sigma({
 
 So now we know how to create a custom sigma renderer to fit our needs. The node border renderer presented here is not perfect (one could adjust the border width to match more properly the node's size for instance) but does the job on most of cases.
 
-You can get the full code <a href="{{ site.url }}/assets/js/lib/sigma.renderers.nodeBorder.js" target="_blank">here</a> if you need it.
+You can get the full code <a href="{{ site.baseurl }}/assets/js/lib/sigma.renderers.nodeBorder.js" target="_blank">here</a> if you need it.
 
 Note finally that I only presented here a `canvas` custom renderer for the sake of simplicity but one could build a `webgl` one the same way with this tiny difference: `webgl` is not easy at all.
 
@@ -228,9 +228,9 @@ So now fly away and create as many silly renderers you want and you will be able
 
 *Figure 3: An unreadable but nonetheless beautiful graph*
 
-<script type="text/javascript" src="{{ site.url }}/assets/js/lib/faker.min.js"></script>
-<script type="text/javascript" src="{{ site.url }}/assets/js/lib/sigma.min.js"></script>
-<script type="text/javascript" src="{{ site.url }}/assets/js/lib/sigma.forceatlas.min.js"></script>
-<script type="text/javascript" src="{{ site.url }}/assets/js/lib/sigma.renderers.nodeBorder.js"></script>
-<script type="text/javascript" src="{{ site.url }}/assets/js/lib/sigma.renderers.edgeSilly.js"></script>
-<script type="text/javascript" src="{{ site.url }}/assets/js/articles/node_renderer/index.js"></script>
+<script type="text/javascript" src="{{ site.baseurl }}/assets/js/lib/faker.min.js"></script>
+<script type="text/javascript" src="{{ site.baseurl }}/assets/js/lib/sigma.min.js"></script>
+<script type="text/javascript" src="{{ site.baseurl }}/assets/js/lib/sigma.forceatlas.min.js"></script>
+<script type="text/javascript" src="{{ site.baseurl }}/assets/js/lib/sigma.renderers.nodeBorder.js"></script>
+<script type="text/javascript" src="{{ site.baseurl }}/assets/js/lib/sigma.renderers.edgeSilly.js"></script>
+<script type="text/javascript" src="{{ site.baseurl }}/assets/js/articles/node_renderer/index.js"></script>
