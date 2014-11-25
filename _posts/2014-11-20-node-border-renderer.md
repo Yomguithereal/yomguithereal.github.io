@@ -43,7 +43,7 @@ The kind of renderer needed in our case is a subaltern one, and more precisely t
 
 <h3 id="node-rendering">Node rendering</h3>
 
-When asked to render a node, sigma will ask to the *macro-renderer* in charge for the correct renderer to use. By default, if no custom renderer is defined, sigma will use the one called `def` for *default*. Else it will user a renderer matching the type of the graph element to render.
+When asked to render a node, sigma will ask the *macro-renderer* in charge for the correct renderer to use. By default, if no custom renderer is defined, sigma will use the one called `def` for *default*. Else it will user a renderer matching the type of the graph element to render.
 
 There are at least three ways to choose the renderer used to draw a node – note that one may choose a custom renderer *à la carte* for each one of his/her nodes.
 
@@ -214,11 +214,11 @@ var example = new sigma({
 
 <h3 id="final-words">Final words</h3>
 
-So now we know how to create a custom sigma renderer to fit our needs. The node border renderer presented here is not perfect (one could adjust the border width to match more properly the node's size for instance) but does the job on most of cases.
+So now we know how to create a custom sigma renderer to fit our needs. The node border renderer presented here is not perfect (one could adjust the border width to match more properly the node's size for instance) but does the job efficiently.
 
 You can get the full code <a href="{{ site.baseurl }}/assets/js/lib/sigma.renderers.nodeBorder.js" target="_blank">here</a> if you need it.
 
-Note finally that I only presented here a `canvas` custom renderer for the sake of simplicity but one could build a `webgl` one the same way with this tiny difference: `webgl` is not easy at all.
+Note finally that I only presented here a `canvas` custom renderer for the sake of simplicity but one could build a `webgl` one the same way with this tiny difference: `webgl` is obvioulsy not that easy.
 
 So now fly away and create as many silly renderers you want and you will be able to display surrealistic graphs with squared edges and fancy decorations.
 
