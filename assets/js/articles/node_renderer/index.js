@@ -119,6 +119,12 @@
   intro.startForceAtlas2({slowDown: 3});
   outro.startForceAtlas2({slowDown: 3});
 
+  // Stopping layout after some time
+  setTimeout(function() {
+    intro.stopForceAtlas2();
+    outro.stopForceAtlas2();
+  }, 7000);
+
   // Example
   var example = new sigma({
     graph: {
