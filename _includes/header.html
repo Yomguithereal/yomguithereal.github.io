@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+
+  <!-- Head -->
+  <head>
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="{{ site.baseurl }}/css/theme.css">
+  </head>
+
+  <!-- Body -->
+  <body>
+    <div id="page" class="hfeed site">
+      <div id="sidebar" class="sidebar">
+        <header id="masthead" class="site-header" role="banner">
+          <div class="site-branding">
+            <h1 class="site-title">
+              <a href="{{ site.baseurl }}">{{ site.title }}</a>
+            </h1>
+            <p class="site-description">{{ site.tagline }}</p>
+          </div>
+        </header>
+        {% include sidebar.html %}
+      </div>
+      <div id="content" class="site-content">
