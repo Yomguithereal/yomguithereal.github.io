@@ -1,4 +1,5 @@
-.highlight { font-size: 14px !important;}
+.highlight { font-size: 80% !important; }
+.highlight > pre > code { overflow-x: auto !important; }
 .hll { background-color: #ffffcc }
 .c { color: #999988; font-style: italic } /* Comment */
 .err { color: #a61717; background-color: #e3d2d2 } /* Error */
