@@ -1,0 +1,20 @@
+{% include header.html %}
+  <div id="primary" class="content-area">
+    <main id="main" class="site-main" role="main">
+      <article class="post hentry">
+        <header class="entry-header">
+          <h2 class="entry-title">Posts</h2>
+        </header>
+        <div class="entry-content">
+          <ul class="posts-list">
+            {% for post in site.posts %}
+              <li>
+                <a href="{{ post.url }}">{{ post.title }}</a> &nbsp;<span class="post-date">({{post.date | date: "%b %d, %Y" }})</span>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </article>
+    </main>
+  </div>
+{% include footer.html %}

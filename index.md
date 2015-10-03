@@ -1,4 +1,3 @@
 ---
-layout: page
-title: "Mizu no oto"
+layout: home
 ---
