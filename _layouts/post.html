@@ -3,12 +3,12 @@
     <main id="main" class="site-main" role="main">
       <article class="post hentry">
         <header class="entry-header">
-          <h2 class="entry-title post-title">{{ page.displayTitle }}</h2>
+          <h2 class="entry-title post-title">{% if page.displayTitle %}{{ page.displayTitle }}{% else %}{{ page.title }}{% endif %}</h2>
         </header>
         <p class="entry-date">{{page.date | date: "%b %d, %Y" }}</p>
         <div class="entry-content">
           <p class="entry-description">
-            {{ page.description }}
+            &ldquo; {{ page.description }} &rdquo;
           </p>
           <hr>
           <p>
