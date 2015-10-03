@@ -4,7 +4,9 @@ title: Projects
 permalink: projects/index.html
 ---
 
-#### JavaScript
+---
+
+### JavaScript
 * [Baobab](https://github.com/Yomguithereal/baobab) <br> *A persistent and optionally immutable data tree with cursors.*
 * [react-blessed](https://github.com/Yomguithereal/react-blessed) <br> *A custom react renderer for blessed.*
 * [artoo.js](http://medialab.github.io/artoo/) <br> *The client-side scraping companion.*
@@ -13,10 +15,14 @@ permalink: projects/index.html
 * [decypher](https://github.com/Yomguithereal/decypher) <br> *Yesql-like cypher query loader for node.js*
 * [colback](http://yomguithereal.github.io/colback/) <br> *JavaScript asynchronous paradigm shift in the blink of an eye.*
 
-#### Clojure
+---
+
+### Clojure
 
 * [clj-fuzzy](http://yomguithereal.github.io/clj-fuzzy/) <br> *A collection of algorithms dealing with fuzzy logic.*
 
-#### Python
+---
+
+### Python
 
 * [daj](https://github.com/Yomguithereal/python-daj) <br> *Read and write data without further ado.*
