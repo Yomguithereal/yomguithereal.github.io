@@ -1,0 +1,32 @@
+{
+  "name": "blog",
+  "version": "1.0.0",
+  "private": true,
+  "description": "yomguithereal.github.io blog.",
+  "main": "index.js",
+  "scripts": {
+    "clean": "rm -rf .cache public",
+    "dev": "npm run clean && gatsby develop"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yomguithereal/yomguithereal.github.io.git"
+  },
+  "keywords": [
+    "blog"
+  ],
+  "author": {
+    "name": "Guillaume Plique",
+    "url": "http://github.com/Yomguithereal"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Yomguithereal/yomguithereal.github.io/issues"
+  },
+  "homepage": "https://github.com/Yomguithereal/yomguithereal.github.io#readme",
+  "dependencies": {
+    "gatsby": "^2.10.4",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  }
+}
