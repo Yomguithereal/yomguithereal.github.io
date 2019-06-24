@@ -74,11 +74,16 @@ h1 {
   font-style: normal;
   margin-top: 4rem;
   margin-bottom: 1.5rem;
-  font-size: 1.8rem;
+  font-size: 1.3rem;
   line-height: 1;
   border-bottom: 1px solid #000;
   padding-bottom: 0.3em;
   display: inline-block;
+}
+
+h1 > a {
+  color: black;
+  text-decoration: none;
 }
 
 h2 {
@@ -96,7 +101,7 @@ h3 {
   font-weight: normal;
   font-size: 1.3rem;
   margin-top: 2rem;
-  margin-bottom: 1.4rem;
+  margin-bottom: 1.6rem;
   line-height: 1.6rem;
   max-width: 55%;
 }
@@ -237,7 +242,7 @@ figure.fullwidth figcaption {
 }
 
 /* Links: replicate underline that clears descenders */
-a:link,
+/* a:link,
 a:visited {
   color: inherit;
 }
@@ -269,7 +274,7 @@ a:link::selection,
 a:link::-moz-selection {
   text-shadow: 0.03em 0 #b4d5fe, -0.03em 0 #b4d5fe, 0 0.03em #b4d5fe, 0 -0.03em #b4d5fe, 0.06em 0 #b4d5fe, -0.06em 0 #b4d5fe, 0.09em 0 #b4d5fe, -0.09em 0 #b4d5fe, 0.12em 0 #b4d5fe, -0.12em 0 #b4d5fe, 0.15em 0 #b4d5fe, -0.15em 0 #b4d5fe;
   background: #b4d5fe;
-}
+} */
 
 /* Sidenotes, margin notes, figures, captions */
 img {

@@ -1,6 +1,6 @@
 import React from 'react';
 import Helmet from 'react-helmet';
-import {StaticQuery, graphql} from 'gatsby';
+import {StaticQuery, graphql, Link} from 'gatsby';
 
 import '../style/custom-tufte.css';
 
@@ -25,7 +25,7 @@ export default function Layout({children}) {
             </Helmet>
             <header>
               <h1>
-                Yomguithereal’s shenanigans
+                <Link to="/">Yomguithereal’s shenanigans</Link>
               </h1>
             </header>
             {children}
