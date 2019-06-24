@@ -25,7 +25,11 @@
   },
   "homepage": "https://github.com/Yomguithereal/yomguithereal.github.io#readme",
   "dependencies": {
+    "@mdx-js/mdx": "^1.0.21",
+    "@mdx-js/react": "^1.0.21",
     "gatsby": "^2.10.4",
+    "gatsby-mdx": "^0.6.3",
+    "gatsby-plugin-mdx": "^1.0.5",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-helmet": "^5.2.1"
