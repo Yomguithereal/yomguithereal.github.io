@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "clean": "rm -rf .cache public",
-    "dev": "npm run clean && gatsby develop"
+    "dev": "gatsby develop"
   },
   "repository": {
     "type": "git",
@@ -30,6 +30,7 @@
     "gatsby": "^2.10.4",
     "gatsby-mdx": "^0.6.3",
     "gatsby-plugin-mdx": "^1.0.5",
+    "gatsby-source-filesystem": "^2.1.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-helmet": "^5.2.1"

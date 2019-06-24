@@ -4,6 +4,13 @@ module.exports = {
     siteUrl: 'https://yomguithereal.github.io'
   },
   plugins: [
-    'gatsby-mdx'
+    'gatsby-mdx',
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `posts`,
+        path: `${__dirname}/src/posts/`,
+      },
+    }
   ]
 };
