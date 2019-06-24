@@ -2,7 +2,7 @@ import React from 'react';
 import Helmet from 'react-helmet';
 import {StaticQuery, graphql} from 'gatsby';
 
-import '../style/tufte.css';
+import '../style/custom-tufte.css';
 
 export default function Layout({children}) {
   return (
@@ -23,9 +23,23 @@ export default function Layout({children}) {
               title={data.site.siteMetadata.title}>
               <html lang="en" />
             </Helmet>
-            <main>
-              {children}
-            </main>
+            <header>
+              <h1>
+                Yomguithereal’s shenanigans
+              </h1>
+            </header>
+            <article>
+              <section>
+                <h2>
+                  Implementing an efficient LRU cache for JavaScript
+                </h2>
+                <h3>
+                  Where we discover how to harness the power of JavaScript's typed array to go back to the memory allocation schemes of older &amp; more static languages
+                </h3>
+                <hr />
+                {children}
+              </section>
+            </article>
           </>
         );
       }} />
