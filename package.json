@@ -31,6 +31,7 @@
     "gatsby-mdx": "^0.6.3",
     "gatsby-plugin-mdx": "^1.0.5",
     "gatsby-source-filesystem": "^2.1.0",
+    "gh-pages": "^2.0.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-helmet": "^5.2.1"
