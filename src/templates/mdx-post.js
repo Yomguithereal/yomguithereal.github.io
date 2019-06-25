@@ -19,8 +19,12 @@ export const query = graphql`
   }
 `;
 
+// TODO: automatic id on titles
 const components = {
-  code: props => <Highlight className={props.className}>{props.children}</Highlight>
+  code: props => props.className ?
+    <Highlight className={props.className}>{props.children}</Highlight> :
+    <code>{props.children}</code>,
+  h1: props => <h4>{props.children}</h4>
 };
 
 export default function MdxPostTemplate({data: {mdx}}) {

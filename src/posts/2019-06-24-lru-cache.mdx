@@ -8,6 +8,59 @@ subtitle:
 
 import {Divider, MarginNote} from '../components/tufte';
 
+Let's say we need to parse a very large, hundreds of gigabytes large, csv file containing urls we will need to fetch. To ensure we are not going to run out of memory while parsing the whole file, we need to stream it instead, reading it line by line.
+
+
+```js
+csvLines.forEachStreamedLine(line => {
+  fetch(line.url);
+});
+```
+
+<p>
+  <MarginNote>I am aware that we could easily solve the issue by using <code>sort -u</code> but for the purpose of the demonstration, let's imagine this kind of solution does not exist.</MarginNote>
+  Now let's say the person that created this file forgot to deduplicate the urls. This is an issue because we don't want to fetch the same url more than once: grabbing resources from the web is time-consuming & should be done parcimoniously not to overflow the sites you are grabbing those resources from.
+</p>
+
+An easy solution could be to remember the url we already fetched by storing them into a set. Our pseudo-code would be changed to the following:
+
+```js
+const done = new Set();
+
+csvLines.forEachStreamedLine(line => {
+  if (done.has(line.url))
+    return;
+
+  fetch(line.url);
+  done.add(line.url);
+});
+```
+
+At this point, the astute reader has easily noticed that we just defeated the purpose of streaming the csv file since we now need to commit a hefty amount of urls to memory.
+
+And here lies the issue: we need a way not to fetch the same urls too much while also making sure we won't run out of memory.
+
+<p>
+  <MarginNote><em>Fun fact</em>: if you work with data coming from the Internet such as lists of crawled urls, you will inevitably stumble upon this kind of power law. It naturally occurs because people link exponentially more to <code>twitter.com</code> than <code>unknownwebsite.fr</code>.</MarginNote>
+  Fortunately for us, it seems that only a tiny fraction of the urls contained in our file are repeated very often while the vast majority of others only appears one or two times. We can leverage this fact by designing a policy to throw away urls from our set if we have a good intuition they are unlikely to appear again.
+</p>
+
+And one of the most commonly used eviction policy for such cases is called **LRU**, for **L**east **R**ecently **U**sed.
+
+<Divider />
+
+# The LRU cache
+
+<!--
+why: because it's easy to implement and somewhat intuitive
+
+As such, to make sure we won't fetch the same url twice we will need to store the urls we already did into some kind of set.
+
+
+sidenote, sort -u, ural, sidenote google couche haute
+
+---
+
 <p>
   <MarginNote>Blue text, while also a widely recognizable clickable-text indicator, is crass and distracting. Luckily, it is also rendered unnecessary by the use of underlining.</MarginNote>
   As always, these design choices are merely one approach that Tufte CSS provides by default. Other approaches, such as changing color on click or mouseover, or using highlighting or color instead of underlining to denote links, could also be made to work. The goal is to make sentences readable without interference from links, as well as to make links immediately identifiable even by casual web users.
@@ -26,3 +79,10 @@ function add(a, b) {
   return a + b / c;
 }
 ```
+
+TODO:
+
+* links
+* lists
+* titles
+* litteral pre -->

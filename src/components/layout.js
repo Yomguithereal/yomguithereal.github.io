@@ -23,6 +23,7 @@ export default function Layout({children}) {
               title={data.site.siteMetadata.title}>
               <html lang="en" />
             </Helmet>
+            <div id="ribbon" />
             <header>
               <h1>
                 <Link to="/">Yomguithereal’s shenanigans</Link>
