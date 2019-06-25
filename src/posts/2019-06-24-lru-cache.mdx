@@ -8,11 +8,11 @@ subtitle:
 
 import {Divider, MarginNote} from '../components/tufte';
 
-Let's say we need to parse a very large, hundreds of gigabytes large, csv file containing urls we will need to fetch. To ensure we are not going to run out of memory while parsing the whole file, we need to stream it instead, reading it line by line.
+Let's say we need to process a very large, hundreds of gigabytes large, csv file containing urls we will need to fetch. To ensure we are not going to run out of memory while parsing the whole file, we need to read the file line by line:
 
 
 ```js
-csvLines.forEachStreamedLine(line => {
+csv.forEachLine(line => {
   fetch(line.url);
 });
 ```
@@ -27,7 +27,7 @@ An easy solution could be to remember the url we already fetched by storing them
 ```js
 const done = new Set();
 
-csvLines.forEachStreamedLine(line => {
+csv.forEachLine(line => {
   if (done.has(line.url))
     return;
 
@@ -36,16 +36,16 @@ csvLines.forEachStreamedLine(line => {
 });
 ```
 
-At this point, the astute reader has easily noticed that we just defeated the purpose of streaming the csv file since we now need to commit a hefty amount of urls to memory.
+At this point, the astute reader has easily noticed that we just defeated the purpose of reading the csv file line by line since we now need to commit all its urls to memory.
 
-And here lies the issue: we need a way not to fetch the same urls too much while also making sure we won't run out of memory.
+And herein lies the issue: we need a way not to fetch the same urls too much while also making sure we won't run out of memory.
 
 <p>
   <MarginNote><em>Fun fact</em>: if you work with data coming from the Internet such as lists of crawled urls, you will inevitably stumble upon this kind of power law. It naturally occurs because people link exponentially more to <code>twitter.com</code> than <code>unknownwebsite.fr</code>.</MarginNote>
-  Fortunately for us, it seems that only a tiny fraction of the urls contained in our file are repeated very often while the vast majority of others only appears one or two times. We can leverage this fact by designing a policy to throw away urls from our set if we have a good intuition they are unlikely to appear again.
+  Fortunately for us, it seems that only a tiny fraction of the urls contained in our file are repeated very often while the vast majority of others only appears one or two times. We can leverage this fact by designing a policy to throw away urls from our set if we have a good intuition they are unlikely to appear again. Thus, we won't allow our set to exceed a predetermined amount of memory.
 </p>
 
-And one of the most commonly used eviction policy for such cases is called **LRU**, for **L**east **R**ecently **U**sed.
+As such, one of the most commonly used eviction policy for such cases is called **LRU**, for **L**east **R**ecently **U**sed.
 
 <Divider />
 
