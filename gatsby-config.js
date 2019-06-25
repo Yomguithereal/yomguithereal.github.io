@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    title: 'Yomguithereal\'s shenanigans',
+    title: 'Yomguithereal\'s Shenanigans',
     siteUrl: 'https://yomguithereal.github.io'
   },
   plugins: [

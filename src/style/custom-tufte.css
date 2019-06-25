@@ -363,6 +363,13 @@ h3 > code {
   font-size: 1rem;
 }
 
+section > pre {
+  width: 55%;
+  border: 1px dashed black;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
 pre.code {
   font-size: 0.9rem;
   width: 52.5%;
