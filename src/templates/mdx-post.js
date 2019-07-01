@@ -2,8 +2,13 @@ import React from 'react';
 import {graphql} from 'gatsby';
 import MDXRenderer from 'gatsby-mdx/mdx-renderer';
 import {MDXProvider} from '@mdx-js/react';
+import slug from 'slug';
 import Layout from '../components/Layout';
 import Highlight from '../components/Highlight';
+
+const slugify = string => {
+  return slug(string, {lower: true});
+};
 
 export const query = graphql`
   query($slug: String!) {
@@ -24,7 +29,7 @@ const components = {
   code: props => props.className ?
     <Highlight className={props.className}>{props.children}</Highlight> :
     <code>{props.children}</code>,
-  h1: props => <h4>{props.children}</h4>,
+  h1: props => <h4 id={slugify(props.children)}>{props.children}</h4>,
   a: props => <a target="_blank" rel="noopener noreferrer" href={props.href}>{props.children}</a>
 };
 
