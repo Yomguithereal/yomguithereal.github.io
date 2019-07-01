@@ -299,6 +299,11 @@ a:link::-moz-selection {
   background: #b4d5fe;
 } */
 
+a {
+  color: black;
+  text-decoration-style: dotted;
+}
+
 /* Sidenotes, margin notes, figures, captions */
 img {
   max-width: 100%;
@@ -318,6 +323,10 @@ img {
   position: relative;
 }
 
+.sidenote {
+  margin-bottom: 10px;
+}
+
 .sidenote-number {
   counter-increment: sidenote-counter;
 }
@@ -331,14 +340,19 @@ img {
 
 .sidenote-number:after {
   content: counter(sidenote-counter);
-  font-size: 1rem;
+  font-size: 0.7rem;
+  padding-right: 0.2rem;
   top: -0.5rem;
   left: 0.1rem;
 }
 
+.sidenote-number:last-of-type:after {
+  padding-right: 0.5rem;
+}
+
 .sidenote:before {
   content: counter(sidenote-counter) " ";
-  font-size: 1rem;
+  font-size: 0.7rem;
   top: -0.5rem;
 }
 
@@ -455,8 +469,12 @@ label.margin-toggle:not(.sidenote-number) {
     width: 100%;
   }
 
-  pre.code {
+  /* pre.code {
     width: 97%;
+  } */
+
+  section > pre {
+    width: 100%;
   }
 
   section > ol {

@@ -27,12 +27,12 @@
   "dependencies": {
     "@mdx-js/mdx": "^1.0.21",
     "@mdx-js/react": "^1.0.21",
-    "gatsby": "^2.10.4",
+    "gatsby": "^2.11.7",
     "gatsby-mdx": "^0.6.3",
-    "gatsby-plugin-mdx": "^1.0.5",
-    "gatsby-source-filesystem": "^2.1.0",
+    "gatsby-plugin-mdx": "^1.0.6",
+    "gatsby-source-filesystem": "^2.1.1",
     "gh-pages": "^2.0.1",
-    "prism-react-renderer": "^0.1.6",
+    "prism-react-renderer": "^0.1.7",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-helmet": "^5.2.1"
