@@ -29,7 +29,11 @@ export default function Layout({children, title}) {
                 <Link to="/">Yomguithereal’s shenanigans</Link>
               </h1>
             </header>
-            {children}
+            <article>
+              <section>
+                {children}
+              </section>
+            </article>
           </>
         );
       }} />

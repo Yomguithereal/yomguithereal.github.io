@@ -32,20 +32,16 @@ export default function MdxPostTemplate({data: {mdx}}) {
   return (
     <Layout title={mdx.frontmatter.title}>
       <MDXProvider components={components}>
-        <article>
-          <section>
-            <h2>
-              {mdx.frontmatter.title}
-            </h2>
-            <h3>
-              {mdx.frontmatter.subtitle}
-            </h3>
-            <hr />
-            <MDXRenderer>
-              {mdx.code.body}
-            </MDXRenderer>
-          </section>
-        </article>
+        <h2>
+          {mdx.frontmatter.title}
+        </h2>
+        <h3>
+          {mdx.frontmatter.subtitle}
+        </h3>
+        <hr />
+        <MDXRenderer>
+          {mdx.code.body}
+        </MDXRenderer>
       </MDXProvider>
     </Layout>
   );

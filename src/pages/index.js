@@ -1,13 +1,40 @@
 import React from 'react';
+import {Link} from 'gatsby';
 import Layout from '../components/Layout';
 
-export default function Index() {
+
+export const query = graphql`
+  {
+    allMdx {
+      edges {
+        node {
+          frontmatter {
+            slug
+          }
+        }
+      }
+    }
+  }
+`;
+
+export default function Index({data}) {
+
+  const posts = data.allMdx.edges.map(({node}) => node);
+
   return (
     <Layout>
-      <p>
-      <span class="marginnote">Blue text, while also a widely recognizable clickable-text indicator, is crass and distracting. Luckily, it is also rendered unnecessary by the use of underlining.</span>
-        As always, these design choices are merely one approach that Tufte CSS provides by default. Other approaches, such as changing color on click or mouseover, or using highlighting or color instead of underlining to denote links, could also be made to work. The goal is to make sentences readable without interference from links, as well as to make links immediately identifiable even by casual web users.
-      </p>
+      A blog.
+      <ul>
+        {posts.map(p => {
+          const slug = p.frontmatter.slug;
+
+          return (
+            <li key={slug}>
+              <Link to={`/posts/${slug}`}>{slug}</Link>
+            </li>
+          );
+        })}
+      </ul>
     </Layout>
   );
 }
