@@ -11,7 +11,7 @@ export function MarginNote({children}) {
 export function SideNote({id, children}) {
   return (
     <>
-      <label className="margin-toggle sidenote-number" for={id} />
+      <label className="margin-toggle sidenote-number" htmlFor={id} />
       <input type="checkbox" id={id} className="margin-toggle" />
       <span className="sidenote">{children}</span>
     </>

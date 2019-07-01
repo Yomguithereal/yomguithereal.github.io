@@ -173,6 +173,10 @@ ul {
   line-height: 2rem;
 }
 
+ul {
+  list-style-type: circle;
+}
+
 p {
   margin-top: 1.4rem;
   margin-bottom: 1.4rem;

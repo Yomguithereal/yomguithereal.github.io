@@ -24,12 +24,13 @@ const components = {
   code: props => props.className ?
     <Highlight className={props.className}>{props.children}</Highlight> :
     <code>{props.children}</code>,
-  h1: props => <h4>{props.children}</h4>
+  h1: props => <h4>{props.children}</h4>,
+  a: props => <a target="_blank" rel="noopener noreferrer" href={props.href}>{props.children}</a>
 };
 
 export default function MdxPostTemplate({data: {mdx}}) {
   return (
-    <Layout>
+    <Layout title={mdx.frontmatter.title}>
       <MDXProvider components={components}>
         <article>
           <section>

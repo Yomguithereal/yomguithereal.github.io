@@ -4,7 +4,7 @@ import {StaticQuery, graphql, Link} from 'gatsby';
 
 import '../style/custom-tufte.css';
 
-export default function Layout({children}) {
+export default function Layout({children, title}) {
   return (
     <StaticQuery
       query={graphql`
@@ -20,7 +20,7 @@ export default function Layout({children}) {
         return (
           <>
             <Helmet
-              title={data.site.siteMetadata.title}>
+              title={data.site.siteMetadata.title + (title ? ` - ${title}` : '')}>
               <html lang="en" />
             </Helmet>
             <div id="ribbon" />
