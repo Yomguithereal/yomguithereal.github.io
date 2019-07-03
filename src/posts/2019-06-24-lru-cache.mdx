@@ -12,6 +12,12 @@ import SafeLink from '../components/SafeLink';
 Let's say we need to process a very large, hundreds of gigabytes large, csv file containing urls we will need to fetch. To ensure we are not going to run out of memory while parsing the whole file, we need to read the file line by line:
 
 <!-- TODO: make a jump to the juicy part -->
+<!-- TODO: link to mnemonist implem -->
+<!-- TODO: what about asm.js and wasm? -->
+<!-- TODO: splay tree -->
+<!-- TODO: hashmaps -->
+<!-- TODO: trick to save up pointers -->
+<!-- TODO: rolling your own system, addresses in memory: indices in typed array -->
 
 ```js
 csv.forEachLine(line => {
@@ -58,7 +64,7 @@ Hence, we understand that a LRU cache is a fixed-capacity map able to bind value
 To do so, the cache will need to store given pairs in order of their last access. This means that each time someone tries to set a new key, or access a key, we need to modify the underlying list of pairs to ensure the needed order is maintained.
 
 <p>
-  <MarginNote>Note that LFU (Least Frequently Used) is a perfectly valid cache eviction policy. It's just less widespread. You can read about it <SafeLink href="https://en.wikipedia.org/wiki/Cache_replacement_policies#Least-frequently_used_(LFU)">here</SafeLink> and find implementation notes <SafeLink href="https://www.geeksforgeeks.org/lfu-least-frequently-used-cache-implementation/">here</SafeLink></MarginNote>
+  <MarginNote><em>Note</em>: LFU (Least Frequently Used) is a perfectly valid cache eviction policy. It's just less widespread. You can read about it <SafeLink href="https://en.wikipedia.org/wiki/Cache_replacement_policies#Least-frequently_used_(LFU)">here</SafeLink> and find implementation notes <SafeLink href="https://www.geeksforgeeks.org/lfu-least-frequently-used-cache-implementation/">here</SafeLink></MarginNote>
   But why is this order relevant? Why not record the number of times each pair is accessed instead and evict the least frequently used item? Here are some reasons why:
 </p>
 
@@ -77,7 +83,7 @@ Usually, to implement a proper LRU cache, one will need the two following ingred
 1. A hashmap-like data structure able to retrieve values associated to arbitrary keys - such as strings - efficiently. In JavaScript we can use either the ES6 `Map` or any plain object `{}`: remember that our cache is no different from a fixed-capacity key-value store.
 2. A way to store our pairs in the order of their last access. What's more, we will need to be able to travers the list in both normal and reversed order. That's why people naturally lean toward a [doubly-linked list](https://en.wikipedia.org/wiki/Doubly_linked_list) to do the job.
 
-Then, your implementation needs to be able to run the two following operations:
+Minimally, your implementation needs to be able to run the two following operations:
 
 * `#.set`: associating a value to the given key, while evicting the least recently used item if the cache is full.
 * `#.get`: retrieving the value associated to the given key if this one exists at all in the cache.
@@ -117,3 +123,128 @@ cache.get(3);
 cache.size
 >>> 3
 ```
+
+# Doubly-linked lists
+
+<p>
+  <MarginNote>
+    <em>Question</em>: Why isn't a singly-linked list enough in our case? Because we have to efficiently perform the following operations on our list:
+    <ol>
+      <li>place an item at the beginning of the list</li>
+      <li>move an item from anywhere in the list to its beginning</li>
+      <li>remove the last item from the list while keeping a correct pointer to the new last item</li>
+    </ol>
+  </MarginNote>
+  To be able to implement our LRU cache, we will first need to implement a doubly-linked list to make sure we are able to store our items in order of their last access: the least recently used item will be at the end of this list while the most recently used will be at its beginning.
+</p>
+
+So how do we represent a doubly-linked list in memory? Usually, we do so by creating a structure containing the following three elements:
+
+1. A payload, i.e. the actual list item. It can be anything, really, from an string to an integer etc.
+2. A pointer towards the previous element in the list.
+3. A pointer towards the next element in the list.
+
+Then we also need to store a pointer to both the first & the last element of the list and we are done.
+
+Schematically, it would look somewhat like this:
+
+```c
+a node:
+
+  (prev|payload|next)
+
+  payload: the stored value. here, it's a string
+  prev: pointer to previous item
+  next: pointer to next item
+  •: pointer
+  x: null pointer
+
+       ┌─────>┐   ┌───────>┐   ┌────────>┐
+  head • (x|"one"|•)  (•|"two"|•)  (•|"three"|x) • tail
+              └<───────┘   └<───────┘    └<──────┘
+```
+
+# LRU Cache-related doubly linked lists operations
+
+As long as the cache is not full, it is quite easy to maintain our list of cached items. We just need to prepend the newly inserted items into the list:
+
+```c
+1. an empty cache with capacity 3
+
+
+  head x     x tail
+
+
+2. let's cache the key "one"
+
+       ┌─────>┐
+  head • (x|"one"|x) • tail
+              └<─────┘
+
+3. let's cache the key "two" (notice "two" comes at the front)
+
+       ┌─────>┐   ┌───────>┐
+  head • (x|"two"|•)  (•|"one"|x) • tail
+              └<───────┘   └<─────┘
+
+4. finally we cache the key "three"
+
+       ┌──────>┐    ┌───────>┐   ┌───────>┐
+  head • (x|"three"|•)  (•|"two"|•)  (•|"one"|x) • tail
+               └<────────┘   └<───────┘   └<─────┘
+```
+
+So far so good. Now, to keep our list in LRU order, if anyone accesses an already stored key in the cache we will need to reorder the list by moving said key to the front:
+
+```c
+1. the current state of our cache
+
+       ┌──────>┐    ┌───────>┐   ┌───────>┐
+  head • (x|"three"|•)  (•|"two"|•)  (•|"one"|x) • tail
+               └<────────┘   └<───────┘   └<─────┘
+
+2. we access the key "two", we first extract it from the list and
+   rewire previous & next items.
+
+       ┌──────>┐    ┌───────>┐
+  head • (x|"three"|•)  (•|"one"|x) • tail
+               └<────────┘   └<─────┘
+
+  dangling: (x|"two"|x)
+
+3. then we move the node to the front
+
+       ┌─────>┐   ┌────────>┐    ┌───────>┐
+  head • (x|"two"|•)  (•|"three"|•)  (•|"one"|x) • tail
+               └<──────┘    └<────────┘   └<─────┘
+```
+
+Note that each time, we need to update the head pointer and that, sometimes, we also need to update the tail pointer.
+
+Finally, if the cache is already full and we need to insert a yet unknown key, we will need to pop the last item from the list to make place so we can prepend the new one.
+
+```c
+1. the current state of our cache
+
+       ┌─────>┐   ┌────────>┐    ┌───────>┐
+  head • (x|"two"|•)  (•|"three"|•)  (•|"one"|x) • tail
+               └<──────┘    └<────────┘   └<─────┘
+
+2. we need to insert the key "six" but the cache is full
+   we first need to pop "one", being the lru item
+
+       ┌─────>┐   ┌────────>┐
+  head • (x|"two"|•)  (•|"three"|•) • tail
+               └<──────┘    └<──────┘
+
+3. then we prepend our new item
+       ┌─────>┐   ┌───────>┐   ┌────────>┐
+  head • (x|"six"|•)  (•|"two"|•)  (•|"three"|x) • tail
+              └<───────┘   └<───────┘    └<──────┘
+```
+
+Here is all you need to know about doubly-linked lists to be able to implement a decent LRU cache.
+
+# Implementing doubly-linked lists in JavaScript
+
+Now we have a slight issue: the JavaScript language does not have pointers per se. Indeed we can only work by passing references around, represented as object properties.
