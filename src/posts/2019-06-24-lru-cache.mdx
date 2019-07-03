@@ -14,12 +14,15 @@ import SafeLink from '../components/SafeLink';
 Let's say we need to process a very large, hundreds of gigabytes large, csv file containing urls we will need to fetch. To ensure we are not going to run out of memory while parsing the whole file, we need to read the file line by line:
 
 <!-- TODO: link to mnemonist implem -->
+<!-- TODO: fastlink to mnemonist? -->
 <!-- TODO: what about asm.js and wasm? -->
 <!-- TODO: splay tree -->
 <!-- TODO: hashmaps -->
 <!-- TODO: trick to save up pointers -->
 <!-- TODO: rolling your own system, addresses in memory: indices in typed array -->
 <!-- TODO: link to the bench, advantages: no memory allocation, saves up memory, fast array indices lookup -->
+<!-- TODO: quand le moteur n'a rien a deviner tout est plus simple/rapide | no GC apart from key set/remove in the map -->
+<!-- Dans la réalité du monde véritable -->
 
 ```js
 csv.forEachLine(line => {
@@ -296,3 +299,42 @@ But here we can be a little more clever than that. Indeed, there is a characteri
 So, instead of using JavaScript references & properties as pointers, let's roll our own pointer system using [Typed Arrays](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray)!
 
 # A custom pointer system
+
+Typed Arrays are very handy JavaScript objects able to represent fixed-capacity arrays containing a certain amount of typical number types such as `int32` or `float64` and so on...
+
+They are fairly fast and consume very little memory because the stored items are statically typed and therefore induce no bookkeeping overhead.
+
+Here is how you would use one:
+
+```js
+// Let's create a typed array containing 256 unsigned 16 bits integers
+const array = new Uint16Array(256);
+
+// Every item is initially set to 0.
+// You can read/set items the same way you would with a vanilla Array
+array[10] = 34;
+array[10];
+>>> 34
+
+// But here's the catch: you cannot push new items
+array.push(45);
+>>> throw `TypeError: array.push is not a function`
+```
+
+<p>
+  <MarginNote>What's more, instantiating a typed array in JavaScript is not so far, conceptually, from calling a <code>malloc</code> in C. Or, at least, you can somewhat use them to perform the same kind of tasks in both languages.</MarginNote>
+  Since we can now use those very performant arrays, why shouldn't we use them to implement our own pointer system? After all, pointers are nothing more than addresses mapping a chunk of memory.
+</p>
+
+<p>
+  Then let's use a typed array as our chunk of memory and let's use indices into it as our addresses! The only tricky part is to correctly choose the integer type, relative to our capacity, to avoid overflows.
+  <SideNote id="get-pointer-array">If you are too lazy or are unsure how to develop this yourself, check this function right <SafeLink href="https://github.com/Yomguithereal/mnemonist/blob/7ea90e6fec46b4c2283ae88f173bfb19ead68734/utils/typed-arrays.js#L8-L54">here</SafeLink></SideNote>
+</p>
+
+So, in order to implement a fixed-capacity doubly-linked list in JavaScript to serve our LRU cache structure, we'll need the following typed arrays:
+
+1. A vanilla array to store our list's payloads, i.e. key-value pairs. Or two typed or vanilla arrays to store keys & values separately and depending on their respective types. For instance, if we have the guarantee our value cannot be anything else than 32 bits integers, we can again leverage typed arrays for that.
+2. A typed array storing a bunch of indices representing our next pointers.
+3. Another one to store the indices representing our previous pointers.
+
+<!-- TODO: usually have to keep the 0 as null value beware! -->
