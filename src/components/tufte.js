@@ -17,3 +17,7 @@ export function SideNote({id, children}) {
     </>
   );
 }
+
+export function Divider() {
+  return <p className="divider">⁂</p>
+}

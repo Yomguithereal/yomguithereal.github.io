@@ -20,6 +20,8 @@ export default function Index({data}) {
 
   const posts = data.allMdx.edges.map(({node}) => node);
 
+  // TODO: credits tufte + byrne
+
   return (
     <Layout>
       A blog.
@@ -27,6 +29,7 @@ export default function Index({data}) {
         {posts.map(p => {
           const slug = p.frontmatter.slug;
 
+          // TODO: subtitles
           return (
             <li key={slug}>
               <Link to={`/posts/${slug}`}>{slug}</Link>

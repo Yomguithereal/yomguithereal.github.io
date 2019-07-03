@@ -14,9 +14,11 @@ export const query = graphql`
   query($slug: String!) {
     mdx(frontmatter: {slug: {eq: $slug}}) {
       frontmatter {
+        toc
         title
         subtitle
       }
+      tableOfContents
       code {
         body
       }
@@ -30,6 +32,7 @@ const components = {
     <Highlight className={props.className}>{props.children}</Highlight> :
     <code>{props.children}</code>,
   h1: props => <h4 id={slugify(props.children)}>{props.children}</h4>,
+  h2: props => <h5>{props.children}</h5>,
   a: props => {
 
     if (props.href.startsWith('#'))
@@ -40,6 +43,19 @@ const components = {
 };
 
 export default function MdxPostTemplate({data: {mdx}}) {
+
+  const toc = (
+    <ul>
+      {mdx.tableOfContents.items.map(item => {
+        return (
+          <li key={item.url}>
+            <a href={item.url}>{item.title}</a>
+          </li>
+        );
+      })}
+    </ul>
+  );
+
   return (
     <Layout title={mdx.frontmatter.title}>
       <MDXProvider components={components}>
@@ -50,6 +66,7 @@ export default function MdxPostTemplate({data: {mdx}}) {
           {mdx.frontmatter.subtitle}
         </h3>
         <hr />
+        {mdx.frontmatter.toc && toc}
         <MDXRenderer>
           {mdx.code.body}
         </MDXRenderer>

@@ -74,7 +74,7 @@ body {
   font-feature-settings: "kern", "onum";
 }
 
-h1, h2, h3, h4 {
+h1, h2, h3, h4, h5 {
   text-transform: uppercase;
 }
 
@@ -134,6 +134,16 @@ h4:target {
   padding-top: 20px;
 }
 
+h5 {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 1.0rem;
+  margin-top: 3rem;
+  margin-bottom: 1.6rem;
+  line-height: 1.6rem;
+  max-width: 55%;
+}
+
 hr {
   display: block;
   height: 1px;
@@ -166,6 +176,13 @@ p.subtitle {
   padding: 5rem 0rem;
 } */
 
+.divider {
+  text-align: center;
+  font-size: 24px;
+  margin-top: 40px;
+  margin-bottom: 90px;
+}
+
 section {
   padding-top: 1rem;
   padding-bottom: 1rem;
@@ -177,7 +194,8 @@ code {
 
 p,
 ol,
-ul {
+ul,
+div.paragraph {
   font-size: 1.4rem;
   line-height: 2rem;
 }
@@ -186,7 +204,7 @@ ul {
   list-style-type: circle;
 }
 
-p {
+p, div.paragraph {
   margin-top: 1.4rem;
   margin-bottom: 1.4rem;
   padding-right: 0;
@@ -233,6 +251,7 @@ blockquote footer {
 }
 
 section > p,
+section > div.paragraph,
 section > footer,
 section > table {
   width: 55%;
@@ -277,6 +296,10 @@ figure.fullwidth figcaption {
   margin-right: 24%;
 }
 
+th {
+  text-align: left;
+}
+
 /* Links: replicate underline that clears descenders */
 /* a:link,
 a:visited {
@@ -315,6 +338,7 @@ a:link::-moz-selection {
 a {
   color: black;
   text-decoration-style: dotted;
+  /* background-color: #e8dfc5; */
 }
 
 a:hover {
