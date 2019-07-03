@@ -17,11 +17,3 @@ export function SideNote({id, children}) {
     </>
   );
 }
-
-export function Divider() {
-  return (
-    <p style={{textAlign: 'center', fontSize: '24px', margin: '40px 0px'}}>
-      ⁂
-    </p>
-  );
-}

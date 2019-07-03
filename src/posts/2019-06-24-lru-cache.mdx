@@ -6,18 +6,20 @@ subtitle:
   back to the memory allocation schemes of older & more static languages
 ---
 
-import {Divider, MarginNote, SideNote} from '../components/tufte';
+import {MarginNote, SideNote} from '../components/tufte';
 import SafeLink from '../components/SafeLink';
+
+<small style={{textAlign: 'center'}}><a href="#implementing-doubly-linked-lists-in-javascript">I already know about LRU caches and doubly-linked lists. Bring me to the juicy part dammit!</a></small>
 
 Let's say we need to process a very large, hundreds of gigabytes large, csv file containing urls we will need to fetch. To ensure we are not going to run out of memory while parsing the whole file, we need to read the file line by line:
 
-<!-- TODO: make a jump to the juicy part -->
 <!-- TODO: link to mnemonist implem -->
 <!-- TODO: what about asm.js and wasm? -->
 <!-- TODO: splay tree -->
 <!-- TODO: hashmaps -->
 <!-- TODO: trick to save up pointers -->
 <!-- TODO: rolling your own system, addresses in memory: indices in typed array -->
+<!-- TODO: link to the bench, advantages: no memory allocation, saves up memory, fast array indices lookup -->
 
 ```js
 csv.forEachLine(line => {
@@ -159,6 +161,8 @@ a node:
   •: pointer
   x: null pointer
 
+a list:
+
        ┌─────>┐   ┌───────>┐   ┌────────>┐
   head • (x|"one"|•)  (•|"two"|•)  (•|"three"|x) • tail
               └<───────┘   └<───────┘    └<──────┘
@@ -216,7 +220,7 @@ So far so good. Now, to keep our list in LRU order, if anyone accesses an alread
 
        ┌─────>┐   ┌────────>┐    ┌───────>┐
   head • (x|"two"|•)  (•|"three"|•)  (•|"one"|x) • tail
-               └<──────┘    └<────────┘   └<─────┘
+              └<───────┘    └<────────┘   └<─────┘
 ```
 
 Note that each time, we need to update the head pointer and that, sometimes, we also need to update the tail pointer.
@@ -228,14 +232,14 @@ Finally, if the cache is already full and we need to insert a yet unknown key, w
 
        ┌─────>┐   ┌────────>┐    ┌───────>┐
   head • (x|"two"|•)  (•|"three"|•)  (•|"one"|x) • tail
-               └<──────┘    └<────────┘   └<─────┘
+              └<───────┘    └<────────┘   └<─────┘
 
 2. we need to insert the key "six" but the cache is full
    we first need to pop "one", being the lru item
 
        ┌─────>┐   ┌────────>┐
   head • (x|"two"|•)  (•|"three"|•) • tail
-               └<──────┘    └<──────┘
+              └<───────┘    └<──────┘
 
 3. then we prepend our new item
        ┌─────>┐   ┌───────>┐   ┌────────>┐
@@ -248,3 +252,47 @@ Here is all you need to know about doubly-linked lists to be able to implement a
 # Implementing doubly-linked lists in JavaScript
 
 Now we have a slight issue: the JavaScript language does not have pointers per se. Indeed we can only work by passing references around, represented as object properties.
+
+This means that, usually, most people will implement linked lists in JavaScript by relying on classes that would look like the following:
+
+```js
+// One class for the nodes
+function DoublyLinkedListNode(value) {
+  this.value = value;
+  this.previous = null;
+  this.next = null;
+}
+
+// One class for the list
+function DoublyLinkedList() {
+  this.head = null;
+  this.tail = null;
+}
+
+// Performing operations (should be wrapped in the list's method)
+const list = new DoublyLinkedList();
+const node1 = new DoublyLinkedList('one');
+const node2 = new DoublyLinkedList('two');
+
+list.head = node1;
+list.tail = node2;
+node1.next = node2;
+node2.previous = node1;
+// ...
+```
+
+<p>
+  While there is nothing wrong with this approach, it still has its drawback that will make any similar-looking implementation quite bad, performance-wise:
+  <SideNote id="linked-list-bad-perf">This is why you won't see many people using linked lists in applicative JavaScript code.<br /><br />Only people needing it for very specific use cases where they algorithmically shine will actually use them.<br /><br />node.js has such an implementation <SafeLink href="https://github.com/nodejs/node/blob/master/lib/internal/linkedlist.js">here</SafeLink> and you can find it used for timers <SafeLink href="https://github.com/nodejs/node/blob/master/lib/internal/timers.js">here</SafeLink></SideNote>
+</p>
+
+1. Each time you instantiate a node, some superflous memory will be allocated for the object's bookkeeping.
+2. If your list moves fast, i.e. nodes are often added or removed, it will trigger garbage collection, whose behavior is, in JavaScript, beyond your control.
+3. Engines will try to optimize your objects as low-level structs most of the time, as opposed to a hashmap, but you have no control over it.
+4. Finally, and this is related to `3.`, object property access is not the fastest thing in the world.
+
+But here we can be a little more clever than that. Indeed, there is a characteristic of our linked list that we can leverage to be more performant: its capacity is fixed.
+
+So, instead of using JavaScript references & properties as pointers, let's roll our own pointer system using [Typed Arrays](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray)!
+
+# A custom pointer system

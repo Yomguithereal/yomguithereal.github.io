@@ -85,9 +85,13 @@ h1 {
   margin-bottom: 1.5rem;
   font-size: 1.3rem;
   line-height: 1;
-  border-bottom: 1px solid #000;
+  border-bottom: 1px dotted #000;
   padding-bottom: 0.3em;
   display: inline-block;
+}
+
+h1:hover {
+  border-bottom-style: solid;
 }
 
 h1 > a {
@@ -123,6 +127,11 @@ h4 {
   margin-bottom: 1.6rem;
   line-height: 1.6rem;
   max-width: 55%;
+  border-bottom: 1px solid black;
+}
+
+h4:target {
+  padding-top: 20px;
 }
 
 hr {
@@ -418,7 +427,7 @@ section > pre {
   width: 55%;
   border: 1px dashed black;
   font-size: 1rem;
-  font-weight: bold;
+  /* font-weight: bold; */
 }
 
 pre.code {

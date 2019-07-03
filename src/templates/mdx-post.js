@@ -30,7 +30,13 @@ const components = {
     <Highlight className={props.className}>{props.children}</Highlight> :
     <code>{props.children}</code>,
   h1: props => <h4 id={slugify(props.children)}>{props.children}</h4>,
-  a: props => <a target="_blank" rel="noopener noreferrer" href={props.href}>{props.children}</a>
+  a: props => {
+
+    if (props.href.startsWith('#'))
+      return <a href={props.href}>{props.children}</a>;
+
+    return <a target="_blank" rel="noopener noreferrer" href={props.href}>{props.children}</a>;
+  }
 };
 
 export default function MdxPostTemplate({data: {mdx}}) {
