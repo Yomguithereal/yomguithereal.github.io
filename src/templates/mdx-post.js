@@ -44,15 +44,34 @@ const components = {
 export default function MdxPostTemplate({data: {mdx}}) {
 
   const toc = (
-    <ul>
-      {mdx.tableOfContents.items.map(item => {
-        return (
-          <li key={item.url}>
-            <a href={item.url}>{item.title}</a>
-          </li>
-        );
-      })}
-    </ul>
+    <>
+      <p>
+        <small>
+          <em>Table of Contents</em>
+        </small>
+      </p>
+      <ol className="toc">
+        {mdx.tableOfContents.items.map(item => {
+          return (
+            <li key={item.url}>
+              <a href={item.url}>{item.title}</a>
+              {item.items && (
+                <ol className="subtoc">
+                  {item.items.map(sub => {
+                    return (
+                      <li key={sub.url}>
+                        <a href={sub.url}>{sub.title}</a>
+                      </li>
+                    );
+                  })}
+                </ol>
+              )}
+            </li>
+          );
+        })}
+      </ol>
+      <hr />
+    </>
   );
 
   return (

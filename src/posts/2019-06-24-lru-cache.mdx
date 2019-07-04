@@ -1,7 +1,7 @@
 ---
 slug: lru-cache
 date: "2019-06-24"
-toc: false
+toc: true
 title: Implementing an efficient LRU cache for JavaScript
 subtitle:
   Where we discover how to harness the power of JavaScript's typed arrays to
@@ -38,7 +38,7 @@ csv.forEachLine(line => {
   This is an issue because we don't want to fetch the same url more than once: grabbing resources from the web is time-consuming &amp; should be done parcimoniously not to flood the sites you are grabbing those resources from.
 </p>
 
-An obvious solution could be to remember urls we already caching them into a map:
+An obvious solution could be to remember urls we already fetched by caching them into a map:
 
 ```js
 const done = new Map();
@@ -514,7 +514,7 @@ So why is this faster than the traditional implementation with object properties
   </li>
 </ol>
 
-# But is it really worth the hassle?
+# Is it really worth the hassle?
 
 To make sure of this, I obviously had to implement such a custom pointer system and benchmark it.
 
