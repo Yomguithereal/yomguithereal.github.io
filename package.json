@@ -5,7 +5,9 @@
   "description": "yomguithereal.github.io blog.",
   "main": "index.js",
   "scripts": {
+    "build": "gatsby build",
     "clean": "rm -rf .cache public",
+    "deploy": "npm run build && gh-pages --branch master --dist ./public",
     "dev": "gatsby develop"
   },
   "repository": {

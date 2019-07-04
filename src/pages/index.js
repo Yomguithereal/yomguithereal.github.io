@@ -21,6 +21,9 @@ export default function Index({data}) {
   const posts = data.allMdx.edges.map(({node}) => node);
 
   // TODO: credits tufte + byrne
+  // TODO: blog posts with descriptive card
+  // TODO: publish script
+  // TODO: link style
 
   return (
     <Layout>
