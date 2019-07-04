@@ -1,6 +1,6 @@
 # Blog
 
-Sources for the [yomguithereal.github.io](https://yomguithereal.github.io) blog (on the [`sources`](https://github.com/Yomguithereal/yomguithereal.github.io/tree/source) branch).
+Sources for the [yomguithereal.github.io](https://yomguithereal.github.io) blog.
 
 Powered by [GatsbyJS](https://www.gatsbyjs.org/).
 
