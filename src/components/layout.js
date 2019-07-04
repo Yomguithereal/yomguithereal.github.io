@@ -36,15 +36,16 @@ export default function Layout({children, title}) {
               <h1>
                 <Link to="/">Yomguithereal’s shenanigans</Link>
               </h1>
+              <br className="skipper" />
               <SafeLink
                 href={meta.githubUrl}
                 title="github.com/Yomguithereal">
-                <GithubLogo style={{position: 'relative', top: '2px', marginLeft: '20px'}} />
+                <GithubLogo />
               </SafeLink>
               <SafeLink
                 href={meta.twitterUrl}
                 title="twitter.com/Yomguithereal">
-                <TwitterLogo style={{position: 'relative', top: '2px', marginLeft: '5px'}} />
+                <TwitterLogo />
               </SafeLink>
             </header>
             <article>

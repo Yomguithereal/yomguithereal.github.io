@@ -3,6 +3,7 @@ import React from 'react';
 export default function TwitterLogo({style}) {
   return (
     <svg
+      className="twitter-logo"
       viewBox="0 0 300.00006 244.18703"
       height="20"
       width="20"

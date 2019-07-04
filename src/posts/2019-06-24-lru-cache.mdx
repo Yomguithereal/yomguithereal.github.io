@@ -52,7 +52,7 @@ At this point, the astute reader has easily noticed that we just defeated the pu
 And herein lies the issue: we need a way not to fetch the same urls too much while also making sure we won't run out of memory.
 
 <p>
-  <MarginNote><em>Fun fact</em>: if you work with data coming from the Internet such as lists of crawled urls, you will inevitably stumble upon this kind of power law. It naturally occurs because people link exponentially more to <code>twitter.com</code> than <code>unknownwebsite.fr</code>.</MarginNote>
+  <MarginNote id="fun-fact"><em>Fun fact</em>: if you work with data coming from the Internet such as lists of crawled urls, you will inevitably stumble upon this kind of power law. It naturally occurs because people link exponentially more to <code>twitter.com</code> than <code>unknownwebsite.fr</code>.</MarginNote>
   Fortunately for us, it seems that only a tiny fraction of the urls contained in our file are repeated very often while the vast majority of others only appears one or two times. We can leverage this fact by designing a policy to throw away urls from our map if we have a good intuition they are unlikely to appear again. Thus, we won't allow our map to exceed a predetermined amount of memory.
 </p>
 
@@ -65,7 +65,7 @@ Hence, we understand that a LRU cache is a fixed-capacity map able to bind value
 To do so, the cache will need to store given pairs in order of their last access. This means that each time someone tries to set a new key, or access a key, we need to modify the underlying list of pairs to ensure the needed order is maintained.
 
 <p>
-  <MarginNote><em>Note</em>: LFU (Least Frequently Used) is a perfectly valid cache eviction policy. It's just less widespread. You can read about it <SafeLink href="https://en.wikipedia.org/wiki/Cache_replacement_policies#Least-frequently_used_(LFU)">here</SafeLink> and find implementation notes <SafeLink href="https://www.geeksforgeeks.org/lfu-least-frequently-used-cache-implementation/">here</SafeLink></MarginNote>
+  <MarginNote id="lfu"><em>Note</em>: LFU (Least Frequently Used) is a perfectly valid cache eviction policy. It's just less widespread. You can read about it <SafeLink href="https://en.wikipedia.org/wiki/Cache_replacement_policies#Least-frequently_used_(LFU)">here</SafeLink> and find implementation notes <SafeLink href="https://www.geeksforgeeks.org/lfu-least-frequently-used-cache-implementation/">here</SafeLink></MarginNote>
   But why is this order relevant? Why not record the number of times each pair is accessed instead and evict the least frequently used item? Here are some reasons why:
 </p>
 
@@ -128,7 +128,7 @@ cache.size
 # Doubly-linked lists
 
 <div className="paragraph">
-  <MarginNote>
+  <MarginNote id="question">
     <em>Question</em>: Why isn't a singly-linked list enough in our case? Because we have to efficiently perform the following operations on our list:
     <ol>
       <li>place an item at the beginning of the list</li>
@@ -318,7 +318,7 @@ array.push(45);
 ```
 
 <p>
-  <MarginNote>What's more, instantiating a typed array in JavaScript is not so far, conceptually, from calling a <code>malloc</code> in C. Or, at least, you can somewhat use them to perform the same kind of tasks in both languages.</MarginNote>
+  <MarginNote id="malloc">What's more, instantiating a typed array in JavaScript is not so far, conceptually, from calling a <code>malloc</code> in C. Or, at least, you can somewhat use them to perform the same kind of tasks in both languages.</MarginNote>
   Since we can now use those very performant arrays, why shouldn't we use them to implement our own pointer system? After all, pointers are nothing more than addresses mapping a chunk of memory.
 </p>
 
@@ -334,7 +334,7 @@ So, in order to implement a fixed-capacity doubly-linked list in JavaScript to s
 3. Another one to store the indices representing our previous pointers.
 
 <div className="paragraph">
-  <MarginNote>
+  <MarginNote id="typed-tricks">
     Oftentimes, when using the <em>typed array storing pointers</em> trick is a bit tedious to code when you need to ensure the <code>0</code> index represents a null value or pointer.<br /><br />Two somewhat crafty ways to circumvent this issue:
     <ol>
       <li>You can offset your values array by keeping the first item empty so that the <code>0</code> index does not risk storing anything important.</li>

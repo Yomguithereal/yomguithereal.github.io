@@ -1,10 +1,14 @@
 import React from 'react';
 
-export function MarginNote({children}) {
+export function MarginNote({id, children}) {
   return (
-    <span className="marginnote">
-      {children}
-    </span>
+    <>
+      <label for={id} class="margin-toggle">&#8853;</label>
+      <input type="checkbox" id={id} class="margin-toggle"/>
+      <span className="marginnote">
+        {children}
+      </span>
+    </>
   );
 }
 

@@ -514,6 +514,32 @@ label.margin-toggle:not(.sidenote-number) {
   height: 100%;
 }
 
+br.skipper {
+  display: none;
+}
+
+.twitter-logo {
+  position: relative;
+  top: 2px;
+  margin-left: 5px;
+}
+
+.github-logo {
+  position: relative;
+  top: 2px;
+  margin-left: 20px;
+}
+
+@media (max-width: 500px) {
+  br.skipper {
+    display: block;
+  }
+
+  .github-logo {
+    margin-left: 0px;
+  }
+}
+
 @media (max-width: 760px) {
   body {
     width: 84%;
@@ -522,7 +548,6 @@ label.margin-toggle:not(.sidenote-number) {
   }
 
   hr,
-  h1,
   h2,
   h3,
   h4,
@@ -534,7 +559,6 @@ label.margin-toggle:not(.sidenote-number) {
     width: 100%;
   }
 
-  h1,
   h2,
   h3,
   h4,
