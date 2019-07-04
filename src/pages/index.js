@@ -26,7 +26,6 @@ export default function Index({data}) {
 
   const posts = data.allMdx.edges.map(({node}) => node);
 
-  // TODO: link style
   // TODO: marginnotes mobile
   return (
     <Layout>

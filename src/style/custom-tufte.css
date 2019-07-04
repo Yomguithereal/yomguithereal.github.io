@@ -337,12 +337,23 @@ a:link::-moz-selection {
 
 a {
   color: black;
-  text-decoration-style: dotted;
   /* background-color: #e8dfc5; */
 }
 
-a:hover {
-  text-decoration-style: solid;
+section a {
+  background-image: linear-gradient(to right, black 50%, transparent 50%);
+  background-position: 0 1.1em;
+  background-repeat: repeat-x;
+  background-size: 3px 1px;
+  text-decoration: none;
+}
+
+section a:hover {
+  text-decoration: underline solid;
+  background-image: linear-gradient(to bottom, black 100%);
+  background-position: 0 1.1em;
+  background-repeat: repeat-x;
+  background-size: 1px 1px;
 }
 
 /* Sidenotes, margin notes, figures, captions */
