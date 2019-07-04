@@ -201,7 +201,7 @@ div.paragraph {
 }
 
 ul {
-  list-style-type: circle;
+  list-style-type: '. ';
 }
 
 p, div.paragraph {
@@ -511,10 +511,24 @@ label.margin-toggle:not(.sidenote-number) {
   }
 
   hr,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
   section > p,
   section > footer,
-  section > table {
+  section > table,
+  section > div.paragraph {
     width: 100%;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    max-width: 100%;
   }
 
   /* pre.code {

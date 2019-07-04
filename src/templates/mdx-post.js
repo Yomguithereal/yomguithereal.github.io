@@ -26,7 +26,6 @@ export const query = graphql`
   }
 `;
 
-// TODO: automatic id on titles
 const components = {
   code: props => props.className ?
     <Highlight className={props.className}>{props.children}</Highlight> :
