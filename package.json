@@ -7,7 +7,7 @@
   "scripts": {
     "build": "gatsby build",
     "clean": "rm -rf .cache public",
-    "deploy": "npm run build && gh-pages --branch master --dist ./public",
+    "deploy": "npm run clean && npm run build && gh-pages --branch master --dist ./public && npm run clean",
     "dev": "gatsby develop"
   },
   "repository": {
