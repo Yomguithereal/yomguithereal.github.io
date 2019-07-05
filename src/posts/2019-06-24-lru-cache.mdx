@@ -511,62 +511,67 @@ So, if we “rerun” our [previous examples](#lru-cache-list-operations) of req
 
 Looks boring, no?
 
-Well it's actually a good thing. Because it means that we don't move things around too much. We don't create things, we just read & write array indices.
+It's actually a good thing. It means we don't move things around too much. We don't create things, we just read & write array indices.
 
-So why is this faster than the traditional implementation with object properties we saw earlier?
+So why is this faster than the traditional implementation we reviewed earlier?
 
 <ol>
   <li>
-    We only allocate memory once. We never instantiate new objects. We never need to garbage collect old ones.<SideNote id="pool">Yes you can temper memory allocation and garbage collection by using object pools. But if you can rely on typed arrays instead you'll find that it's faster and consumes less memory.</SideNote>And memory predictability is a desirable thing to have in a LRU cache implementation.
-    The only memory hiccups in our implementation will be the result of setting keys in our map or object up to capacity then evicting keys later on.
+    Memory is only allocated once. New objects are never instantiated and old one are never garbage collected.<SideNote id="pool">Yes you can temper memory allocation and garbage collection by using object pools. But if you can rely on typed arrays instead you'll find that it's faster and consumes less memory.</SideNote>And memory predictability is a desirable thing to have in a LRU cache implementation.
+    The only memory hiccups in our implementation will be the result of filling our map with keys up to capacity then evicting some of them later on.
   </li>
   <li>
-    Array indices lookups/writes are really fast because the allocated memory is mostly contiguous, even more with typed arrays. You never need to jump very far to find what you need and cache optimizations can more easily leverage their magic.
+    Array indices lookups/writes are really fast because the allocated memory is mostly contiguous, even more with typed arrays. You never need to jump very far to find what you need and cache optimizations can more easily perform their magic.
   </li>
   <li>
-    It leaves nothing to interpretation so that the engine does not have to be clever about anything and will be able to automatically take the fast paths relying on very low-level optimizations.
+    It leaves nothing to interpretation. The engine does not have to be clever about anything and will be able to automatically apply very low-level optimizations without a second thought.
   </li>
 </ol>
 
 # Is it really worth the hassle?
 
-To make sure of this, I obviously had to implement such a custom pointer system and benchmark it.
+To make sure of this, I obviously had to implement th custom pointer system I just described and benchmark it.
 
 You can therefore find a typed array-based implementation of a LRU cache in the [mnemonist](https://github.com/Yomguithereal/mnemonist) library. You will find one implementation relying on a JavaScript object: the [`LRUCache`](https://yomguithereal.github.io/mnemonist/lru-cache), and another one relying on an ES6 `Map`: the [`LRUMap`](https://yomguithereal.github.io/mnemonist/lru-map).
 
 Then there is this public benchmark on the [dominictarr/bench-lru](https://github.com/dominictarr/bench-lru) repository.
 
 <p>
-  And here are some of the latest results:
+  And here are some of the latest results (ran on a 2013 Macbook using node <code>10.13.0</code>):
   <SideNote id="bench">
-    Note that I hid results from the <SafeLink href="https://npmjs.com/package/hashlru">hashlru</SafeLink> and <SafeLink href="https://npmjs.com/package/quick-lru">quick-lru</SafeLink> because they are not traditional LRU caches and consume twice the required memory.<br /><br />They still have, mostly the first one, good write performance but somewhat less good read performance.
+    Note that I hid results from the <SafeLink href="https://npmjs.com/package/hashlru">hashlru</SafeLink> and <SafeLink href="https://npmjs.com/package/quick-lru">quick-lru</SafeLink> because they are not traditional LRU caches and consume twice the required memory.<br /><br />They still have, mostly the first one, very good write performance but somewhat less good read performance.</SideNote>
+    <SideNote id="rank">Libraries are ranked here by eviction performance because this is usually the slowest operation and the most critical for a LRU cache.
   </SideNote>
 </p>
 
-
-| library                                                           | set   | get1  | update | get2  | evict |
+| name                                                           | set   | get1  | update | get2  | evict |
 |----------------------------------------------------------------|-------|-------|--------|-------|-------|
-| [mnemonist-object](https://www.npmjs.com/package/mnemonist)    | 15314 | 69444 | 35026  | 68966 | 7949  |
-| [tiny-lru](https://npmjs.com/package/tiny-lru)                 | 6530  | 46296 | 37244  | 42017 | 5961  |
-| [lru-fast](https://npmjs.com/package/lru-fast)                 | 5979  | 36832 | 32626  | 40900 | 5929  |
-| [mnemonist-map](https://www.npmjs.com/package/mnemonist)       | 6272  | 15785 | 10923  | 16077 | 3738  |
-| [lru](https://www.npmjs.com/package/lru)                       | 3927  | 5454  | 5001   | 5366  | 2827  |
-| [simple-lru-cache](https://npmjs.com/package/simple-lru-cache) | 3393  | 3855  | 3701   | 3899  | 2496  |
-| [hyperlru-object](https://npmjs.com/package/hyperlru-object)   | 3515  | 3953  | 4044   | 4102  | 2495  |
-| [js-lru](https://www.npmjs.com/package/js-lru)                 | 3813  | 10010 | 9246   | 10309 | 1843  |
+| [mnemonist-object](https://www.npmjs.com/package/mnemonist)    | 12962 | 57307 | 35026  | 59172 | 6803  |
+| [tiny-lru](https://npmjs.com/package/tiny-lru)                 | 5940  | 38685 | 26918  | 37037 | 5016  |
+| [lru-fast](https://npmjs.com/package/lru-fast)                 | 5379  | 28860 | 27855  | 29940 | 4099  |
+| [mnemonist-map](https://www.npmjs.com/package/mnemonist)       | 4910  | 9857  | 7918   | 9945  | 3510  |
+| [lru](https://www.npmjs.com/package/lru)                       | 3619  | 4333  | 4164   | 4400  | 2363  |
+| [simple-lru-cache](https://npmjs.com/package/simple-lru-cache) | 2817  | 3779  | 3681   | 3761  | 2210  |
+| [hyperlru-object](https://npmjs.com/package/hyperlru-object)   | 2530  | 3930  | 4153   | 4153  | 1820  |
+| [js-lru](https://www.npmjs.com/package/js-lru)                 | 2844  | 4415  | 4363   | 5176  | 1643  |
+| [secondary-cache](https://npmjs.com/package/secondary-cache)   | 2653  | 4561  | 4557   | 7840  | 1356  |
+| [lru-cache](https://npmjs.com/package/lru-cache)               | 1941  | 2520  | 2526   | 2611  | 1294  |
+| [hyperlru-map](https://npmjs.com/package/hyperlru-map)         | 1607  | 1948  | 2652   | 2059  | 1271  |
+| [modern-lru](https://npmjs.com/package/modern-lru)             | 2132  | 2687  | 2251   | 2744  | 1026  |
+| [mkc](https://npmjs.com/packacge/package/mkc)                  | 1447  | 1714  | 1034   | 1750  | 881   |
 
 mnemonist's custom pointer system fares quite well.
 
-What's more, you'll see by reading its [source code](https://github.com/Yomguithereal/mnemonist/blob/master/lru-cache.js) that it's not too horrible to read and remains quite simple.
+What's more, you'll see by reading its [source code](https://github.com/Yomguithereal/mnemonist/blob/master/lru-cache.js) that it's not too horrible to read and remains somewhat simple.
 
 # Parting words
 
 <p>
-  Now you know how to use JavaScript typed arrays to create your own pointer system. This trick is not limited to fixed-capacity linked lists and can be used for a variety or other data structure implementation problems.<SideNote id="trees">A lot of tree-like data structures may also beneficiate from this trick, for instance.</SideNote>
+  Now you know how to use JavaScript typed arrays to create your own pointer system. This trick is not limited to fixed-capacity linked lists and can be used for a variety or other data structure implementation problems.<SideNote id="trees">A lot of tree-like data structures can also beneficiate from this trick, for instance.</SideNote>
 </p>
 
 <p>
-  But as per usual, and this advice stands for most high-level languages<SideNote id="python">The <em>typed array pointers</em> trick is far from suited to every high-level language. In python, for instance, if you try to replicate this trick using <code>bytearray</code> or <code>np.array</code> you will actually get abysmal performances.</SideNote>, optimizing JavaScript is the same as squinting really hard and pretending the language:
+  But as per usual, and this advice stands for most high-level languages<SideNote id="python">The <em>typed array pointers</em> trick is far from suited to every high-level language. In python, for instance, if you try to replicate this trick using <code>bytearray</code> or <code>np.array</code> you will actually get abysmal performances</SideNote>, optimizing JavaScript is the same as squinting really hard and pretending the language:
 </p>
 
 1. has static typing
@@ -576,7 +581,7 @@ Basically, the less choices the engine has to make, the easier it will be for it
 
 <p>
   Of course this is not advisable for application code and this level of optimization should only be a goal if you try to optimize critical things such as, off the top of my head, a LRU cache.
-  <SideNote id="memoize">LRU cache are very important to many implementations of memoization, for instance.<br /><br />Web servers and clients alike also massively rely on those kinds of caches.</SideNote>
+  <SideNote id="memoize">LRU cache are very important to many implementations of memoization, for instance. Web servers and clients alike also massively rely on those kinds of caches.</SideNote>
 </p>
 
 And finally, please don't take my words or advices too seriously. It is notoriously tricky to optimize interpreted languages and JavaScript is even worse because you have to consider JIT compilation and several engines such as Gecko or V8.
@@ -595,7 +600,7 @@ So, pretty please, do benchmark your code because your mileage may vary.
 ## About evictions & splay trees
 
 <p>
-  The single thing hampering every JavaScript implementation of a LRU cache is actually evictions. Getting rid of keys from either an object (using the <code>delete</code> keyword) or a map (using the <code>#.delete</code> method) is very costly.
+  The single thing hampering every JavaScript implementation of a LRU cache is eviction performance. Getting rid of keys from either an object (using the <code>delete</code> keyword) or a map (using the <code>#.delete</code> method) is very costly.
   <SideNote id="hashlru">
     Once again the <SafeLink href="https://npmjs.com/package/hashlru">hashlru</SafeLink> and <SafeLink href="https://npmjs.com/package/quick-lru">quick-lru</SafeLink> libraries formulate an original solution to this issue and I warmly encourage you to check them.
   </SideNote>
@@ -603,7 +608,7 @@ So, pretty please, do benchmark your code because your mileage may vary.
 
 <p>
   There seems to be no way around it because it is quite impossible (yet?) to beat the engines native hashmaps' performance from within interpreted JavaScript code.
-  <SideNote id="hashmaps">The contrary would be very counterintuitive since there is no way to run hash algorithms as fast the engine is able to do natively.<br /><br />I also attempted other tree-based key-value associative data structures like <SafeLink href="https://cr.yp.to/critbit.html">CritBit trees</SafeLink> but must report that it's not possible to beat a JavaScript object or map thusly.<br /><br />You can still implement those trees so that they can be from 2 to 5 times less performant only than native objects for certain use case, all while maintaining lexicographical orde. Which is not too shabby. I guess?<br /><br />Feel free to check the undocumented code <SafeLink href="https://github.com/Yomguithereal/mnemonist/blob/master/critbit-tree-map.js">here</SafeLink>.</SideNote>
+  <SideNote id="hashmaps">The contrary would be very counterintuitive since there is no way to run hash algorithms as fast the engine is able to do natively.<br /><br />I also attempted other tree-based key-value associative data structures like <SafeLink href="https://cr.yp.to/critbit.html">CritBit trees</SafeLink> but must report that it's not possible to beat a JavaScript object or map thusly.<br /><br />You can still implement those trees so that they can be only from 2 to 5 times less performant than native objects for certain use case, all while maintaining lexicographical order. Which is not too shabby. I guess?<br /><br />Feel free to check the yet undocumented code <SafeLink href="https://github.com/Yomguithereal/mnemonist/blob/master/critbit-tree-map.js">here</SafeLink>.</SideNote>
 </p>
 
 This means that you can't roll your own map in JavaScript, a fixed-capacity one with inexpensive deletion for instance, and hope to beat what's already provided to you with the native object.
@@ -612,35 +617,35 @@ One interesting solution that would be nice to test is using [splay trees](https
 
 Those trees, being a binary search tree variant, support rather efficient associative key-value operations while being very suited to LRU caches since they already work by “splaying” very frequently accessed key to the top of their hierarchy.
 
-## What about asm.js & webassembly?
+## What about webassembly?
 
-Wouldn't it be faster to implement a LRU cache using shiny new things such a `asm.js` or `webassembly` rather than trying to shoehorn low-level concepts into JavaScript high-level code?
+Wouldn't it be faster to implement a LRU cache using shiny new things such as `webassembly` rather than trying to shoehorn low-level concepts into JavaScript high-level code?
 
 <p>
-  Well yes. But here is the trick: if you ever need to use this implementation from the JavaScript side, then you are out of luck because it will be slow as hell. Just because communication between the JavaScript side and the, say, webassembly side will slow you down, just a little, but enough to make such an implementation moot.<SideNote id="wasm-communication">Communication between wasm and JS has been wildly improving. Check this very good <SafeLink href="https://hacks.mozilla.org/2018/10/calls-between-javascript-and-webassembly-are-finally-fast-%F0%9F%8E%89/">blog post</SafeLink> on the matter, for instance.<br /><br />But it's still not enough to justify having hot data structure methods run on the wasm side while being called from the JS side, unfortunately.</SideNote>
+  Well yes. But here is the trick: if you ever need to use this implementation from the JavaScript side, then you are out of luck because it will be slow as hell. Just because communication between the JavaScript side and the webassembly side will slow you down, just a little, but enough to make such an implementation moot.<SideNote id="wasm-communication">Communication between wasm and JS has been wildly improving. Check this very good <SafeLink href="https://hacks.mozilla.org/2018/10/calls-between-javascript-and-webassembly-are-finally-fast-%F0%9F%8E%89/">blog post</SafeLink> on the matter, for instance.<br /><br />But it's still not enough to justify having hot data structure methods run on the wasm side while being called from the JS side, unfortunately.</SideNote>
 </p>
 
 However, if you can afford to stay in the webassembly side, because you compile rust to webassembly for instance, then it's a tremendous idea to also implement your LRU cache there. You will definitely get better results.
 
 ## Saving one pointer array
 
-There is a known trick with LRU cache that enables you to save up one pointer level. It does not mean that you don't need a doubly-linked list anymore to be efficient but just that the hashmap/dictionary structure you are using can store pointers to the previous key-value pair rather than the related one to save up memory.
+There is a known trick with LRU cache you can use to save up one pointer level. It does not mean that you don't need a doubly-linked list anymore to be efficient but just that the hashmap/dictionary structure you are using can store pointers to the previous key rather than the related one to save up memory.
 
-I won't explain this here but you can head to this [stackoverflow thread](https://stackoverflow.com/questions/49621983/lru-cache-with-a-singly-linked-list) if you want to get the gist of it.
+I won't explain this here but you can head to this [stackoverflow answer](https://stackoverflow.com/questions/49621983/lru-cache-with-a-singly-linked-list#answer-49622080) if you want to get the gist of it.
 
-Just note that it's usually not a good idea if you want to be remain performant (computation-wise, not memory-wise, obviously) because it will incur more hashmap lookups, and those are quite costly.
+Just note that it's usually not a good idea, in JavaScript, if you want to be remain performant (computation-wise, not memory-wise, obviously) because it will incur more hashmap lookups to update pointers, and those are quite costly.
 
 ## About arbitrary evictions
 
 Note that the LRU cache implementation proposed here will have a hard time handling arbitrary evictions, i.e. letting the user delete keys.
 
-Why? Because here, since we only need to swap key-value pairs when inserting a new key that will evict the LRU one, we don't need to have a way to find “available” slots in our memory. Those slots, if one can delete keys at will, would then have random places in the typed array and we would need a way to find them back to “reallocate” them.
+Why? Because for now, since we only need to swap key-value pairs when inserting a new key that will evict the LRU one, we don't need to have a way to find “available” slots in our memory. Those slots, if the user can delete keys at will, would be randomly found in the typed array and we would need a way to track them in order to “reallocate” them.
 
 This could be done by using an additional array serving as a free pointer stack, but this has obviously a memory and performance cost.
 
 ## A fully dynamic custom pointer system
 
-Here I mostly spoke of typed array to implement fixed-capacity pointer systems. But if you are a little bit more ambitious you can very well imagine designing a dynamic-capacity pointer system.
+Here I mostly spoke of typed arrays to implement fixed-capacity pointer system. But if you are a little bit more ambitious you can very well imagine designing a dynamic-capacity pointer system.
 
 To do so, you can use dynamic typed arrays like mnemonist's [Vector](https://yomguithereal.github.io/mnemonist/vector.html). They can actually be more efficient than vanilla JavaScript arrays when handling numbers and will let you implement what you need.
 
@@ -649,4 +654,4 @@ I am unsure whether having a custom dynamic pointer system would yield any perfo
 # Links
 
 * You might find the [mnemonist](https://yomguithereal.github.io/mnemonist/) library useful. It contains a lot of efficient and cohesive data structure implementations for JavaScript.
-* I did a [talk](https://fosdem.org/2019/schedule/event/data_structures_javascript/) about implementing data structures in JavaScript at FOSDEM in 2019.
+* I did a [talk](https://fosdem.org/2019/schedule/event/data_structures_javascript/) about implementing data structures in JavaScript at FOSDEM in 2019 ([slides](https://yomguithereal.github.io/mnemonist/presentations/fosdem2019)).
