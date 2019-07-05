@@ -11,7 +11,7 @@ subtitle:
 import {Divider, MarginNote, SideNote} from '../components/tufte';
 import SafeLink from '../components/SafeLink';
 
-<p>
+<div className="paragraph">
   <MarginNote id="dammit">
     <em>Fast lane:</em>
     <ol>
@@ -19,13 +19,13 @@ import SafeLink from '../components/SafeLink';
       <li>I don't care about all this. <SafeLink href="https://yomguithereal.github.io/mnemonist/lru-cache">I only want an efficient JavaScript implementation of a LRU cache!</SafeLink></li>
     </ol>
   </MarginNote>
-  Let's say we need to process a very large – hundreds of gigabytes large – csv file containing urls we will need to fetch.
+  Let's say we need to process a very large – hundreds of gigabytes large – csv file containing urls we will need to download.
   To ensure we are not going to run out of memory while parsing the whole file, we read the file line by line:
-</p>
+</div>
 
 ```js
 csv.forEachLine(line => {
-  fetch(line.url);
+  download(line.url);
 });
 ```
 
@@ -45,7 +45,7 @@ csv.forEachLine(line => {
   if (done.has(line.url))
     return done.get(line.url);
 
-  const result = fetch(line.url);
+  const result = download(line.url);
   done.set(line.url, result);
 });
 ```
@@ -69,7 +69,7 @@ To do so, the cache will need to store given items in order of their last access
 
 <p>
   <MarginNote id="lfu"><em>Note</em>: LFU (Least Frequently Used) is a perfectly valid cache eviction policy. It's just less widespread. You can read about it <SafeLink href="https://en.wikipedia.org/wiki/Cache_replacement_policies#Least-frequently_used_(LFU)">here</SafeLink> and find implementation notes <SafeLink href="https://www.geeksforgeeks.org/lfu-least-frequently-used-cache-implementation/">here</SafeLink>.</MarginNote>
-  But why is this order relevant? Wouldn't it be better to record the number of times each item was accessed so we can evict the least frequently used item instead?
+  But why is this order relevant? Wouldn't it be better to record the number of times each item was accessed so we can evict the <strong>L</strong>east <strong>F</strong>requently <strong>Used</strong> instead?
 </p>
 
 Not necessarily. Here are some reasons why:

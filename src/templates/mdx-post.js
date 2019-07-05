@@ -2,12 +2,17 @@ import React from 'react';
 import {graphql} from 'gatsby';
 import MDXRenderer from 'gatsby-mdx/mdx-renderer';
 import {MDXProvider} from '@mdx-js/react';
-import slug from 'slug';
+import Slugger from 'github-slugger';
 import Layout from '../components/Layout';
 import Highlight from '../components/Highlight';
 
+const slugger = new Slugger();
+
 const slugify = string => {
-  return slug(string, {lower: true});
+  const slug = slugger.slug(string);
+  slugger.reset();
+
+  return slug;
 };
 
 export const query = graphql`
@@ -39,7 +44,7 @@ const components = {
     <Highlight className={props.className}>{props.children}</Highlight> :
     <code>{props.children}</code>,
   h1: props => <h4 id={slugify(props.children)}>{props.children}</h4>,
-  h2: props => <h5>{props.children}</h5>,
+  h2: props => <h5 id={slugify(props.children)}>{props.children}</h5>,
   a: props => {
 
     if (props.href.startsWith('#'))

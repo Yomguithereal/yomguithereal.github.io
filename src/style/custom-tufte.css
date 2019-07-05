@@ -130,7 +130,7 @@ h4 {
   border-bottom: 1px solid black;
 }
 
-h4:target {
+h4:target, h5:target {
   padding-top: 20px;
 }
 

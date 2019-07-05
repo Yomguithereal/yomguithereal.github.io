@@ -3,8 +3,8 @@ import React from 'react';
 export function MarginNote({id, children}) {
   return (
     <>
-      <label for={id} class="margin-toggle">&#8853;</label>
-      <input type="checkbox" id={id} class="margin-toggle"/>
+      <label htmlFor={id} className="margin-toggle">&#8853;</label>
+      <input type="checkbox" id={id} className="margin-toggle"/>
       <span className="marginnote">
         {children}
       </span>
