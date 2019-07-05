@@ -86,7 +86,7 @@ There are many ways to implement a working LRU cache but I will only focus on th
 Usually, to implement a proper LRU cache, we need the two following ingredients:
 
 1. A [hashmap](https://en.wikipedia.org/wiki/Hash_table)-like data structure able to retrieve values associated to arbitrary keys – such as strings – efficiently. In JavaScript we can either use the ES6 `Map` or any plain object `{}`: remember that our cache is no different from a fixed-capacity key-value store.
-2. A way to store our items in the order of their last access. What's more, we will need to be to move items around efficiently. That's why people naturally lean toward a [doubly-linked list](https://en.wikipedia.org/wiki/Doubly_linked_list) for the job.
+2. A way to store our items in the order of their last access. What's more, we will need to move items around efficiently. That's why people naturally lean toward a [doubly-linked list](https://en.wikipedia.org/wiki/Doubly_linked_list) for the job.
 
 Minimally, our implementation needs to be able to run the two following operations:
 
@@ -528,7 +528,7 @@ So why is this faster than the traditional implementation we reviewed earlier?
 
 # Is it really worth the hassle?
 
-To make sure of this, I obviously had to implement th custom pointer system I just described and benchmark it.
+To make sure of that, I obviously had to implement this custom pointer system I just described and benchmark it.
 
 You can therefore find a typed array-based implementation of a LRU cache in the [mnemonist](https://github.com/Yomguithereal/mnemonist) library. You will find one implementation relying on a JavaScript object: the [`LRUCache`](https://yomguithereal.github.io/mnemonist/lru-cache), and another one relying on an ES6 `Map`: the [`LRUMap`](https://yomguithereal.github.io/mnemonist/lru-map).
 
