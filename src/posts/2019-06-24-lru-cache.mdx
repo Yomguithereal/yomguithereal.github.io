@@ -11,8 +11,6 @@ subtitle:
 import {Divider, MarginNote, SideNote} from '../components/tufte';
 import SafeLink from '../components/SafeLink';
 
-<!-- TODO: we/you/one -->
-
 <p>
   <MarginNote id="dammit">
     <em>Fast lane:</em>
@@ -35,7 +33,7 @@ csv.forEachLine(line => {
   Now let's say the person that created our file forgot to deduplicate the urls.
   <SideNote id="urls-dedup">I am aware that this could easily be solved by using <code>sort -u</code> but that's not the point.</SideNote>
   <SideNote id="ural">Deduping urls is not as straigthforward as it may seem. Check the <SafeLink href="https://github.com/medialab/ural#readme">ural</SafeLink> library in python, for instance, for some examples of what can be achieved in this regard.</SideNote>
-  This is an issue because we don't want to fetch the same url more than once: grabbing resources from the web is time-consuming &amp; should be done parcimoniously not to flood the sites you are grabbing those resources from.
+  This is an issue because we don't want to fetch the same url more than once: grabbing resources from the web is time-consuming &amp; should be done parcimoniously not to flood the sites we are grabbing those resources from.
 </p>
 
 An obvious solution could be to remember urls we already fetched by caching them into a map:
@@ -85,17 +83,17 @@ Not necessarily. Here are some reasons why:
 
 There are many ways to implement a working LRU cache but I will only focus on the way you are most likely to encounter in the wild when developing for high-level languages.
 
-Usually, to implement a proper LRU cache, you need the two following ingredients:
+Usually, to implement a proper LRU cache, we need the two following ingredients:
 
-1. A [hashmap](https://en.wikipedia.org/wiki/Hash_table)-like data structure able to retrieve values associated to arbitrary keys – such as strings – efficiently. In JavaScript you can either use the ES6 `Map` or any plain object `{}`: remember that our cache is no different from a fixed-capacity key-value store.
-2. A way to store our items in the order of their last access. What's more, you will need to be to move items around efficiently. That's why people naturally lean toward a [doubly-linked list](https://en.wikipedia.org/wiki/Doubly_linked_list) for the job.
+1. A [hashmap](https://en.wikipedia.org/wiki/Hash_table)-like data structure able to retrieve values associated to arbitrary keys – such as strings – efficiently. In JavaScript we can either use the ES6 `Map` or any plain object `{}`: remember that our cache is no different from a fixed-capacity key-value store.
+2. A way to store our items in the order of their last access. What's more, we will need to be to move items around efficiently. That's why people naturally lean toward a [doubly-linked list](https://en.wikipedia.org/wiki/Doubly_linked_list) for the job.
 
-Minimally, your implementation needs to be able to run the two following operations:
+Minimally, our implementation needs to be able to run the two following operations:
 
 * `#.set`: associating a value to the given key, while evicting the least recently used item if the cache is already full.
 * `#.get`: retrieving the value associated to the given key if this one exists at all in the cache, while updating the underlying list to keep LRU order.
 
-And here is how you could use such a cache:
+And here is how we could use such a cache:
 
 ```js
 // Let's create a cache able to contain 3 items
@@ -117,7 +115,7 @@ cache.set(4, 'four');
 cache.has(1);
 >>> false
 
-// If you get `2`, it won't be the LRU key anymore
+// If we get `2`, it won't be the LRU key anymore
 cache.get(2);
 >>> 'two'
 
@@ -144,7 +142,7 @@ cache.items()
       <li>remove the last item from the list while keeping a correct pointer to the new last item</li>
     </ol>
   </MarginNote>
-  To be able to implement a LRU cache, you will need to implement a doubly-linked list to make sure we are able to store our items in order of their last access: the most recently used item starting the list and the least recently used one ending it.
+  To be able to implement a LRU cache, we will need to implement a doubly-linked list to make sure we are able to store our items in order of their last access: the most recently used item starting the list and the least recently used one ending it.
   <SideNote id="reverse">Note that it could be the other way around. The direction of the list is not important.</SideNote>
 </div>
 
@@ -234,9 +232,9 @@ So far so good. Now, to keep our list in LRU order, if anyone accesses an alread
               └<───────┘    └<────────┘   └<─────┘
 ```
 
-Note that each time, you will need to update the head pointer and that, sometimes, you will also need to update the tail pointer.
+Note that each time, we will need to update the head pointer and that, sometimes, we will also need to update the tail pointer.
 
-Finally, if the cache is already full and a yet unknown key needs to be inserted, you will need to pop the last item from the list to make place to prepend the new one.
+Finally, if the cache is already full and a yet unknown key needs to be inserted, we will need to pop the last item from the list to make place to prepend the new one.
 
 ```c
 1. the current state of our cache
@@ -260,7 +258,7 @@ Finally, if the cache is already full and a yet unknown key needs to be inserted
               └<───────┘   └<───────┘    └<──────┘
 ```
 
-Here is all you need to know about doubly-linked lists to be able to implement a decent LRU cache.
+Here is all we need to know about doubly-linked lists to be able to implement a decent LRU cache.
 
 # Implementing doubly-linked lists in JavaScript
 
@@ -318,19 +316,19 @@ Typed Arrays are very neat JavaScript objects able to represent fixed-capacity a
 
 They are fairly fast and consume very little memory because the stored items are statically typed and can't suffer from bookkeeping overhead.
 
-Here is how you would use one:
+Here is how we would use one:
 
 ```js
 // A typed array containing 256 unsigned 16 bits integers
 const array = new Uint16Array(256);
 
 // Every index is initially set to 0.
-// You can read/set items very naturally
+// We can read/set items very naturally
 array[10] = 34;
 array[10];
 >>> 34
 
-// But here's the catch: you cannot push new items
+// But here's the catch: we cannot push new items
 array.push(45);
 >>> throw `TypeError: array.push is not a function`
 ```
