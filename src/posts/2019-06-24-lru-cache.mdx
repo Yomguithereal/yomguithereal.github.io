@@ -536,7 +536,7 @@ You can therefore find a typed array-based implementation of a LRU cache in the 
 
 You can read their source code [here](https://github.com/Yomguithereal/mnemonist/blob/master/lru-cache.js) and decide for yourself whether it's gibberish or not to deal with indices rather than object properties.
 
-Then there is this public benchmark on the [dominictarr/bench-lru](https://github.com/dominictarr/bench-lru) repository.
+Then there is this public benchmark on the [dominictarr/bench-lru](https://github.com/dominictarr/bench-lru) repository. As every benchmark it cannot perfectly suit your use cases but it still avoids some common pitfalls about unrelated engine optimizations…
 
 <p>
   Here are some the latest benchmark results on my computer (a 2013 Macbook using node <code>12.6.0</code>):
@@ -548,25 +548,27 @@ Then there is this public benchmark on the [dominictarr/bench-lru](https://githu
 
 | name                                                           | set    | get1   | update  | get2   | evict  |
 |:----------------------------------------------------------------|-------:|-------:|--------:|-------:|-------:|
-| [mnemonist-object](https://www.npmjs.com/package/mnemonist)    | 11080 | 49505 | 39216  | 55710 | 7981  |
-| [hashlru](https://npmjs.com/package/hashlru) *                   | 13324 | 14859 | 16779  | 16116 | 6894  |
-| [simple-lru-cache](https://npmjs.com/package/simple-lru-cache) | 7273  | 33898 | 30349  | 37175 | 5851  |
-| [lru-fast](https://npmjs.com/package/lru-fast)                 | 5040  | 45147 | 37594  | 40000 | 5598  |
-| [tiny-lru](https://npmjs.com/package/tiny-lru)                 | 5093  | 35907 | 38241  | 37665 | 5491  |
-| [quick-lru](https://npmjs.com/package/quick-lru) *               | 5714  | 3708  | 4188   | 3844  | 4543  |
-| [hyperlru-object](https://npmjs.com/package/hyperlru-object)   | 3735  | 12878 | 12788  | 13089 | 2996  |
-| [mnemonist-map](https://www.npmjs.com/package/mnemonist)       | 3362  | 5792  | 5520   | 6568  | 2613  |
-| [lru](https://www.npmjs.com/package/lru)                       | 3088  | 4089  | 3784   | 4616  | 2442  |
-| [secondary-cache](https://npmjs.com/package/secondary-cache)   | 2609  | 7883  | 4810   | 10111 | 1978  |
-| [js-lru](https://www.npmjs.com/package/js-lru)                 | 2946  | 4757  | 5133   | 5784  | 1604  |
-| [lru-cache](https://npmjs.com/package/lru-cache)               | 1804  | 3497  | 3925   | 5438  | 1350  |
-| [hyperlru-map](https://npmjs.com/package/hyperlru-map)         | 1842  | 3815  | 3602   | 3901  | 1268  |
-| [mkc](https://npmjs.com/packacge/package/mkc)                  | 1542  | 2206  | 1307   | 2108  | 998   |
-| [modern-lru](https://npmjs.com/package/modern-lru)             | 1753  | 2636  | 2051   | 2675  | 907   |
+| [mnemonist-object](https://www.npmjs.com/package/mnemonist)    | 10793 | 53191 | 40486  | 56497 | 8217  |
+| [hashlru](https://npmjs.com/package/hashlru) *                 | 13860 | 14981 | 16340  | 15385 | 6959  |
+| [simple-lru-cache](https://npmjs.com/package/simple-lru-cache) | 5875  | 36697 | 28818  | 37453 | 6866  |
+| [tiny-lru](https://npmjs.com/package/tiny-lru)                 | 4378  | 36101 | 34602  | 40568 | 5626  |
+| [lru-fast](https://npmjs.com/package/lru-fast)                 | 4993  | 38685 | 38986  | 47619 | 5224  |
+| [quick-lru](https://npmjs.com/package/quick-lru) *             | 4802  | 3430  | 4958   | 3306  | 5024  |
+| [hyperlru-object](https://npmjs.com/package/hyperlru-object)   | 3831  | 12415 | 13063  | 13569 | 3019  |
+| [mnemonist-map](https://www.npmjs.com/package/mnemonist)       | 3533  | 10020 | 6072   | 6475  | 2606  |
+| [lru](https://www.npmjs.com/package/lru)                       | 3072  | 3929  | 3811   | 4654  | 2489  |
+| [secondary-cache](https://npmjs.com/package/secondary-cache)   | 2629  | 8292  | 4772   | 9699  | 2004  |
+| [js-lru](https://www.npmjs.com/package/js-lru)                 | 2903  | 6202  | 6305   | 6114  | 1661  |
+| [lru-cache](https://npmjs.com/package/lru-cache)               | 2158  | 3882  | 3857   | 3993  | 1350  |
+| [hyperlru-map](https://npmjs.com/package/hyperlru-map)         | 1757  | 4425  | 3684   | 3503  | 1289  |
+| [modern-lru](https://npmjs.com/package/modern-lru)             | 1637  | 2746  | 1934   | 2551  | 1057  |
+| [mkc](https://npmjs.com/packacge/package/mkc)                  | 1589  | 2192  | 1283   | 2092  | 999   |
 
-We should also probably add memory consumption to the benchmark in the future but it is not easy to reliably measure it either.
+You should also run it on your computer because, while the ranking is mostly stable, results tend to vary.
 
-I strongly suspect that using typed arrays should help reducing the memory footprint of any implementation.
+Futhermore, it should be noted that the benchmarked libraries differ in the array of features they offer so the result is not completely fair either.
+
+Finally, we should probably add memory consumption to the benchmark in the future, even if it is not easy to reliably measure it in JavaScript. Indeed, I strongly suspect that using typed arrays should help reducing the memory footprint of any implementation.
 
 # Concluding remarks
 
