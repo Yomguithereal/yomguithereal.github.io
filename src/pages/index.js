@@ -22,6 +22,12 @@ export const query = graphql`
   }
 `;
 
+function formatDate(date) {
+  const [year, month, day] = date.split('-');
+
+  return `${day}/${month}/${year}`;
+}
+
 export default function Index({data}) {
 
   const posts = data.allMdx.edges.map(({node}) => node);
@@ -38,15 +44,13 @@ export default function Index({data}) {
         {posts.map(p => {
           const data = p.frontmatter;
 
-          const date = new Date(data.date);
-
           return (
             <li key={data.slug}>
               <h4 style={{borderBottom: 'none', maxWidth: '100%'}}>
                 <Link to={`/posts/${data.slug}`}>{data.title}</Link>
               </h4>
               <p>
-                <code>{date.toLocaleDateString()}</code>
+                <code>{formatDate(data.date)}</code>
                 <br />
                 <em>{data.subtitle}</em>
               </p>

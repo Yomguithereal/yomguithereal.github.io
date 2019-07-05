@@ -8,6 +8,8 @@ subtitle:
   design our very own low-cost pointer system for fixed-capacity data structures
 ---
 
+<!-- TODO: less bragging, more accurate bench -->
+
 import {Divider, MarginNote, SideNote} from '../components/tufte';
 import SafeLink from '../components/SafeLink';
 
@@ -645,7 +647,7 @@ This could be done by using an additional array serving as a free pointer stack,
 
 Here I mostly spoke of typed arrays to implement fixed-capacity pointer system. But if you are a little bit more ambitious you can very well imagine designing a dynamic-capacity pointer system.
 
-To do so, you can use dynamic typed arrays like mnemonist's [Vector](https://yomguithereal.github.io/mnemonist/vector.html). They can actually be more efficient than vanilla JavaScript arrays when handling numbers and will let you implement what you need.
+To do so, you can use dynamic typed arrays like mnemonist's [Vector](https://yomguithereal.github.io/mnemonist/vector.html). They are sometimes more efficient than vanilla JavaScript arrays when handling numbers and will let you implement what you need.
 
 I am unsure whether having a custom dynamic pointer system would yield any performance improvement when implementing some other data structure however.
 
