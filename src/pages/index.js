@@ -28,7 +28,7 @@ export default function Index({data}) {
 
   return (
     <Layout>
-      <h2>A fine collection of shenanigans</h2>
+      <h2>A curated collection of shenanigans</h2>
       <h3>Writing about programming, litterature, modular synthesizers &amp; other miscellaneous topics</h3>
       <hr />
       <p>
