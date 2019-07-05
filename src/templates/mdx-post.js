@@ -26,6 +26,14 @@ export const query = graphql`
   }
 `;
 
+function isCellValueNumber(value) {
+  return !isNaN(+value);
+}
+
+function formatNumber(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 const components = {
   code: props => props.className ?
     <Highlight className={props.className}>{props.children}</Highlight> :
@@ -38,6 +46,23 @@ const components = {
       return <a href={props.href}>{props.children}</a>;
 
     return <a target="_blank" rel="noopener noreferrer" href={props.href}>{props.children}</a>;
+  },
+  td: props => {
+    let value = props.children;
+
+    const align = props.align;
+
+    if (isCellValueNumber(value))
+      value = <code>{formatNumber(value)}</code>;
+
+    return (
+      <td align={align}>{value}</td>
+    );
+  },
+  th: props => {
+    const align = props.align;
+
+    return <th align={align}>{props.children}</th>;
   }
 };
 

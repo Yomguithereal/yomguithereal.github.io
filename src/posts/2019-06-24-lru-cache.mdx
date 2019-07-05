@@ -530,41 +530,45 @@ So why is this faster than the traditional implementation we reviewed earlier?
 
 # Is it really worth the hassle?
 
-To make sure of that, I obviously had to implement this custom pointer system I just described and benchmark it.
+To make sure of that, I tried to implement this custom pointer system I just described and benchmark it.
 
 You can therefore find a typed array-based implementation of a LRU cache in the [mnemonist](https://github.com/Yomguithereal/mnemonist) library. You will find one implementation relying on a JavaScript object: the [`LRUCache`](https://yomguithereal.github.io/mnemonist/lru-cache), and another one relying on an ES6 `Map`: the [`LRUMap`](https://yomguithereal.github.io/mnemonist/lru-map).
+
+You can read their source code [here](https://github.com/Yomguithereal/mnemonist/blob/master/lru-cache.js) and decide for yourself whether it's gibberish or not to deal with indices rather than object properties.
 
 Then there is this public benchmark on the [dominictarr/bench-lru](https://github.com/dominictarr/bench-lru) repository.
 
 <p>
-  And here are some of the latest results (ran on a 2013 Macbook using node <code>10.13.0</code>):
+  Here are some the latest benchmark results on my computer (a 2013 Macbook using node <code>12.6.0</code>):
   <SideNote id="bench">
-    Note that I hid results from the <SafeLink href="https://npmjs.com/package/hashlru">hashlru</SafeLink> and <SafeLink href="https://npmjs.com/package/quick-lru">quick-lru</SafeLink> because they are not traditional LRU caches and consume twice the required memory.<br /><br />They still have, mostly the first one, very good write performance but somewhat less good read performance.</SideNote>
-    <SideNote id="rank">Libraries are ranked here by eviction performance because this is usually the slowest operation and the most critical for a LRU cache.
+    Note that the <SafeLink href="https://npmjs.com/package/hashlru">hashlru</SafeLink> and <SafeLink href="https://npmjs.com/package/quick-lru">quick-lru</SafeLink> are not traditional LRU caches. They still have, mostly the first one, very good write performance but somewhat less good read performance because they have to perform two distinct hashmap lookups.</SideNote>
+    <SideNote id="rank">Libraries are ranked by eviction performance because this is usually the slowest operation and the most critical for a LRU cache. But it makes the results hard to read. You should take time to carefully peruse the list.
   </SideNote>
 </p>
 
-| name                                                           | set   | get1  | update | get2  | evict |
-|----------------------------------------------------------------|-------|-------|--------|-------|-------|
-| [mnemonist-object](https://www.npmjs.com/package/mnemonist)    | 12962 | 57307 | 35026  | 59172 | 6803  |
-| [tiny-lru](https://npmjs.com/package/tiny-lru)                 | 5940  | 38685 | 26918  | 37037 | 5016  |
-| [lru-fast](https://npmjs.com/package/lru-fast)                 | 5379  | 28860 | 27855  | 29940 | 4099  |
-| [mnemonist-map](https://www.npmjs.com/package/mnemonist)       | 4910  | 9857  | 7918   | 9945  | 3510  |
-| [lru](https://www.npmjs.com/package/lru)                       | 3619  | 4333  | 4164   | 4400  | 2363  |
-| [simple-lru-cache](https://npmjs.com/package/simple-lru-cache) | 2817  | 3779  | 3681   | 3761  | 2210  |
-| [hyperlru-object](https://npmjs.com/package/hyperlru-object)   | 2530  | 3930  | 4153   | 4153  | 1820  |
-| [js-lru](https://www.npmjs.com/package/js-lru)                 | 2844  | 4415  | 4363   | 5176  | 1643  |
-| [secondary-cache](https://npmjs.com/package/secondary-cache)   | 2653  | 4561  | 4557   | 7840  | 1356  |
-| [lru-cache](https://npmjs.com/package/lru-cache)               | 1941  | 2520  | 2526   | 2611  | 1294  |
-| [hyperlru-map](https://npmjs.com/package/hyperlru-map)         | 1607  | 1948  | 2652   | 2059  | 1271  |
-| [modern-lru](https://npmjs.com/package/modern-lru)             | 2132  | 2687  | 2251   | 2744  | 1026  |
-| [mkc](https://npmjs.com/packacge/package/mkc)                  | 1447  | 1714  | 1034   | 1750  | 881   |
+| name                                                           | set    | get1   | update  | get2   | evict  |
+|:----------------------------------------------------------------|-------:|-------:|--------:|-------:|-------:|
+| [mnemonist-object](https://www.npmjs.com/package/mnemonist)    | 11080 | 49505 | 39216  | 55710 | 7981  |
+| [hashlru](https://npmjs.com/package/hashlru) *                   | 13324 | 14859 | 16779  | 16116 | 6894  |
+| [simple-lru-cache](https://npmjs.com/package/simple-lru-cache) | 7273  | 33898 | 30349  | 37175 | 5851  |
+| [lru-fast](https://npmjs.com/package/lru-fast)                 | 5040  | 45147 | 37594  | 40000 | 5598  |
+| [tiny-lru](https://npmjs.com/package/tiny-lru)                 | 5093  | 35907 | 38241  | 37665 | 5491  |
+| [quick-lru](https://npmjs.com/package/quick-lru) *               | 5714  | 3708  | 4188   | 3844  | 4543  |
+| [hyperlru-object](https://npmjs.com/package/hyperlru-object)   | 3735  | 12878 | 12788  | 13089 | 2996  |
+| [mnemonist-map](https://www.npmjs.com/package/mnemonist)       | 3362  | 5792  | 5520   | 6568  | 2613  |
+| [lru](https://www.npmjs.com/package/lru)                       | 3088  | 4089  | 3784   | 4616  | 2442  |
+| [secondary-cache](https://npmjs.com/package/secondary-cache)   | 2609  | 7883  | 4810   | 10111 | 1978  |
+| [js-lru](https://www.npmjs.com/package/js-lru)                 | 2946  | 4757  | 5133   | 5784  | 1604  |
+| [lru-cache](https://npmjs.com/package/lru-cache)               | 1804  | 3497  | 3925   | 5438  | 1350  |
+| [hyperlru-map](https://npmjs.com/package/hyperlru-map)         | 1842  | 3815  | 3602   | 3901  | 1268  |
+| [mkc](https://npmjs.com/packacge/package/mkc)                  | 1542  | 2206  | 1307   | 2108  | 998   |
+| [modern-lru](https://npmjs.com/package/modern-lru)             | 1753  | 2636  | 2051   | 2675  | 907   |
 
-mnemonist's custom pointer system fares quite well.
+We should also probably add memory consumption to the benchmark in the future but it is not easy to reliably measure it either.
 
-What's more, you'll see by reading its [source code](https://github.com/Yomguithereal/mnemonist/blob/master/lru-cache.js) that it's not too horrible to read and remains somewhat simple.
+I strongly suspect that using typed arrays should help reducing the memory footprint of any implementation.
 
-# Parting words
+# Concluding remarks
 
 <p>
   Now you know how to use JavaScript typed arrays to create your own pointer system. This trick is not limited to fixed-capacity linked lists and can be used for a variety or other data structure implementation problems.<SideNote id="trees">A lot of tree-like data structures can also beneficiate from this trick, for instance.</SideNote>
@@ -584,9 +588,9 @@ Basically, the less choices the engine has to make, the easier it will be for it
   <SideNote id="memoize">LRU cache are very important to many implementations of memoization, for instance. Web servers and clients alike also massively rely on those kinds of caches.</SideNote>
 </p>
 
-And finally, please don't take my words or advices too seriously. It is notoriously tricky to optimize interpreted languages and JavaScript is even worse because you have to consider JIT compilation and several engines such as Gecko or V8.
+And finally, please don't take my words or advice too seriously. It is infamously tricky to optimize interpreted languages and JavaScript is even worse because you have to consider JIT compilation and several engines such as Gecko or V8.
 
-So, pretty please, do benchmark your code because your mileage may vary.
+So, pretty please, do benchmark your code, for your mileage may vary.
 
 <p align="center">
   <br />

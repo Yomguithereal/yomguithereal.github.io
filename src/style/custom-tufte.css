@@ -296,10 +296,6 @@ figure.fullwidth figcaption {
   margin-right: 24%;
 }
 
-th {
-  text-align: left;
-}
-
 /* Links: replicate underline that clears descenders */
 /* a:link,
 a:visited {
