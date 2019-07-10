@@ -37,7 +37,7 @@ export default function Layout({children, title}) {
             <div id="ribbon" />
             <header>
               <h1>
-                <Link to="/">Yomguithereal’s shenanigans</Link>
+                <Link to="/">{meta.title}</Link>
               </h1>
               <br className="skipper" />
               <SafeLink

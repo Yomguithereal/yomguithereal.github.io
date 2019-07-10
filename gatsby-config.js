@@ -6,6 +6,7 @@ module.exports = {
     twitterUrl: 'https://twitter.com/Yomguithereal'
   },
   plugins: [
+    'gatsby-plugin-react-helmet',
     'gatsby-mdx',
     {
       resolve: `gatsby-source-filesystem`,

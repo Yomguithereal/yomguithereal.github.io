@@ -32,6 +32,7 @@
     "gatsby": "^2.13.1",
     "gatsby-mdx": "^0.6.3",
     "gatsby-plugin-mdx": "^1.0.7",
+    "gatsby-plugin-react-helmet": "^3.1.0",
     "gatsby-source-filesystem": "^2.1.2",
     "gh-pages": "^2.0.1",
     "github-slugger": "^1.2.1",
