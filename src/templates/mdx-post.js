@@ -1,6 +1,7 @@
 import React from 'react';
 import {graphql} from 'gatsby';
 import MDXRenderer from 'gatsby-mdx/mdx-renderer';
+import Helmet from 'react-helmet';
 import {MDXProvider} from '@mdx-js/react';
 import Slugger from 'github-slugger';
 import Layout from '../components/Layout';
@@ -105,20 +106,29 @@ export default function MdxPostTemplate({data: {mdx}}) {
   );
 
   return (
-    <Layout title={mdx.frontmatter.title}>
-      <MDXProvider components={components}>
-        <h2>
-          {mdx.frontmatter.title}
-        </h2>
-        <h3>
-          {mdx.frontmatter.subtitle}
-        </h3>
-        <hr />
-        {mdx.frontmatter.toc && toc}
-        <MDXRenderer>
-          {mdx.code.body}
-        </MDXRenderer>
-      </MDXProvider>
-    </Layout>
+    <>
+      <Helmet>
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content={mdx.frontmatter.title} />
+        <meta name="twitter:description" content={mdx.frontmatter.subtitle} />
+        <meta property="og:title" content={mdx.frontmatter.title} />
+        <meta property="og:description" content={mdx.frontmatter.subtitle} />
+      </Helmet>
+      <Layout title={mdx.frontmatter.title}>
+        <MDXProvider components={components}>
+          <h2>
+            {mdx.frontmatter.title}
+          </h2>
+          <h3>
+            {mdx.frontmatter.subtitle}
+          </h3>
+          <hr />
+          {mdx.frontmatter.toc && toc}
+          <MDXRenderer>
+            {mdx.code.body}
+          </MDXRenderer>
+        </MDXProvider>
+      </Layout>
+    </>
   );
 }

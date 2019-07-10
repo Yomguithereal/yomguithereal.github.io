@@ -16,6 +16,7 @@ export default function Layout({children, title}) {
           site {
             siteMetadata {
               title
+              siteUrl
               githubUrl
               twitterUrl
             }
@@ -30,6 +31,8 @@ export default function Layout({children, title}) {
             <Helmet
               title={meta.title + (title ? ` - ${title}` : '')}>
               <html lang="en" />
+              <meta name="twitter:creator" content="@Yomguithereal" />
+              <meta property="og:image" content={meta.siteUrl + '/img/avatar.jpg'} />
             </Helmet>
             <div id="ribbon" />
             <header>
