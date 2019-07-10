@@ -52,7 +52,7 @@ csv.forEachLine(line => {
 
 At this point, the astute reader will have noticed that we just defeated the purpose of reading the csv file line by line since we now need to commit all its urls to memory.
 
-And herein lies the issue: we want to avoid fetching the same url more than once and we also want to make sure we won't run out of memory. We have to find a way to compromise.
+And herein lies the issue: we want to avoid fetching the same url more than once while also making sure we don't run out of memory. We have to find a way to compromise.
 
 <p>
   <MarginNote id="fun-fact"><em>Fun fact</em>: if you work with data coming from the Internet such as lists of crawled urls, you will inevitably stumble upon this kind of <SafeLink href="https://en.wikipedia.org/wiki/Power_law">power law</SafeLink>. It naturally occurs because people link exponentially more to <code>twitter.com</code> than <code>unknownwebsite.fr</code>.</MarginNote>
