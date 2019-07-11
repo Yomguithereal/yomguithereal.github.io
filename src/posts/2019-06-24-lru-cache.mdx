@@ -124,7 +124,7 @@ cache.set(5, 'five');
 cache.has(3);
 >>> false
 
-// Thus we never store more than 3 pairs
+// Thus we never store more than 3 items
 cache.size
 >>> 3
 cache.items()
@@ -375,8 +375,9 @@ function FixedCapacityDoublyLinkedList(capacity) {
 
 // This earlier example:
 const list = new DoublyLinkedList();
-const node1 = new DoublyLinkedList('one');
-const node2 = new DoublyLinkedList('two');
+
+const node1 = new Node('one');
+const node2 = new Node('two');
 
 list.head = node1;
 list.tail = node2;
