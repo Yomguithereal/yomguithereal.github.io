@@ -1,6 +1,6 @@
 import React from 'react';
 import {graphql} from 'gatsby';
-import MDXRenderer from 'gatsby-mdx/mdx-renderer';
+import {MDXRenderer} from 'gatsby-plugin-mdx';
 import Helmet from 'react-helmet';
 import {MDXProvider} from '@mdx-js/react';
 import Slugger from 'github-slugger';
@@ -25,9 +25,7 @@ export const query = graphql`
         subtitle
       }
       tableOfContents
-      code {
-        body
-      }
+      body
     }
   }
 `;
@@ -125,7 +123,7 @@ export default function MdxPostTemplate({data: {mdx}}) {
           <hr />
           {mdx.frontmatter.toc && toc}
           <MDXRenderer>
-            {mdx.code.body}
+            {mdx.body}
           </MDXRenderer>
         </MDXProvider>
       </Layout>

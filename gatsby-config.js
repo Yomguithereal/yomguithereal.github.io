@@ -7,7 +7,7 @@ module.exports = {
   },
   plugins: [
     'gatsby-plugin-react-helmet',
-    'gatsby-mdx',
+    'gatsby-plugin-mdx',
     {
       resolve: `gatsby-source-filesystem`,
       options: {
