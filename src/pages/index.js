@@ -49,7 +49,7 @@ export default function Index({data}) {
         <h3 style={{textAlign: 'center'}}>Writing about programming, litterature, modular synthesizers &amp; other miscellaneous topics</h3>
         <Divider />
         <p style={{textAlign: 'center'}}>
-          Welcome to my blog, weary traveler. My name is <em>Guillaume Plique</em>, aka <em>Yomguithereal</em> and I am a research engineer working with social science researchers and designers in Sciences Po's <SafeLink href="https://medialab.sciencespo.fr">médialab</SafeLink>.
+          Welcome to my blog, weary traveler. My name is <em>Guillaume Plique</em>, aka <em>Yomguithereal</em> and I am a research engineer working with social science researchers and designers in Sciences Po's <SafeLink href="https://medialab.sciencespo.fr">médialab</SafeLink> in Paris.
         </p>
         <div className="paragraph" style={{textAlign: 'center'}}>
           I am usually available for some light/short freelance or consulting work.
@@ -66,7 +66,7 @@ export default function Index({data}) {
               <li>Fullstack web development</li>
             </ul>
           </SideNote>
-          You can join me by writing at <code>guillaumeplique+freelance</code> on gmail servers.
+          You can join me by writing at <code>guillaumeplique+freelance</code> on gmail.com servers.
         </div>
         <p style={{textAlign: 'center'}}>
           You can also peruse my open source work <Link to="/open-source">here</Link>.
