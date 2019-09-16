@@ -1,0 +1,136 @@
+[
+  {
+    "language": "js",
+    "repo": "Yomguithereal/talisman",
+    "label": "talisman",
+    "site": "https://yomguithereal.github.io/talisman",
+    "description": "Fuzzy matching & full-text search building blocks tailored for JavaScript."
+  },
+  {
+    "language": "js",
+    "repo": "jacomyal/sigma.js",
+    "label": "sigma.js",
+    "site": "http://sigmajs.org/",
+    "description": "A JavaScript library dedicated to graph drawing."
+  },
+  {
+    "language": "js",
+    "repo": "Yomguithereal/mnemonist",
+    "label": "mnemonist",
+    "site": "https://yomguithereal.github.io/mnemonist/",
+    "description": "Curated collection of data structures for the JavaScript language."
+  },
+  {
+    "language": "js",
+    "repo": "Yomguithereal/react-blessed",
+    "label": "react-blessed",
+    "description": "A react renderer for blessed: build CLI UI with react."
+  },
+  {
+    "language": "js",
+    "repo": "graphology/graphology",
+    "label": "graphology",
+    "site": "https://graphology.github.io/",
+    "description": "A graph standard library for JavaScript."
+  },
+  {
+    "language": "js",
+    "repo": "Yomguithereal/baobab",
+    "label": "baobab",
+    "description": "JavaScript persistent and optionally immutable data tree with cursors."
+  },
+  {
+    "language": "js",
+    "repo": "Yomguithereal/kotatsu",
+    "label": "kotatsu",
+    "description": "Straightforward command line tool to setup a development environment for modern JavaScript."
+  },
+  {
+    "language": "js",
+    "repo": "medialab/artoo",
+    "label": "artoo.js",
+    "site": "http://medialab.github.io/artoo/",
+    "description": "The client-side scraping companion."
+  },
+  {
+    "language": "js",
+    "repo": "Yomguithereal/pandemonium",
+    "label": "pandemonium",
+    "description": "Typical random-related functions for JavaScript."
+  },
+  {
+    "language": "js",
+    "repo": "Yomguithereal/obliterator",
+    "label": "obliterator",
+    "description": "Higher order iterator library for JavaScript."
+  },
+  {
+    "language": "js",
+    "repo": "Yomguithereal/dolman",
+    "label": "dolman",
+    "description": "Light Express.js wrapper offering miscellaneous REST helpers."
+  },
+  {
+    "language": "js",
+    "repo": "Yomguithereal/decypher",
+    "label": "decypher",
+    "description": "A handful of cypher utilities for Node.js"
+  },
+  {
+    "language": "js",
+    "repo": "Yomguithereal/phonogram",
+    "label": "phonogram",
+    "description": "Experimental phonetic algorithms designed not to avoid vocalization."
+  },
+  {
+    "language": "python",
+    "repo": "medialab/minet",
+    "label": "minet",
+    "description": "A webmining CLI tool & library for python."
+  },
+  {
+    "language": "python",
+    "repo": "Yomguithereal/fog",
+    "label": "fog",
+    "description": "Fuzzy matching & full-text search building blocks tailored for Python."
+  },
+  {
+    "language": "python",
+    "repo": "medialab/ural",
+    "label": "ural",
+    "description": "A helper library full of URL-related heuristics."
+  },
+  {
+    "language": "python",
+    "repo": "medialab/hyphe-traph",
+    "label": "hyphe-traph",
+    "description": "A Trie/Graph hybrid memory structure used by the Hyphe crawler to index pages & webentities."
+  },
+  {
+    "language": "clojure",
+    "repo": "Yomguithereal/clj-fuzzy",
+    "label": "clj-fuzzy",
+    "description": "A handy collection of algorithms dealing with fuzzy strings and phonetics."
+  },
+  {
+    "language": "site",
+    "repo": "medialab/toflit18",
+    "label": "toflit18",
+    "site": "http://toflit18.medialab.sciences-po.fr/",
+    "description": "Transformations of the French Economy through the Lens of International Trade."
+  },
+  {
+    "language": "site",
+    "repo": "medialab/aime-core",
+    "label": "aime",
+    "site": "http://modesofexistence.org/",
+    "description": "An inquiry into modes of existences by Bruno Latour."
+  },
+  {
+    "language": "site",
+    "repo": "Yomguithereal/takoyaki",
+    "label": "takoyaki",
+    "site": "https://yomguithereal.github.io/takoyaki/",
+    "description": "Fuzzy clustering interface prototype."
+  }
+]

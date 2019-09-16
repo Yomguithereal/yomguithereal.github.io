@@ -3,7 +3,7 @@ import {graphql, Link} from 'gatsby';
 import Helmet from 'react-helmet';
 import Layout from '../components/Layout';
 
-import {Divider} from '../components/tufte';
+import {Divider, SideNote} from '../components/tufte';
 import SafeLink from '../components/SafeLink';
 
 export const query = graphql`
@@ -45,12 +45,35 @@ export default function Index({data}) {
         <meta property="og:description" content={subtitle} />
       </Helmet>
       <Layout>
-        <h2>A curated collection of shenanigans</h2>
-        <h3>Writing about programming, litterature, modular synthesizers &amp; other miscellaneous topics</h3>
-        <hr />
-        <p>
-          <em>Posts about programming &amp; data structures:</em>
+        <h2 style={{textAlign: 'center'}}>A curated collection of shenanigans</h2>
+        <h3 style={{textAlign: 'center'}}>Writing about programming, litterature, modular synthesizers &amp; other miscellaneous topics</h3>
+        <Divider />
+        <p style={{textAlign: 'center'}}>
+          Welcome to my blog, weary traveler. My name is <em>Guillaume Plique</em>, aka <em>Yomguithereal</em> and I am a research engineer working with social science researchers and designers in Sciences Po's <SafeLink href="https://medialab.sciencespo.fr">médialab</SafeLink>.
         </p>
+        <div className="paragraph" style={{textAlign: 'center'}}>
+          I am usually available for some light/short freelance or consulting work.
+          <SideNote id="skills" style={{textAlign: 'left'}}>
+            I usually work in the following domains:
+            <ul>
+              <li>Webmining (Scraping, APIs, Crawling etc.)</li>
+              <li>Algorithmics &amp; data structures</li>
+              <li>Fuzzy matching &amp; full-text search tweaking</li>
+              <li>Record linkage &amp; deduplication</li>
+              <li>Natural Language Processing</li>
+              <li>Machine learning &amp; data science</li>
+              <li>Graph theory &amp; interactive visualisation</li>
+              <li>Fullstack web development</li>
+            </ul>
+          </SideNote>
+          You can join me by writing at <code>guillaumeplique+freelance</code> on gmail servers.
+        </div>
+        <p style={{textAlign: 'center'}}>
+          You can also peruse my open source work <Link to="/open-source">here</Link>.
+        </p>
+        <h4>
+          Posts about programming &amp; data structures:
+        </h4>
         <ul>
           {posts.map(p => {
             const data = p.frontmatter;

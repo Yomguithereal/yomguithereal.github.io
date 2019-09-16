@@ -1,11 +1,11 @@
 import React from 'react';
 
-export default function GithubLogo({style}) {
+export default function GithubLogo({style, width = 20, height = 20}) {
   return (
     <svg
       className="github-logo"
-      width="20"
-      height="20"
+      width={width}
+      height={height}
       viewBox="0 0 1024 1024"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
