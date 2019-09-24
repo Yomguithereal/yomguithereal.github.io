@@ -1,0 +1,36 @@
+---
+slug: contiguous-range-set
+date: "2019-09-24"
+toc: false
+title: Contiguous Range Sets
+subtitle:
+  Where we discover how a strange data structure, featuring time & space
+  complexity relative to the number of holes in a number series, can help us
+  resuming multithreaded execution
+---
+
+import {SideNote} from '../components/tufte';
+import SafeLink from '../components/SafeLink';
+
+<p>
+  Picture the scene: using Twitter APIs, we have collected a gazillion of tweets.
+  <SideNote id="gazouilloire">If you ever need to do so, <SafeLink href="https://github.com/medialab/gazouilloire">gazouilloire</SafeLink> is probably a safe bet as it has been used for several years by Sciences Po's <SafeLink href="https://medialab.sciencespo.fr/en">médialab</SafeLink> for their Twitter data collections.</SideNote>
+  Now our attention focuses on the millions of shared hyperlink we found in those.
+</p>
+
+<p>
+  What if we could go further than ranking those urls? What if we could extract their raw textual content
+  <SideNote id="dragnet">
+    Extracting the main content from a web page, i.e. from its HTML representation, is not a trivial task. The <SafeLink href="https://github.com/dragnet-org/dragnet">dragnet</SafeLink> library, for instance, should get you going.
+  </SideNote>
+  so we can test some of our NLP (<SafeLink href="https://en.wikipedia.org/wiki/Natural_language_processing">Natural Language Processing</SafeLink>) mojo on it?
+</p>
+
+But there is a catch! Before being able to do so, we obviously need to fetch those urls. And grabbing millions of urls from the web ought to be slow.
+
+However, it is not entirely hopeless: The first thing to avoid is to fetch urls sequentially. To dramatically speed up their collection, we can fetch a bunch of them in parallel, granted they are not from the same domain, using multi-threaded execution.
+
+<!-- need patience -->
+<!-- note on I/O -->
+<!-- inversion lists -->
+<!-- link to minet -->

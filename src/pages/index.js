@@ -8,7 +8,7 @@ import SafeLink from '../components/SafeLink';
 
 export const query = graphql`
   {
-    allMdx {
+    allMdx(sort: {fields: [frontmatter___date], order: DESC}) {
       edges {
         node {
           frontmatter {

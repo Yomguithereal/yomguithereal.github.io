@@ -72,36 +72,39 @@ const components = {
 
 export default function MdxPostTemplate({data: {mdx}}) {
 
-  const toc = (
-    <>
-      <p>
-        <small>
-          <em>Table of Contents</em>
-        </small>
-      </p>
-      <ol className="toc">
-        {mdx.tableOfContents.items.map(item => {
-          return (
-            <li key={item.url}>
-              <a href={item.url}>{item.title}</a>
-              {item.items && (
-                <ol className="subtoc">
-                  {item.items.map(sub => {
-                    return (
-                      <li key={sub.url}>
-                        <a href={sub.url}>{sub.title}</a>
-                      </li>
-                    );
-                  })}
-                </ol>
-              )}
-            </li>
-          );
-        })}
-      </ol>
-      <hr />
-    </>
-  );
+  let toc = null;
+
+  if (mdx.frontmatter.toc)
+    toc = (
+      <>
+        <p>
+          <small>
+            <em>Table of Contents</em>
+          </small>
+        </p>
+        <ol className="toc">
+          {mdx.tableOfContents.items.map(item => {
+            return (
+              <li key={item.url}>
+                <a href={item.url}>{item.title}</a>
+                {item.items && (
+                  <ol className="subtoc">
+                    {item.items.map(sub => {
+                      return (
+                        <li key={sub.url}>
+                          <a href={sub.url}>{sub.title}</a>
+                        </li>
+                      );
+                    })}
+                  </ol>
+                )}
+              </li>
+            );
+          })}
+        </ol>
+        <hr />
+      </>
+    );
 
   return (
     <>
@@ -121,7 +124,7 @@ export default function MdxPostTemplate({data: {mdx}}) {
             {mdx.frontmatter.subtitle}
           </h3>
           <hr />
-          {mdx.frontmatter.toc && toc}
+          {toc}
           <MDXRenderer>
             {mdx.body}
           </MDXRenderer>
