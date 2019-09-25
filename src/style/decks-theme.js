@@ -1,5 +1,3 @@
-import {useEffect} from 'react';
-
 export default {
   fonts: {
     body: 'caslon, Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif',
@@ -34,12 +32,4 @@ export default {
       width: '55%'
     }
   }
-};
-
-// TODO: should be called by route change on gatsby-browser
-export function correctPadding() {
-  const style = document.createElement('style');
-  style.textContent = 'body {padding-left: 0 !important;}';
-
-  document.head.appendChild(style);
 };

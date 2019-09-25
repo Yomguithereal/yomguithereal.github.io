@@ -43,7 +43,6 @@ const components = {
     <Highlight className={props.className}>{props.children}</Highlight> :
     <code>{props.children}</code>,
   pre: props => {
-    console.log(props);
     return <pre>{props.children}</pre>
   },
   h1: props => <h4 id={slugify(props.children)}>{props.children}</h4>,
