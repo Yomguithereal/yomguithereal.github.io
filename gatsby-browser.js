@@ -1,6 +1,11 @@
 let injected = false;
 const style = document.createElement('style');
-style.textContent = 'body {padding-left: 0 !important;}';
+style.textContent = `
+  body {
+    padding-left: 0 !important;
+    width: 100% !important;
+  }
+`;
 
 function inject() {
   if (injected)

@@ -18,18 +18,31 @@ export default {
     h2: {
       fontStyle: 'normal',
       fontWeight: 'normal',
-      fontSize: '3rem',
+      fontSize: ['2rem', null, '3rem'],
+      width: '100%',
+      maxWidth: ['90%', null, '55%']
     },
     h3: {
       fontStyle: 'normal',
       fontWeight: 'normal',
-      fontSize: '1.7rem'
+      fontSize: ['1.3rem', null, '1.7rem'],
+      width: '100%',
+      maxWidth: ['90%', null, '55%']
+    },
+    h4: {
+      fontWeight: 'normal',
+      width: '55%',
+      fontSize: '1.7rem',
+      width: '100%',
+      maxWidth: ['90%', null, '55%']
     },
     Slide: {
-      textAlign: 'left'
+      textAlign: 'left',
+      width: '100%'
     },
     p: {
-      width: '55%'
+      width: '100%',
+      maxWidth: ['90%', null, '55%']
     }
   }
 };
