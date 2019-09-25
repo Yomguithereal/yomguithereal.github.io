@@ -99,17 +99,17 @@ export default function Index({data}) {
         </h4>
         <ul>
           {posts.map(p => {
-            const data = p.frontmatter;
+            const post = p.frontmatter;
 
             return (
-              <li key={data.slug}>
+              <li key={post.slug}>
                 <h4 style={{borderBottom: 'none', maxWidth: '100%'}}>
-                  <Link to={`/posts/${data.slug}`}>{data.title}</Link>
+                  <Link to={`/posts/${post.slug}`}>{post.title}</Link>
                 </h4>
                 <p>
-                  <code>{formatDate(data.date)}</code>
+                  <code>{formatDate(post.date)}</code>
                   <br />
-                  <em>{data.subtitle}</em>
+                  <em>{post.subtitle}</em>
                 </p>
               </li>
             );
@@ -120,21 +120,21 @@ export default function Index({data}) {
             <h4>Various presentations:</h4>
             <ul>
               {decks.map(d => {
-                const data = d.frontmatter;
+                const deck = d.frontmatter;
 
                 return (
-                  <li key={data.slug}>
+                  <li key={deck.slug}>
                     <h4 style={{borderBottom: 'none', maxWidth: '100%'}}>
-                      <Link to={`/decks/${data.slug}`}>{data.title}</Link>
+                      <Link to={`/decks/${deck.slug}`}>{deck.title}</Link>
                     </h4>
                     <p>
-                      <code>{formatDate(data.date)}</code>
+                      <code>{formatDate(deck.date)}</code>
                       <span>
-                        &nbsp;– <small>{data.event} {data.lang === 'fr' && '(fr)'}</small>
+                        &nbsp;– <small>{deck.event} {deck.lang === 'fr' && '(fr)'}</small>
                       </span>
                       <br />
                       <em>
-                        {data.description}
+                        {deck.description}
                       </em>
                     </p>
                   </li>

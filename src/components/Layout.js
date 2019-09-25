@@ -6,7 +6,7 @@ import GithubLogo from './GithubLogo';
 import TwitterLogo from './TwitterLogo';
 import SafeLink from './SafeLink';
 
-// import '../style/custom-tufte.css';
+import '../style/custom-tufte.css';
 
 export default function Layout({children, title}) {
   return (
@@ -27,7 +27,7 @@ export default function Layout({children, title}) {
         const meta = data.site.siteMetadata;
 
         return (
-          <>
+          <main style={{paddingLeft: '12.5%'}}>
             <Helmet
               title={meta.title + (title ? ` - ${title}` : '')}>
               <html lang="en" />
@@ -36,7 +36,7 @@ export default function Layout({children, title}) {
             </Helmet>
             <div id="ribbon" />
             <header>
-              <h1>
+              <h1 className="main-title">
                 <Link to="/">{meta.title}</Link>
               </h1>
               <br className="skipper" />
@@ -56,7 +56,7 @@ export default function Layout({children, title}) {
                 {children}
               </section>
             </article>
-          </>
+          </main>
         );
       }} />
   );
