@@ -28,7 +28,7 @@ export const query = graphql`
 
     decks: allMdx(
       sort: {fields: [frontmatter___date], order: DESC},
-      filter: {frontmatter: {type: {eq: "deck"}, draft: {in: $allow}}}
+      filter: {frontmatter: {type: {eq: "deck"}, draft: {in: $allow}, dummy: {nin: true}}}
     ) {
       edges {
         node {

@@ -16,10 +16,11 @@ module.exports = {
       }
     },
     {
-      resolve: 'gatsby-source-filesystem',
+      resolve: 'gatsby-theme-mdx-deck',
       options: {
-        name: 'decks',
-        path: `${__dirname}/src/decks/`
+        mdx: false,
+        contentPath: `${__dirname}/src/decks`,
+        basePath: '/decks'
       }
     }
   ]

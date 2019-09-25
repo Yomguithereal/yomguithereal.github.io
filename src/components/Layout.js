@@ -6,7 +6,7 @@ import GithubLogo from './GithubLogo';
 import TwitterLogo from './TwitterLogo';
 import SafeLink from './SafeLink';
 
-import '../style/custom-tufte.css';
+// import '../style/custom-tufte.css';
 
 export default function Layout({children, title}) {
   return (
