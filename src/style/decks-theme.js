@@ -7,9 +7,6 @@ export default {
   },
   colors: {
     background: '#fcf3d9'
-    // text: 'black',
-    // background: 'black',
-    // primary: 'blue',
   },
   text: {
     heading: {
@@ -17,28 +14,32 @@ export default {
     }
   },
   styles: {
+    root: {
+      textAlign: 'left'
+    },
     h2: {
       fontStyle: 'normal',
       fontWeight: 'normal',
-      fontSize: '3rem'
+      fontSize: '3rem',
     },
     h3: {
       fontStyle: 'normal',
-      fontWeight: 'normal'
+      fontWeight: 'normal',
+      fontSize: '1.7rem'
+    },
+    Slide: {
+      textAlign: 'left'
+    },
+    p: {
+      width: '55%'
     }
   }
 };
 
-export function Solver() {
-  useEffect(() => {
-    const style = document.createElement('style');
-    style.textContent = 'body {padding-left: 0 !important;}';
+// TODO: should be called by route change on gatsby-browser
+export function correctPadding() {
+  const style = document.createElement('style');
+  style.textContent = 'body {padding-left: 0 !important;}';
 
-    document.head.appendChild(style);
-
-    return () => {
-      document.head.removeChild(style);
-    };
-  }, []);
-  return null;
+  document.head.appendChild(style);
 };

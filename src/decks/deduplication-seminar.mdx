@@ -11,17 +11,24 @@ description:
     social sciences projects.
 ---
 
-import customTheme, {PaddingCorrector} from '../style/decks-theme.js';
+import Head from 'gatsby-theme-mdx-deck/src/components/head';
+import customTheme, {correctPadding} from '../style/decks-theme.js';
+import {Divider} from '../components/tufte';
 
 export const theme = customTheme;
+correctPadding();
 
-<PaddingCorrector />
+<Head>
+  <title>Dupond &amp; Dupont - la déduplication assistée par ordinateur</title>
+</Head>
 
-## Dupond & Dupont
+<h2>Dupond &amp; Dupont:<br />la déduplication assistée par ordinateur</h2>
 
-### La déduplication assistée par ordinateur
+### Une visite guidée des algorithmes de déduplication et de leur utilisations dans le cadre de projets en sciences sociales
 
-This is a very fine presentation?
+<p>
+  <em>Guillaume Plique, Séminaire du médialab de Sciences Po, 01/10/2019</em>
+</p>
 
 ---
 

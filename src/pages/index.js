@@ -130,7 +130,7 @@ export default function Index({data}) {
                     <p>
                       <code>{formatDate(deck.date)}</code>
                       <span>
-                        &nbsp;– <small>{deck.event} {deck.lang === 'fr' && '(fr)'}</small>
+                        &nbsp;– <small>{deck.event} {deck.lang === 'fr' && '(in french)'}</small>
                       </span>
                       <br />
                       <em>
