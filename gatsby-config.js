@@ -12,14 +12,14 @@ module.exports = {
       resolve: 'gatsby-source-filesystem',
       options: {
         name: 'posts',
-        path: `${__dirname}/src/posts/`,
-      },
+        path: `${__dirname}/src/posts/`
+      }
     },
     {
-      resolve: 'gatsby-theme-mdx-deck',
+      resolve: 'gatsby-source-filesystem',
       options: {
-        contentPath: `${__dirname}/src/decks/`,
-        basePath: '/decks'
+        name: 'decks',
+        path: `${__dirname}/src/decks/`
       }
     }
   ]
