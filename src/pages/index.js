@@ -8,14 +8,36 @@ import SafeLink from '../components/SafeLink';
 
 export const query = graphql`
   {
-    allMdx(sort: {fields: [frontmatter___date], order: DESC}) {
+    posts: allMdx(
+      sort: {fields: [frontmatter___date], order: DESC},
+      filter: {frontmatter: {type: {eq: "post"}}}
+    ) {
+      edges {
+        node {
+          frontmatter {
+            slug
+            type
+            title
+            subtitle
+            date
+          }
+        }
+      }
+    },
+
+    decks: allMdx(
+      sort: {fields: [frontmatter___date], order: DESC},
+      filter: {frontmatter: {type: {eq: "deck"}}}
+    ) {
       edges {
         node {
           frontmatter {
             slug
             title
-            subtitle
             date
+            event
+            lang
+            description
           }
         }
       }
@@ -30,8 +52,10 @@ function formatDate(date) {
 }
 
 export default function Index({data}) {
+  const posts = data.posts.edges.map(({node}) => node);
+  const decks = data.decks.edges.map(({node}) => node);
 
-  const posts = data.allMdx.edges.map(({node}) => node);
+  console.log(decks)
 
   const subtitle = 'Writing about programming, litterature, modular synthesizers & other miscellaneous topics';
 
@@ -87,6 +111,32 @@ export default function Index({data}) {
                   <code>{formatDate(data.date)}</code>
                   <br />
                   <em>{data.subtitle}</em>
+                </p>
+              </li>
+            );
+          })}
+        </ul>
+        <h4>
+          Various presentations:
+        </h4>
+        <ul>
+          {decks.map(d => {
+            const data = d.frontmatter;
+
+            return (
+              <li key={data.slug}>
+                <h4 style={{borderBottom: 'none', maxWidth: '100%'}}>
+                  <Link to={`/decks/${data.slug}`}>{data.title}</Link>
+                </h4>
+                <p>
+                  <code>{formatDate(data.date)}</code>
+                  <span>
+                    &nbsp;– <small>{data.event} {data.lang === 'fr' && '(fr)'}</small>
+                  </span>
+                  <br />
+                  <em>
+                    {data.description}
+                  </em>
                 </p>
               </li>
             );

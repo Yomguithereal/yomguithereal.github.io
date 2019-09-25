@@ -9,11 +9,18 @@ module.exports = {
     'gatsby-plugin-react-helmet',
     'gatsby-plugin-mdx',
     {
-      resolve: `gatsby-source-filesystem`,
+      resolve: 'gatsby-source-filesystem',
       options: {
-        name: `posts`,
+        name: 'posts',
         path: `${__dirname}/src/posts/`,
       },
+    },
+    {
+      resolve: 'gatsby-theme-mdx-deck',
+      options: {
+        contentPath: `${__dirname}/src/decks/`,
+        basePath: '/decks'
+      }
     }
   ]
 };
