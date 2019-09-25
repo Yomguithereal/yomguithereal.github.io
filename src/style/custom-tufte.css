@@ -63,7 +63,7 @@ body {
   width: 87.5%;
   margin-left: auto;
   margin-right: auto;
-  /* padding-left: 12.5%; */
+  padding-left: 12.5%;
   font-family: caslon, Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
   background-color: #fcf3d9;
   color: #000;
@@ -254,7 +254,7 @@ section > p,
 section > div.paragraph,
 section > footer,
 section > table {
-  width: 55% !important;
+  width: 55%;
 }
 
 /* 50 + 5 == 55, to be the same width as paragraph */

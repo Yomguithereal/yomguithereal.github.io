@@ -27,7 +27,7 @@ export default function Layout({children, title}) {
         const meta = data.site.siteMetadata;
 
         return (
-          <main style={{paddingLeft: '12.5%'}}>
+          <>
             <Helmet
               title={meta.title + (title ? ` - ${title}` : '')}>
               <html lang="en" />
@@ -56,7 +56,7 @@ export default function Layout({children, title}) {
                 {children}
               </section>
             </article>
-          </main>
+          </>
         );
       }} />
   );

@@ -42,6 +42,10 @@ const components = {
   code: props => props.className ?
     <Highlight className={props.className}>{props.children}</Highlight> :
     <code>{props.children}</code>,
+  pre: props => {
+    console.log(props);
+    return <pre>{props.children}</pre>
+  },
   h1: props => <h4 id={slugify(props.children)}>{props.children}</h4>,
   h2: props => <h5 id={slugify(props.children)}>{props.children}</h5>,
   a: props => {
@@ -50,6 +54,9 @@ const components = {
       return <a href={props.href}>{props.children}</a>;
 
     return <a target="_blank" rel="noopener noreferrer" href={props.href}>{props.children}</a>;
+  },
+  table: props => {
+    return <table>{props.children}</table>;
   },
   td: props => {
     let value = props.children;
