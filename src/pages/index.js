@@ -56,8 +56,6 @@ export default function Index({data}) {
   const posts = data.posts.edges.map(({node}) => node);
   const decks = data.decks.edges.map(({node}) => node);
 
-  console.log(decks)
-
   const subtitle = 'Writing about programming, litterature, modular synthesizers & other miscellaneous topics';
 
   return (
