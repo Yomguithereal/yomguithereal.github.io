@@ -1,10 +1,13 @@
 const path = require('path');
+const env = process.env.NODE_ENV;
+
+const allow = env === 'production' ? [false] : [true, false];
 
 // Creating pages from MDX posts
 exports.createPages = async function({actions, graphql}) {
   const {data} = await graphql(`
-    query {
-      allMdx(filter: {frontmatter: {type: {eq: "post"}}}) {
+    query($allow: [Boolean]!) {
+      allMdx(filter: {frontmatter: {type: {eq: "post"}, draft: {in: $allow}}}) {
         edges {
           node {
             frontmatter {
@@ -14,7 +17,7 @@ exports.createPages = async function({actions, graphql}) {
         }
       }
     }
-  `);
+  `, {allow});
 
   data.allMdx.edges.forEach(edge => {
     const data = edge.node.frontmatter;
@@ -27,4 +30,19 @@ exports.createPages = async function({actions, graphql}) {
       }
     });
   });
-}
+};
+
+// Adding a context to index
+exports.onCreatePage = function({page, actions: {createPage, deletePage}}) {
+  if (page.path !== '/')
+    return;
+
+  deletePage(page);
+  createPage({
+    ...page,
+    context: {
+      ...page.context,
+      allow
+    }
+  });
+};

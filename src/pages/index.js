@@ -7,10 +7,11 @@ import {Divider, SideNote} from '../components/tufte';
 import SafeLink from '../components/SafeLink';
 
 export const query = graphql`
-  {
+  query($allow: [Boolean]!) {
+
     posts: allMdx(
       sort: {fields: [frontmatter___date], order: DESC},
-      filter: {frontmatter: {type: {eq: "post"}}}
+      filter: {frontmatter: {type: {eq: "post"}, draft: {in: $allow}}}
     ) {
       edges {
         node {
@@ -27,7 +28,7 @@ export const query = graphql`
 
     decks: allMdx(
       sort: {fields: [frontmatter___date], order: DESC},
-      filter: {frontmatter: {type: {eq: "deck"}}}
+      filter: {frontmatter: {type: {eq: "deck"}, draft: {in: $allow}}}
     ) {
       edges {
         node {
@@ -116,32 +117,34 @@ export default function Index({data}) {
             );
           })}
         </ul>
-        <h4>
-          Various presentations:
-        </h4>
-        <ul>
-          {decks.map(d => {
-            const data = d.frontmatter;
+        {decks.length !== 0 && (
+          <>
+            <h4>Various presentations:</h4>
+            <ul>
+              {decks.map(d => {
+                const data = d.frontmatter;
 
-            return (
-              <li key={data.slug}>
-                <h4 style={{borderBottom: 'none', maxWidth: '100%'}}>
-                  <Link to={`/decks/${data.slug}`}>{data.title}</Link>
-                </h4>
-                <p>
-                  <code>{formatDate(data.date)}</code>
-                  <span>
-                    &nbsp;– <small>{data.event} {data.lang === 'fr' && '(fr)'}</small>
-                  </span>
-                  <br />
-                  <em>
-                    {data.description}
-                  </em>
-                </p>
-              </li>
-            );
-          })}
-        </ul>
+                return (
+                  <li key={data.slug}>
+                    <h4 style={{borderBottom: 'none', maxWidth: '100%'}}>
+                      <Link to={`/decks/${data.slug}`}>{data.title}</Link>
+                    </h4>
+                    <p>
+                      <code>{formatDate(data.date)}</code>
+                      <span>
+                        &nbsp;– <small>{data.event} {data.lang === 'fr' && '(fr)'}</small>
+                      </span>
+                      <br />
+                      <em>
+                        {data.description}
+                      </em>
+                    </p>
+                  </li>
+                );
+              })}
+            </ul>
+          </>
+        )}
         <Divider />
         <h4>Acknowledgments</h4>
         <p>Being a very bad graphist, I must rely on works from more talented people than myself to design palatable things:</p>
