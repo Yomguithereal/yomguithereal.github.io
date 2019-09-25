@@ -30,3 +30,215 @@ export const theme = customTheme;
 ---
 
 #### Second slide
+
+<!--
+
+Elements de plan:
+
+- Questions, pas matheux, tech, interruption whenever
+- Qui a déjà utilisé OpenRefine
+
+- Discuter de mon hobby, péché mignon
+- Fonctionnement d'un ordinateur et la tolérance à l'erreur
+- La réalité des sciences sociales, données rentrées par des humains faillibles + grande mixité des sources (archives, traces)
+- Comment composer une agrégation légitime
+- Le travail à la main -> devient vite intenable
+- 1. dupond & dupont, 2. Cas de la chaîne de caractère avec espace à trim (l'ordinateur peut?)
+- Solution, Fantasme d'ingénieur: Monsieur 0 et Monsieur 1
+- Consiste de fait à simuler cet état de fait
+- Le fuzzy matching & logique floue
+- 2 problèmes: 1 match N, N match N, A match B -> même problème
+
+- démo de takoyaki pour mettre une idée concrète dans la tête
+
+- Les 3 étapes de la logique: preprocessing, distance, clustering
+
+- Le bon cluster & le mauvais cluster et son radius (les 3 méthodes de fog): dominance de la composante connexe pour ce genre de travail?
+
+Projets:
+- TOFLIT18 -> à la main, titanesque (peu de méthode appropriée)
+- Ricardo
+- LIEPP, bhht
+- Projet Russe
+
+- Quid du machine learning? prétérition sur ma propre pratique
+- Fellegi Sunter
+- Problème intéressant: ça marche pas. parce que les features ne sont quasiment jamais corrélées au fait d'être un doublon ou pas. le fait que plusieurs méthodes matchent n'est pas pertinent non plus
+- Système hybride de scoring par heuristique (cf. Dominique) bien pour trouver les plus probables mais ignore tous les autres
+- Estimer le nombre de doublons n'est pas non plus facile
+- Anecdote des gens nés le même jour et de la classe qui rigole: à partir d'un seuil critique de données, les coincidences sont fort probables -> besoin de l'humain
+- Exemple des jumelles & tim and tom coronel:
+  https://fr.wikipedia.org/wiki/Lauren_V%C3%A9lez
+  https://en.wikipedia.org/wiki/Lorraine_V%C3%A9lez
+- Charles Dickens, la notoriété comme garde fou?
+
+- Ce qui marche mieux ça reste de cribler les méthodes: besoin d'enregistrer les faux négatifs (enjeux d'UX et de compréhension: considérer les paires ou les clusters)
+
+Q5686 Charles_Dickens 48 clustering_0b_exact 0.75
+Q21510353 Charles_Dickens 3148774.5 clustering_0b_exact 0.75
+
+Enjeux
+- Besoin de pédagogie de l'outil parce besoin de méthodes tailored
+- Pas de silver bullet
+- On est dans un échelle méso, quali-quanti
+- Besoin de méthodes non anglo-saxone (carry -> donato)
+- Objectif dans le big data: reduire les faux positifs et faux négatifs: le soundex ça marche plus, à notre échelle (truc de bibliothécaire)
+
+Ouvertures
+- Liens avec la génétique / biologie, généalogie (découvertes parallèles), Levenshtein = botaniste -> faire une digression
+- Les outils, Open Refine et Takoyaki
+- Fog, talisman, phonogram, rusalka
+
+---
+
+Q5686 Charles_Dickens 48 clustering_0b_exact 0.75
+Q21510353 Charles_Dickens 3148774.5 clustering_0b_exact 0.75
+
+Q43247 Ingrid_Bergman 313 clustering_0b_exact 0.75
+Q56577741 Ingrid_Bergman 4237949.5 clustering_0b_exact 0.75
+
+Q41314 Bobby_Fischer 782 clustering_0a_external_identifiers 0.75
+Q11181176 Robert_Fisher 1862893 clustering_0a_external_identifiers 0.75
+
+Q48305 Euripides 973 clustering_0b_exact 0.75
+Q11921281 Euripides 2921007.5 clustering_0b_exact 0.75
+
+Q171480 Empress_Joséphine 1324 clustering_1_normalization 0.875
+Q43132175 Empress_Josephine 3752625 clustering_1_normalization 0.875
+
+Q43522 Antonie_van_Leeuwenhoek 1407.5 clustering_1_normalization 0.875
+Q12253637 Antonie_Van_Leeuwenhoek 3344063 clustering_1_normalization 0.875
+
+Q43926 Andrea_Pirlo 1680 clustering_7_rusalka 0.8
+Q1088920 Andrea_Parola 336663 clustering_7_rusalka 0.8
+
+Q1192 Jean-Baptiste_Lully 2208 clustering_0b_exact 0.875
+Q10918306 Jean-Baptiste_Lully 2507750 clustering_0b_exact 0.875
+
+Q182046 Leon_Battista_Alberti 2296 clustering_3_initials 0.8125
+Q16435969 Leone_Battista_Alberti 2214513 clustering_3_initials 0.8125
+
+Q264699 Wil_Wheaton 3270 clustering_2_harsh_normalization 0.8
+Q8003184 Will_Wheaton 1120679 clustering_2_harsh_normalization 0.8
+
+Q154448 Victor_Vasarely 4983 clustering_6_cologne 0.9375
+Q28784991 Victor_Vaserely 4632423.5 clustering_6_cologne 0.9375
+
+Q186273 Kōbō_Abe 5002 clustering_0b_exact 0.875
+ Kōbō_Abe  clustering_0b_exact 0.875
+
+Q183105 Randolph_Churchill 7656 clustering_0a_external_identifiers 0.875
+Q3418826 Randolph_Churchill 2851692 clustering_0a_external_identifiers 0.875
+
+Q230291 Hassan_al-Banna 8120.5 clustering_2_harsh_normalization 0.75
+Q56821261 Hasan_al-Banna 4632423.5 clustering_2_harsh_normalization 0.75
+
+Q435203 Katharine_Graham 8220 clustering_8_snm 0.9375
+Q50377279 Katherine_Graham 4237949.5 clustering_8_snm 0.9375
+
+Q213573 Prince_Frederick,_Duke_of_York_and_Albany 8742 clustering_0a_external_identifiers 0.8125
+Q21460909 Frederick_Augustus 3752625 clustering_0a_external_identifiers 0.8125
+
+Q314975 Jean_de_La_Bruyère 9209 clustering_1_normalization 0.8125
+Q21010740 Jean_de_la_Bruyere 4237949.5 clustering_1_normalization 0.8125
+
+Q157004 Jorge_Semprún 9362 clustering_1_normalization 0.75
+Q52188922 Jorge_Semprun 4237949.5 clustering_1_normalization 0.75
+
+Q61056 Al-Ma'mun 9760 clustering_8_snm 0.875
+Q5974448 Al-Ma'mum 3904493 clustering_8_snm 0.875
+
+Q311826 Muhammad_Abduh 10366 clustering_3_initials 0.875
+Q12842576 Məhəmməd_Abduh 3298150 clustering_3_initials 0.875
+
+Q157610 Lovis_Corinth 10431 clustering_3_initials 1.0
+Q47484376 Ludwig_Corinth 4237949.5 clustering_3_initials 1.0
+
+Q51570 George_Roy_Hill 10885 clustering_0a_external_identifiers 0.75
+Q20639203 George_Hill_(footballer) 1269183 clustering_0a_external_identifiers 0.75
+
+Q559074 Charlie_Murphy 10974 clustering_0b_exact 0.75
+Q5085282 Charlie_Murphy 3904493 clustering_0b_exact 0.75
+
+Q44304 The_Undertaker 11499.5 clustering_0a_external_identifiers 0.8
+Q12326169 Mark_William_Calaway 2185730.5 clustering_0a_external_identifiers 0.8
+
+Q139933 Zack_de_la_Rocha 11698 clustering_6_cologne 0.8
+Q472320 Skeet_Ulrich 12111 clustering_6_cologne 0.8
+
+Q39989 Ronny_Cox 12501 clustering_8_snm 0.8
+Q7562024 Sonny_Cox 2049989 clustering_8_snm 0.8
+
+Q333922 William_Whewell 12902 clustering_2_harsh_normalization 0.875
+Q55900374 William_Wheewell 3233234.5 clustering_2_harsh_normalization 0.875
+
+Q313093 Herman_Boerhaave 13269 clustering_7_rusalka 0.875
+Q55894643 Hermann_Boorhave 3233234.5 clustering_7_rusalka 0.875
+
+Q44118 Hamit_Altıntop 13810 clustering_3_initials 0.8
+Q156638 Halil_Altıntop 24499.5 clustering_3_initials 0.8
+
+Q433601 Alba_Rohrwacher 14052 clustering_3_initials 0.8
+Q510194 Alice_Rohrwacher 32603 clustering_3_initials 0.8
+
+Q459078 Gorō_Miyazaki 14053 clustering_3_initials 0.8
+Q11454150 Genki_Miyazaki 2657710 clustering_3_initials 0.8
+
+Q376107 Jan_de_Bont 14637 clustering_0b_exact 0.75
+Q25768250 Jan_de_Bont 3404557.5 clustering_0b_exact 0.75
+
+Q728217 Josh_Schwartz 15165 clustering_0b_exact 0.75
+Q20986921 Josh_Schwartz 3446268.5 clustering_0b_exact 0.75
+
+Q356711 Agostino_Depretis 15459 clustering_6_cologne 0.875
+Q55901163 Ugostino_Depretis 3233234.5 clustering_6_cologne 0.875
+
+Q94037 Paul_Lazarsfeld 16530.5 clustering_4_fingerprinting 0.875
+Q12558413 Пауль_Лазарсфельд 3619232.5 clustering_4_fingerprinting 0.875
+
+Q313369 Alonso_de_Ojeda 17415 clustering_0b_exact 0.75
+Q16145699 Alonso_de_Ojeda 3904493 clustering_0b_exact 0.75
+
+Q313460 Jacobus_da_Varagine 18066 clustering_6_cologne 0.875
+Q41616506 Jacobus_de_Voragine 4632423.5 clustering_6_cologne 0.875
+
+Q464714 Richard_S._Castellano 19472 clustering_8_snm 0.9375
+Q57082194 Richard_S._Catellano 4237949.5 clustering_8_snm 0.9375
+
+Q53005 Alessandro_Blasetti 20566 clustering_0b_exact 0.75
+Q46268464 Alessandro_Blasetti 3752625 clustering_0b_exact 0.75
+
+Q235575 Gabrielle_Carteris 20662 clustering_3_initials 0.8
+Q24961233 Gabriella_Carteris 1745067.5 clustering_3_initials 0.8
+
+Q235359 Lauren_Vélez 20990.5 clustering_7_rusalka 0.8
+Q6678750 Lorraine_Vélez 789546 clustering_7_rusalka 0.8
+
+Q336794 Jan_Swammerdam 21043 clustering_3_initials 0.8125
+Q34461081 John_Swammerdam 4632423.5 clustering_3_initials 0.8125
+
+Q281763 Hans_Egede 21186 clustering_0a_external_identifiers 0.875
+Q21511480 Hans_Poulsen_Egede 3233234.5 clustering_0a_external_identifiers 0.875
+
+Q499028 Don_Was 21804 clustering_3_initials 0.8
+Q5240855 David_Was 289203 clustering_3_initials 0.8
+
+Q352438 Adriaen_van_Ostade 22828.5 clustering_0a_external_identifiers 1.0
+Q43139400 Adriaen_Jansz_Van_Ostade 3404557.5 clustering_0a_external_identifiers 1.0
+
+Q380937 Erik_Gustaf_Geijer 22963.5 clustering_3_initials 0.8125
+Q19267758 Eric_Gustaf_Geijer 4632423.5 clustering_3_initials 0.8125
+
+Q182156 Pavel_Bazhov 23120 clustering_0a_external_identifiers 0.875
+Q23695092 Павел_Петрович_Бажов 2855351 clustering_0a_external_identifiers 0.875
+
+Q380403 Cetshwayo_kaMpande 23417 clustering_2_harsh_normalization 0.75
+Q56822454 Cetshwayo_ka_Mpande 4632423.5 clustering_2_harsh_normalization 0.75
+
+Q467961 Assata_Shakur 24043.5 clustering_3_initials 0.875
+Q2273636 Afeni_Shakur 49293 clustering_3_initials 0.875
+
+Q353008 Alexei_Savrasov 24299 clustering_3_initials 0.8125
+Q56033555 Alexey_Savrasov 4237949.5 clustering_3_initials 0.8125
+
+-->
