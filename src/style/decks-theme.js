@@ -4,7 +4,8 @@ export default {
     monospace: 'monospace',
   },
   colors: {
-    background: '#fcf3d9'
+    background: '#fcf3d9',
+    primary: '#d42a20'
   },
   text: {
     heading: {
@@ -41,6 +42,14 @@ export default {
       width: '100%'
     },
     p: {
+      width: '100%',
+      maxWidth: ['90%', null, '55%']
+    },
+    div: {
+      width: '100%',
+      maxWidth: ['90%', null, '55%']
+    },
+    ul: {
       width: '100%',
       maxWidth: ['90%', null, '55%']
     }

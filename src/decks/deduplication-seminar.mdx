@@ -12,26 +12,101 @@ description:
 ---
 
 import Head from 'gatsby-theme-mdx-deck/src/components/head';
+import Notes from 'gatsby-theme-mdx-deck/src/components/notes';
 import customTheme from '../style/decks-theme.js';
-import {Divider} from '../components/tufte';
+
+import DATA from './data/deduplication.json';
 
 export const theme = customTheme;
 
 <Head>
-  <title>Dupond &amp; Dupont - la déduplication assistée par ordinateur</title>
+  <title>Dupond &amp; Dupont - la Déduplication Assistée par Ordinateur</title>
 </Head>
 
 <h2>Dupond &amp; Dupont:<br />la déduplication assistée par ordinateur</h2>
 
-### Une visite guidée des algorithmes de déduplication et de leur utilisations dans le cadre de projets en sciences sociales
+### Une visite guidée des algorithmes de déduplication et de leur utilisation dans le cadre de projets en sciences sociales
 
 *Guillaume Plique, Séminaire du médialab de Sciences Po, 01/10/2019*
 
 ---
 
-#### Second slide
+#### Présentation & règles du jeu
+
+Qui a déja utilisé l'outil [Open Refine](http://openrefine.org/) (anciennement Google Refine) ?
+
+<Notes>
+  Présentation perso, interruptions et questions, hobby et péché mignon.
+</Notes>
+
+---
+
+#### Les ordinateurs sont stupides
+
+Ces deux chaînes de caractères sont elles similaires ?
+
+<ul>
+  <li>
+    <code style={{backgroundColor: 'white', padding: '7px'}}>Dupond</code>
+  </li>
+  <li>
+    <code style={{backgroundColor: 'white', padding: '7px'}}>Dupont</code>
+  </li>
+</ul>
+
+---
+
+#### Les ordinateurs n'ont aucun humour et ne sont pas tolérants à l'erreur
+
+Ces deux chaînes de caractères sont elles similaires ?
+
+<ul>
+  <li>
+    <code style={{backgroundColor: 'white', padding: '7px'}}>Dupond</code>
+  </li>
+  <li>
+    <code style={{backgroundColor: 'white', padding: '7px'}}>Dupond&nbsp;</code>
+  </li>
+</ul>
+
+---
+
+#### Les ordinateurs se moquent de la réalité des sciences sociales
+
+* Données d'archives (souvent historiques et pré-orthographe)
+* Retranscriptions d'entretiens
+* Données d'enquête remplies à plusieurs mains
+* Fusions de multiples bases de données
+
+---
+
+#### Comment calculer des agrégations légitimes ?
+
+Le nettoyage à la main et l'huile de coude.
+
+Le cas du projet [TOFLIT18](http://toflit18.medialab.sciences-po.fr):
+
+<ul style={{overflowY: 'scroll', height: '300px', border: '1px dashed black'}}>
+  {DATA.merrains.map(item => <li key={item}><code>{item}</code></li>)}
+</ul>
+
+---
+
+#### Le travail manuel à l'heure du "Big Data"
+
+TOFLIT18 c'est `~50k` libellés.
+
+Le nettoyage *a la mano* est-il encore possible si on multiplie ce chiffre par 10, 100, 1000 ?
+
+---
+
+#### La déduplication assistée par ordinateur
+
+Démo [Takoyaki](https://yomguithereal.github.io/takoyaki/)
 
 <!--
+
+TODO: revenir sur toflit et le pourquoi du pas assisté 1. parce qu'on savait pas 2. parce exige des compétences métiers
 
 Elements de plan:
 
@@ -69,10 +144,11 @@ Projets:
 - Système hybride de scoring par heuristique (cf. Dominique) bien pour trouver les plus probables mais ignore tous les autres
 - Estimer le nombre de doublons n'est pas non plus facile
 - Anecdote des gens nés le même jour et de la classe qui rigole: à partir d'un seuil critique de données, les coincidences sont fort probables -> besoin de l'humain
+  https://fr.wikipedia.org/wiki/Paradoxe_des_anniversaires 23 personnes = 1 chance sur 2
 - Exemple des jumelles & tim and tom coronel:
   https://fr.wikipedia.org/wiki/Lauren_V%C3%A9lez
   https://en.wikipedia.org/wiki/Lorraine_V%C3%A9lez
-- Charles Dickens, la notoriété comme garde fou?
+- Charles Dickens, la notoriété/frequence/importance comme garde fou? -> dur à avaler quand on veut les meilleurs agrégations possibles
 
 - Ce qui marche mieux ça reste de cribler les méthodes: besoin d'enregistrer les faux négatifs (enjeux d'UX et de compréhension: considérer les paires ou les clusters)
 
