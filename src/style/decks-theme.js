@@ -67,6 +67,11 @@ export default {
       paddingLeft: '5%',
       fontStyle: 'italic',
       fontWeight: 'normal'
+    },
+    pre: {
+      width: '100%',
+      fontSize: '1.4rem',
+      maxWidth: ['90%', null, '55%']
     }
   }
 };
