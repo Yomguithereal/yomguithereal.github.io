@@ -306,6 +306,14 @@ Hashmaps, tris, arbres etc. `O(n)` ou `O(n log n)`.
 
 ---
 
+#### Utiliser une distance utile
+
+Considérons que 2 éléments sont similaires en vertu d'une heuristique de distance.
+
+Si deux chaines ont une distance de Levenshtein inférieure à 2, par exemple, on jugera qu'elle sont suffisamment similaires.
+
+---
+
 #### La solution naïve
 
 Il suffit de calculer la similarité de toutes les paires de notre jeu de données.
@@ -336,7 +344,7 @@ Cette solution ne passe pas à l'échelle.
 * `Probabiliste`: *NN Descent, Minhashing*
 
 <Notes>
-  Il existe des méthodes mais elles ont toutes des inconvénients ou des spécialisations.
+  Il existe des méthodes mais elles ont toutes des inconvénients ou des spécialisations. Je peux en parler pendant des heures.
 </Notes>
 
 ---
@@ -461,58 +469,155 @@ Non. Mais il convient probablement de vérifier ces cas-là en priorité car ils
 
 ### Les outils doivent s'améliorer et accompagner l'utilisateur dans la compréhension des heuristiques mobilisées
 
+---
+
+#### Retour sur TOFLIT18
+
+1. Manque de maîtrise à l'époque
+2. Besoin de compétences métiers
+
+<ul style={{overflowY: 'scroll', height: '250px', border: '1px dashed black'}}>
+  {DATA.mercure.map(item => <li key={item}><code>{item}</code></li>)}
+</ul>
+
+<Notes>
+  Pourquoi ne pas avoir utilisé tous ces algorithmes?
+</Notes>
+
+---
+
+#### Un peu de recul
+
+Le travail de déduplication assistée par ordinateur est typique du **quali-quanti**.
+
+Surtout dans les échelles méso sur lesquelles les sciences sociales ont tendance à se positionner.
+
+Ce genre de travail a besoin de nuance et d'artisanat.
+
+---
+
+#### Le besoin de méthodologies spécialisées
+
+1. Il n'existe pas de balle d'argent
+2. Il existe beaucoup de méthodes, de distances, de traitements, de paramètres: il faut pouvoir choisir les bons voire les créer soi-même
+3. La plupart des méthodes existantes ciblent l'anglais et la culture anglo-saxonne.
+
+*Il faut introduire de la pédagogie dans les outils*
+
+<Notes>
+  Parler de Carry.
+</Notes>
+
+---
+
+#### La sulfateuse d'Open•Refine
+
+Cribler les méthodes en allant de la moins à la plus *agressive* reste une très bonne approche. Il faut juste mettre ces méthodes au goût du jour.
+
+Les outils existants négligent de sauvegarder les faux positifs.
+
+---
+
+#### Il y a le bon et le mauvais cluster
+
+Problème majeur: considérer les paires ou les clusters?
+
+Les paires empêchent de voir le *big picture*, mais les clusters, surtout dans le cas des fuzzy clusters, peuvent rendre le processus de criblage confus.
+
+Et si l'on choisit de considérer de cluster, comment le constituer?
+
+---
+
+#### Le bon cluster il prend son fusil
+
+Contradiction:
+
+1. Un bon cluster devrait avoir un rayon cohérent avec le sens de distance choisi.
+2. La relation de similarité est globalement transitive.
+
+---
+
+#### La méthode du "leader"
+
+```
+DATA = ('abc', 'bcd', 'cde', 'def', 'efg', 'ghi')
+
+CLUSTERS = ('abc', 'bcd'), ('cde', 'def'), ('efg', 'ghi')
+```
+
+* Le rayon est correct
+* L'ordre joue sur les clusters
+* Pas de fuzzy clusters
+
+---
+
+#### La méthode des fuzzy clusters
+
+```
+DATA = ('abc', 'bcd', 'cde', 'def', 'efg', 'ghi')
+
+CLUSTERS = ('abc', 'bcd'), ('cde', 'bcd', 'def')
+           ('efg', 'def', 'fgh'), ('ghi', 'fgh')
+```
+
+* Le rayon est correct
+* L'ordre joue sur les clusters
+* Fuzzy clusters
+
+<Notes>C'est la méthode d'Open Refine</Notes>
+
+---
+
+#### La méthode des composantes connexes
+
+```
+DATA = ('abc', 'bcd', 'cde', 'def', 'efg', 'ghi')
+
+CLUSTERS =
+  ('abc', 'bcd', 'cde', 'def', 'efg', 'ghi')
+```
+
+* Le rayon n'est pas correct
+* L'ordre ne joue pas sur les clusters
+* Pas de fuzzy clusters
+
+---
+
+#### Ma préférence, à moi
+
+Les composantes connexes.
+
+1. Dans notre espace très épars, la probabilité d'avoir une chaîne est très faible.
+2. Les fuzzy clusters sont une plaie pour l'UX.
+3. La composition des clusters est déterministes.
+
+---
+
+<h2 style={{textAlign: 'center'}}>Merci pour votre attention!</h2>
+
+---
+
+#### Quelques liens
+
+* OpenRefine: [http://openrefine.org/](http://openrefine.org/)
+* Takoyaki: [https://yomguithereal.github.io/takoyaki/](https://yomguithereal.github.io/takoyaki/)
+* Talisman: [https://yomguithereal.github.io/talisman/](https://yomguithereal.github.io/talisman/)
+* Fog: [https://github.com/Yomguithereal/fog/](https://github.com/Yomguithereal/fog/)
+
 <!--
 
-Les solutions probabilistes, les solutions spécialisées
-
-TODO: revenir sur toflit et le pourquoi du pas assisté 1. parce qu'on savait pas 2. parce exige des compétences métiers
+Il reste: 1. les interfaces d'exploration, 2. à améliorer les méthodes pour les rendre pertinentes -> il faut des gens métier. phonogram, rusalka
 
 TODO: ajouter le lien de la prez au début
 
-TODO: problème du bon cluster, et de l'UX
 
 TODO: Ricardo: prévenir en amont en équipant les chercheurs
+TODO: aider les chercheurs à faire les associations Projet Russe
 
-- Le bon cluster & le mauvais cluster et son radius (les 3 méthodes de fog): dominance de la composante connexe pour ce genre de travail?
+TODO: de meilleures méthodes pour le big data
 
-Projets:
-- TOFLIT18 -> à la main, titanesque (peu de méthode appropriée)
-- Ricardo
-- LIEPP, bhht
-- Projet Russe
-
-- Quid du machine learning? prétérition sur ma propre pratique
-- Fellegi Sunter
-- Problème intéressant: ça marche pas. parce que les features ne sont quasiment jamais corrélées au fait d'être un doublon ou pas. le fait que plusieurs méthodes matchent n'est pas pertinent non plus
-- Système hybride de scoring par heuristique (cf. Dominique) bien pour trouver les plus probables mais ignore tous les autres
-- Pour le quanti: Estimer le nombre de doublons n'est pas non plus facile
-- Pudeur des sciences sociales + le fait que la corrélation notoriété n'est pas évidente
-- Anecdote des gens nés le même jour et de la classe qui rigole: à partir d'un seuil critique de données, les coincidences sont fort probables -> besoin de l'humain
-  https://fr.wikipedia.org/wiki/Paradoxe_des_anniversaires 23 personnes = 1 chance sur 2
-- Exemple des jumelles & tim and tom coronel:
-  https://fr.wikipedia.org/wiki/Lauren_V%C3%A9lez
-  https://en.wikipedia.org/wiki/Lorraine_V%C3%A9lez
-- Charles Dickens, la notoriété/frequence/importance comme garde fou? -> dur à avaler quand on veut les meilleurs agrégations possibles
-
-- l'optimisation algorithmique par spécialisation de distance
-
-- Ce qui marche mieux ça reste de cribler les méthodes: besoin d'enregistrer les faux négatifs (enjeux d'UX et de compréhension: considérer les paires ou les clusters), on crible de la méthode la moins agressive à la plus agresive
-
-Q5686 Charles_Dickens 48 clustering_0b_exact 0.75
-Q21510353 Charles_Dickens 3148774.5 clustering_0b_exact 0.75
-
-Enjeux
-- Besoin de pédagogie de l'outil parce besoin de méthodes tailored
-- Pas de silver bullet
-- On est dans un échelle méso, quali-quanti
-- Besoin de méthodes non anglo-saxone (carry -> donato)
 - Objectif dans le big data: reduire les faux positifs et faux négatifs: le soundex ça marche plus, à notre échelle (truc de bibliothécaire)
 - Le clustering est très sparse, problème: Visualiser l'espace métrique (dimensions log n) n'est pas aisé mais des interfaces d'exploration du problème seraient cool, Exemple de TOFLIT18 et du réseau de Paul
 - Le fuzzy matching de Ricardo pour insertion de données au fil de l'eau
-
-Ouvertures
-- Liens avec la génétique / biologie, généalogie (découvertes parallèles), Levenshtein = botaniste -> faire une digression
-- Les outils, Open Refine et Takoyaki
-- Fog, talisman, phonogram, rusalka
 
 -->

@@ -57,6 +57,10 @@ export default {
       width: '100%',
       maxWidth: ['90%', null, '55%']
     },
+    table: {
+      width: '100%',
+      maxWidth: ['90%', null, '55%']
+    },
     blockquote: {
       width: '100%',
       maxWidth: ['90%', null, '55%'],
