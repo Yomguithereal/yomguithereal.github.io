@@ -52,6 +52,17 @@ export default {
     ul: {
       width: '100%',
       maxWidth: ['90%', null, '55%']
+    },
+    ol: {
+      width: '100%',
+      maxWidth: ['90%', null, '55%']
+    },
+    blockquote: {
+      width: '100%',
+      maxWidth: ['90%', null, '55%'],
+      paddingLeft: '5%',
+      fontStyle: 'italic',
+      fontWeight: 'normal'
     }
   }
 };
