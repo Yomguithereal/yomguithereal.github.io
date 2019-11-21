@@ -2,7 +2,7 @@
 type: post
 draft: true
 slug: contiguous-range-set
-date: "2019-09-24"
+date: "2019-11-21"
 toc: false
 title: Contiguous Range Sets
 subtitle:
@@ -32,8 +32,88 @@ import unorderedGif from '../img/unordered.gif';
 
 But there is a catch! Before being able to do so, we obviously need to fetch those urls. And grabbing millions of urls from the web ought to be slow.
 
-However, it is not entirely hopeless: The first thing to avoid is to fetch urls sequentially. To dramatically speed up their collection, we can fetch a bunch of them in parallel, granted they are not from the same domain, using multi-threaded execution.
+However, it is not entirely hopeless: The first thing to avoid is to fetch urls sequentially. To dramatically speed up their collection, we can fetch a bunch of them in parallel, granted they are not from the same domain, using multithreaded execution.
 
+# Risks of the trade
+
+So now we start fetching our urls in parallel, hitting ~100 domains at once for maximum speed. But here the issue: life is harsh and, oftentimes, computer processes may crash for fickle reasons. So what if we started fetching our urls, and halfway through our computer dies?
+
+<p>
+  It would be nice if we could resume the process where we left it. But, being short on resources and wanting to adopt a lo-fi approach our program was not able to use a proper database or queue manager.
+  <SideNote id="queue">
+    Of course if you have to scale very high and require top-notch reliance, please rely on a proper database or message queue. <SafeLink href="https://kafka.apache.org/">Kafka</SafeLink>, <SafeLink href="https://www.rabbitmq.com/">RabbitMQ</SafeLink> or <SafeLink href="https://www.postgresql.org/">PostgreSQL</SafeLink> naturally come to mind.
+  </SideNote>
+</p>
+
+Thus we only relied on basic CSV files:
+
+1. We process urls from an input CSV file line by line to avoid running out of memory (remember we are speaking of gazillions of urls here, it could not fit into memory even if we want)
+2. We write a report on another CSV file to keep track of errors and HTTP statuses etc.
+
+We also of course store any retrieved HTML file directly on disk after compressing it to avoid running out of space.
+
+So how can we resume an aborted process now?
+
+# Keeping things in order
+
+The obvious solution would be to output our report in the same order as the input file.
+
+Indeed, if we are working on the following CSV file:
+
+| id     | url                              |
+|:-------|:---------------------------------|
+| 1      | https://www.lemonde.fr           |
+| 2      | https://www.lefigaro.fr          |
+| 3      | https://www.liberation.fr        |
+| 4      | https://www.echojs.com/          |
+| 5      | https://yomguithereal.github.io/ |
+| 6      | https://github.com/              |
+| ...    | ...                              |
+
+And if our report currently reads like this:
+
+| id     | url                              |
+|:-------|:---------------------------------|
+| 1      | https://www.lemonde.fr           |
+| 2      | https://www.lefigaro.fr          |
+| 3      | https://www.liberation.fr        |
+| 4      | https://www.echojs.com/          |
+
+It is safe to assume we stopped at the fourth url and that we can resume our process starting from the fifth one.
+
+So that's it? Problem solved?
+
+Not quite.
+
+Because keeping the output ordered will slow us down.
+
+# Ordered output of multithreaded iteration
+
+Remember that to be fast, we chose to rely on multithreading so that our code is able to hit multiple domains in parallel.
+
+The fact is urls will therefore be processed in an order which is mostly arbitrary and dependent on the time each request is taking.
+
+We could still easily re-order the output by using a queue. But remember that the totality of urls cannot fit into memory and this means our throughput will be affected.
+
+Why? Because some particularly slow urls are now able to slow down the whole process since we cannot fetch more urls until those slow ones are outputted to the report. Those slow urls are bound to throttle the whole thing.
+
+But let's visualize this so this is clearer.
+
+Here is what the process would look like if we output an ordered report:
+
+<p>
+  <img src={orderedGif} />
+</p>
+
+And here is what the process would look like if we don't care about the report's order:
+
+<p>
+  <img src={unorderedGif} />
+</p>
+
+You should notice that the second process is smoother and faster. And we are only fetching 100 urls here. Imagine how those differences would add up with a million urls.
+
+This means that keeping the report ordered is not a viable solution if we want performance.
 
 <!-- need patience -->
 <!-- note on I/O -->
