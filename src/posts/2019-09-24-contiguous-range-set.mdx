@@ -3,7 +3,7 @@ type: post
 draft: true
 slug: contiguous-range-set
 date: "2019-11-21"
-toc: false
+toc: true
 title: Contiguous Range Sets
 subtitle:
   Where we discover how a strange data structure, featuring time & space
@@ -11,7 +11,7 @@ subtitle:
   resuming multithreaded execution
 ---
 
-import {SideNote} from '../components/tufte';
+import {Divider, SideNote} from '../components/tufte';
 import SafeLink from '../components/SafeLink';
 import orderedGif from '../img/ordered.gif';
 import unorderedGif from '../img/unordered.gif';
@@ -32,7 +32,14 @@ import unorderedGif from '../img/unordered.gif';
 
 But there is a catch! Before being able to do so, we obviously need to fetch those urls. And grabbing millions of urls from the web ought to be slow.
 
-However, it is not entirely hopeless: The first thing to avoid is to fetch urls sequentially. To dramatically speed up their collection, we can fetch a bunch of them in parallel, granted they are not from the same domain, using multithreaded execution.
+However, it is not entirely hopeless and with some patience, we might rise up to the task.
+
+<p>
+  Of course, the first thing to avoid is to fetch urls one by one, sequentially. Indeed, to dramatically speed up our url collection we can fetch a bunch of them in parallel - granted they are not from the same domain - using multithreaded execution.
+  <SideNote id="gil">
+    Even using a language like python and its infamous <SafeLink href="https://wiki.python.org/moin/GlobalInterpreterLock">Global Interpreter Lock</SafeLink> it is worth a shot because your CPUs are not doing most of the work when fetching resources from the web. That's because other servers' ones are.
+  </SideNote>
+</p>
 
 # Risks of the trade
 
@@ -45,39 +52,39 @@ So now we start fetching our urls in parallel, hitting ~100 domains at once for 
   </SideNote>
 </p>
 
-Thus we only relied on basic CSV files:
+Thus we only relied on simple CSV files:
 
-1. We process urls from an input CSV file line by line to avoid running out of memory (remember we are speaking of gazillions of urls here, it could not fit into memory even if we want)
+1. We process urls from an input CSV file line by line to avoid running out of memory (remember we are speaking of gazillions of urls here, it could not fit into memory even if we wanted)
 2. We write a report on another CSV file to keep track of errors and HTTP statuses etc.
 
 We also of course store any retrieved HTML file directly on disk after compressing it to avoid running out of space.
 
-So how can we resume an aborted process now?
+So what solutions can we find to resume our aborted process?
 
 # Keeping things in order
 
-The obvious solution would be to output our report in the same order as the input file.
+An obvious solution could be to output our report in the same order as the input file.
 
 Indeed, if we are working on the following CSV file:
 
-| id     | url                              |
-|:-------|:---------------------------------|
-| 1      | https://www.lemonde.fr           |
-| 2      | https://www.lefigaro.fr          |
-| 3      | https://www.liberation.fr        |
-| 4      | https://www.echojs.com/          |
-| 5      | https://yomguithereal.github.io/ |
-| 6      | https://github.com/              |
-| ...    | ...                              |
+| url                              |
+|:---------------------------------|
+| https://www.lemonde.fr           |
+| https://www.lefigaro.fr          |
+| https://www.liberation.fr        |
+| https://www.echojs.com/          |
+| https://yomguithereal.github.io/ |
+| https://github.com/              |
+| ...                              |
 
 And if our report currently reads like this:
 
-| id     | url                              |
-|:-------|:---------------------------------|
-| 1      | https://www.lemonde.fr           |
-| 2      | https://www.lefigaro.fr          |
-| 3      | https://www.liberation.fr        |
-| 4      | https://www.echojs.com/          |
+| url                              | status |
+|:---------------------------------|:-------|
+| https://www.lemonde.fr           | 200    |
+| https://www.lefigaro.fr          | 404    |
+| https://www.liberation.fr        | 200    |
+| https://www.echojs.com/          | 200    |
 
 It is safe to assume we stopped at the fourth url and that we can resume our process starting from the fifth one.
 
@@ -85,37 +92,234 @@ So that's it? Problem solved?
 
 Not quite.
 
-Because keeping the output ordered will slow us down.
+Because keeping the output ordered could very well slow us down.
 
 # Ordered output of multithreaded iteration
 
 Remember that to be fast, we chose to rely on multithreading so that our code is able to hit multiple domains in parallel.
 
-The fact is urls will therefore be processed in an order which is mostly arbitrary and dependent on the time each request is taking.
+But the fact is our urls will be processed in mostly arbitrary order since we can only fetch a limited number of urls at once and because each url takes a different time to download.
 
-We could still easily re-order the output by using a queue. But remember that the totality of urls cannot fit into memory and this means our throughput will be affected.
+We could still easily re-order the output by using a queue. But remember that all the urls cannot fit into memory at once. This means keeping the output ordered will affect our throughput.
 
-Why? Because some particularly slow urls are now able to slow down the whole process since we cannot fetch more urls until those slow ones are outputted to the report. Those slow urls are bound to throttle the whole thing.
+<p>
+  Why? Because some particularly slow urls would now be able to slow down the whole process since we cannot fetch more urls until those slow ones are outputted to the report. Those slow urls are bound to throttle the whole thing.
+  <SideNote id="buffering">
+    It is possible, if you have memory to spare, to keep a buffer of items to be outputted. This can alleviate the issue but cannot fix it altogether since the only way to completely fix it would mean to load everything into memory.
+  </SideNote>
+</p>
 
 But let's visualize this so this is clearer.
 
 Here is what the process would look like if we output an ordered report:
 
 <p>
-  <img src={orderedGif} />
+  <img src={orderedGif} alt="ordered process gif" />
 </p>
 
 And here is what the process would look like if we don't care about the report's order:
 
 <p>
-  <img src={unorderedGif} />
+  <img src={unorderedGif} alt="ordered process gif" />
 </p>
 
-You should notice that the second process is smoother and faster. And we are only fetching 100 urls here. Imagine how those differences would add up with a million urls.
+You should notice that the second process is smoother and faster while the first one hiccups and stalls. And we are only fetching 100 urls here. Imagine how those differences would add up with a million urls.
 
-This means that keeping the report ordered is not a viable solution if we want performance.
+<p>
+  This means that keeping the report ordered is not a viable solution if we want performance.
+  <SideNote id="lost">
+    What's more, keeping the report ordered might also mean losing the result of some tasks positioned after some lagging ones but finished before them, in case of a crash.
+  </SideNote>
+</p>
 
-<!-- need patience -->
-<!-- note on I/O -->
-<!-- inversion lists -->
-<!-- link to minet -->
+But how can we resume the process if our report is not in the same order as the input?
+
+# A set of already done lines
+
+A naive solution would be to start adding a column to our CSV report indicating the index of the line of the input file so we can track lines that were already done.
+
+So a CSV file or urls looking like this:
+
+| url                              |
+|:---------------------------------|
+| https://www.lemonde.fr           |
+| https://www.lefigaro.fr          |
+| https://www.liberation.fr        |
+| https://www.echojs.com/          |
+| https://yomguithereal.github.io/ |
+| https://github.com/              |
+| ...                              |
+
+Could yield a report looking like that:
+
+| line   | url                              | status |
+|:-------|:---------------------------------|:-------|
+| 1      | https://www.lefigaro.fr          | 404    |
+| 0      | https://www.lemonde.fr           | 200    |
+| 4      | https://yomguithereal.github.io/ | 200    |
+| 3      | https://www.echojs.com/          | 200    |
+
+See how the original lines are outputted in arbitrary order?
+
+We can now read the report file and store the set of lines that were already processed. In our case the set of already done lines would be:
+
+```python
+{0, 1, 3, 4}
+```
+
+This means that we are now able to skip those lines when reading the input file again.
+
+Unfortunately, this won't work in our case either.
+
+Remember that we have an input file that cannot fit into memory. What if the process was aborted not far from the end? Doesn't this mean we would need to fit the set of almost every line from our input file into memory?
+
+Yes it does :(
+
+# Contiguous range set
+
+Enters the *contiguous range set*. A data structure that we will design together to solve the issue at hand.
+
+Our *contiguous range set* will be very similar to the typical *set* in that we need to perform the same kind of operations on it:
+
+1. We need to be able to add items to the set
+2. We need to be able to ask whether the set contains a given item
+
+What's more, we want those operations to run as fast as possible and we need our custom set to use as little memory as possible.
+
+And, in our case, there are two important facts that we can put to good use:
+
+1. The items we want to store are indices of line in a CSV file, i.e. integers ranging from `0` to `n`.
+2. Our report should be approximately ordered. Indeed, it is very likely that the outputted lines won't respect exactly the input order. However it is also very likely that the outputted lines will roughly approximate the input order.
+
+So, given this, could we design a set so that it stores contiguous ranges of indices rather than the indices themselves?
+
+# Holes
+
+Let's picture a report again:
+
+| line   | url                              | status |
+|:-------|:---------------------------------|:-------|
+| 1      | https://www.lefigaro.fr          | 404    |
+| 0      | https://www.lemonde.fr           | 200    |
+| 4      | https://yomguithereal.github.io/ | 200    |
+| 3      | https://www.echojs.com/          | 200    |
+| 2      | https://www.liberation.fr        | 200    |
+
+Consider that we could represent our set as a list of contiguous ranges of indices contained within it. A range can easily be represented as, for instance, a tuple containing the range's start and end index.
+
+```python
+# A range containing the indices 1, 2, 3 and 4:
+(1, 4)
+
+# A range containing only index 3:
+(3, 3)
+```
+
+Now here is how we would represent our set, as a list of integer ranges (our set is said to store contiguous ranges because we compress any contiguous integers together):
+
+```python
+ranges = []
+
+# >>> | 1 | https://www.lefigaro.fr          | 404 |
+
+# We process the first line of our report, ranges becomes:
+[(1, 1)]
+
+# >>>  | 0 | https://www.lemonde.fr           | 200 |
+
+# We process the second line
+# Notice how we just update the first range
+[(0, 1)]
+
+# >>>  | 4 | https://yomguithereal.github.io/ | 200 |
+
+# We process the third line
+# Here we need to add a new range because the new index
+# is not contiguous to any already stored one
+[(0, 1), (4, 4)]
+
+# >>>  | 3 | https://www.echojs.com/          | 200 |
+
+# The fourth...
+[(0, 1), (3, 4)]
+
+# >>>  | 2 | https://www.liberation.fr        | 200 |
+
+# And finally the last one
+# Here both ranges, now contiguous, have been merged
+[(0, 4)]
+```
+
+<p>
+  Notice how we keep the list of ranges sorted by start point and how it means that querying the set can be as fast as performing a single <SafeLink href="https://en.wikipedia.org/wiki/Binary_search_algorithm">binary search</SafeLink>.
+  <SideNote id="binary-search">
+    If you don't remember binary search too well, just remember that it is a convenient way to search for an item in a <strong>sorted</strong> list in logarithmic time.
+  </SideNote>
+</p>
+
+<div className="paragraph">
+  Inserting a new index in this set can also be as fast since we only need to find the insertion point in the list using the same binary search.
+  <SideNote id="list">
+    Inserting an element in the middle of a list can be costly, even more if you need a list where indexing needs to be done in <code>O(1)</code> so that binary search remains perfomant. But note that:
+    <ol>
+      <li>in our case we will see that the size of the list is never very large</li>
+      <li>it is possible to find hybrid list implementations such as <SafeLink href="https://pypi.org/project/blist/">blist</SafeLink> in python that made the necessary compromises to make this work</li>
+    </ol>
+  </SideNote>
+</div>
+
+And here is an interesting thing with this way of representing our set: the maximum number of ranges we need to store in memory for a given sequence of indices cannot exceed the number of holes in said sequence + 1:
+
+```python
+ranges = []
+
+# stored sequence of indices: [1], holes: 0
+[(1, 1)]
+
+# stored sequence of indices: [0, 1], holes: 0
+[(0, 1)]
+
+# stored sequence of indices: [0, 1, _, 4], holes: 1
+[(0, 1), (4, 4)]
+
+# stored sequence of indices: [0, 1, _, 3, 4], holes: 1
+[(0, 1), (3, 4)]
+
+# stored sequence of indices: [0, 1, 2, 3, 4], holes: 0
+[(0, 4)]
+```
+
+Therefore, by leveraging binary search, our *contiguous range set* has the following complexities:
+
+1. Space complexity of the set is `O(h)`, `h` being the number of holes in the stored sequence of indices
+2. Time complexity of querying an index in the set is `O(log h)`
+3. Time complexity of inserting an index in the set is `O(log h)` or `O(h)` when using a particularly inadequate list implementation
+
+Not bad if you can ensure that `h` remains as little as possible.
+
+# Almost ordered output
+
+Remember that our report, while being outputted in a different order than the input, still has an order roughly ressembling the input's one.
+
+This means that in this precise case, the number of holes in the sequence of integers stored by our set should never be very high.
+
+We will thus be able to fit the set of already processed lines into memory using our cunning representation. No need to fetch urls once more, we can now safely resume our process without running out of memory!
+
+# Concluding remarks
+
+The data structure presented in this article has had many names and variations. I call it *contiguous range set* but others may give it another name.
+
+It is in fact very inspired by [inversion lists](https://en.wikipedia.org/wiki/Inversion_list) that are typically used by regex engines to process character classes such as `[A-Z0-9]` and a lot of Unicode-related routines.
+
+Note also that the concept of the *contiguous range set* can be applied to other use cases dealing with monotonically increasing sequences of numbers that can be contiguous.
+
+Finally, and because this whole blog post was not born out of mere fantasy, know that the solution to our case was found when working on [minet](https://github.com/medialab/minet#readme), a command line tool for [webmining](https://en.wikipedia.org/wiki/Web_mining) written in python, where the *contiguous range set* is used to resume an aborted `fetch` command.
+
+You can even find a very crude python implementation of the *contiguous range set* [here](https://github.com/medialab/minet/blob/master/minet/contiguous_range_set.py).
+
+<p style={{textAlign: 'center'}}>
+  <br />
+  I wish you a very good day!
+</p>
+
+<Divider />
