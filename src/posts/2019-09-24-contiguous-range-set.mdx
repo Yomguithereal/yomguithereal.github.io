@@ -13,6 +13,8 @@ subtitle:
 
 import {SideNote} from '../components/tufte';
 import SafeLink from '../components/SafeLink';
+import orderedGif from '../img/ordered.gif';
+import unorderedGif from '../img/unordered.gif';
 
 <p>
   Picture the scene: using Twitter APIs, we have collected a gazillion of tweets.
@@ -31,6 +33,7 @@ import SafeLink from '../components/SafeLink';
 But there is a catch! Before being able to do so, we obviously need to fetch those urls. And grabbing millions of urls from the web ought to be slow.
 
 However, it is not entirely hopeless: The first thing to avoid is to fetch urls sequentially. To dramatically speed up their collection, we can fetch a bunch of them in parallel, granted they are not from the same domain, using multi-threaded execution.
+
 
 <!-- need patience -->
 <!-- note on I/O -->
