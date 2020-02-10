@@ -3,7 +3,8 @@ module.exports = {
     title: 'Yomguithereal\'s Shenanigans',
     siteUrl: 'https://yomguithereal.github.io',
     githubUrl: 'https://github.com/Yomguithereal',
-    twitterUrl: 'https://twitter.com/Yomguithereal'
+    twitterUrl: 'https://twitter.com/Yomguithereal',
+    analyticsUrl: 'https://matomo.ouestware.com/matomo.php?idsite=9&rec=1'
   },
   plugins: [
     'gatsby-plugin-react-helmet',

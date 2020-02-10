@@ -19,6 +19,7 @@ export default function Layout({children, title}) {
               siteUrl
               githubUrl
               twitterUrl
+              analyticsUrl
             }
           }
         }
@@ -56,6 +57,7 @@ export default function Layout({children, title}) {
                 {children}
               </section>
             </article>
+            <img src={meta.analyticsUrl} style={{border: '0'}} alt="" />
           </>
         );
       }} />
