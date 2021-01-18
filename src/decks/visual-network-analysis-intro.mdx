@@ -1,6 +1,6 @@
 ---
 type: deck
-draft: true
+draft: false
 title: "Introduction à l'analyse visuelle de réseaux"
 slug: visual-network-analysis-intro
 date: "2021-01-20"
@@ -31,6 +31,8 @@ export const theme = customTheme;
 </Head>
 
 <h2>Introduction à l'analyse visuelle de réseaux</h2>
+
+### Une plaisante visite guidée ayant pour objectif de contrer une certaine thaumaturgie herméneutique
 
 *METAT Doctorant.e.s du 20 janvier, an de grâce 2021*
 
@@ -95,6 +97,14 @@ export const theme = customTheme;
 
 ---
 
+#### Des limites de la spatialisation
+
+* Les liens avec la réduction de dimensionnalité
+* Les tensions d'un espace en deux dimensions
+* Un espace isotrope et non-cartésien
+
+---
+
 #### Variables visuelles (Bertin rpz)
 
 * Couleur, taille des noeuds
@@ -124,6 +134,42 @@ export const theme = customTheme;
 * Le diamètre
 * Le degré
 * La densité
+* Le poids
+
+---
+
+#### Typologies
+
+* Auto-liens
+* Direction, Mixité
+* Multiples
+
+---
+
+#### De l'importance des noeuds
+
+* Notion de centralité (degré, betweenness etc.)
+* Notion d'autorité (HITS, eigenvector, PageRank etc.)
+
+---
+
+#### Le clustering
+
+* La modularité (Louvain, Leiden)
+* Le *stochastic block model*
+
+---
+
+#### Les réseaux bipartites (ou bipartis)
+
+* Deux types de noeuds distincts (les partitions)
+* Les liens n'existent qu'entre les partitions
+
+---
+
+#### Les projections monopartites
+
+*Ne garder qu'une seule partition liée par similarité de leurs liens vers la seconde partition.*
 
 ---
 
@@ -138,3 +184,21 @@ export const theme = customTheme;
 ---
 
 <img alt="AIME Balloons" src={aimeBalloons} />
+
+---
+
+#### Les outils
+
+* [Gephi](https://gephi.org/)
+* [Table2Net](https://medialab.github.io/table2net/)
+* [NetworkX](https://networkx.org/) pour python
+* [graphology](https://graphology.github.io/) pour javascript
+* [igraph](https://igraph.org/) pour R
+
+---
+
+#### Formats de fichier
+
+* Le `.gexf` et le `.gephi`
+* Le JSON
+* Le CSV
