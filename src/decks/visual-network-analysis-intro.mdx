@@ -1,0 +1,140 @@
+---
+type: deck
+draft: true
+title: "Introduction à l'analyse visuelle de réseaux"
+slug: visual-network-analysis-intro
+date: "2021-01-20"
+lang: fr
+event: "Atelier de méthode doctorant.e.s médialab"
+description:
+    A brief introduction to visual network analysis' concepts, practices and
+    tools.
+---
+
+import Head from 'gatsby-theme-mdx-deck/src/components/head';
+
+import customTheme from '../style/decks-theme.js';
+
+import koenigsbergSketch from '../img/koenigsberg-sketch.png';
+import koenigsbergCity from '../img/koenigsberg.png';
+import koenigsbergBridges from '../img/koenigsberg-bridges.png';
+import koenigsbergGraph from '../img/koenigsberg-graph.png';
+import moreno from '../img/moreno.jpeg';
+import graphMorphologies from '../img/graph-morphologies.jpeg';
+import aimeDuplicates from '../img/aime_duplicates.png';
+import aimeBalloons from '../img/aime_balloons.png';
+
+export const theme = customTheme;
+
+<Head>
+  <title>Introduction à l'analyse visuelle de réseaux</title>
+</Head>
+
+<h2>Introduction à l'analyse visuelle de réseaux</h2>
+
+*METAT Doctorant.e.s du 20 janvier, an de grâce 2021*
+
+---
+
+#### L'objet réseau
+
+* Des noeuds
+* Des liens entre ces noeuds
+* La typologie des liens
+
+---
+
+#### Un objet complexe
+
+* Un discipline mathématique: la théorie des réseaux
+* Des liens avec les matrices éparses
+* Problème non résolu
+
+---
+
+#### Deux approches possibles
+
+* Les maths/stats
+* L'analyse visuelle
+
+---
+
+#### Les sept ponts de Königsberg (Euler)
+
+<img alt="Koenigsberg bridges sketch" src={koenigsbergSketch} />
+
+---
+
+<img alt="Koenigsberg city" src={koenigsbergCity} />
+
+---
+
+<img alt="Koenigsberg bridges" src={koenigsbergBridges} />
+
+---
+
+<img alt="Koenigsberg graph" src={koenigsbergGraph} />
+
+---
+
+#### Sociométrie
+
+<img alt="Moreno sociogram" src={moreno} />
+
+---
+
+#### Spatialiser un réseau
+
+* La plupart des réseaux n'ont pas de position dans l'espace
+* Objectif courant: des noeuds "proches" devraient êtres proches sur notre carte
+* Utiliser des algorithmes itératifs pour remplir cet objectif
+
+---
+
+## Demo
+
+---
+
+#### Variables visuelles (Bertin rpz)
+
+* Couleur, taille des noeuds
+* Couleur, taille des arcs
+* Représentation des arcs (direction, arcs courbes etc.)
+
+---
+
+#### Indications structurelles
+
+* Les zones
+* Les clusters, sous-clusters
+* Les hubs, les autorités
+* Les ponts
+* Le vide et la vacuité de l'existence
+
+---
+
+#### Morphologies
+
+<img alt="Graph morphologies" src={graphMorphologies} />
+
+---
+
+#### Terminologie
+
+* Le diamètre
+* Le degré
+* La densité
+
+---
+
+#### Exemple extrême
+
+*Utiliser l'analyse visuelle de réseaux pour debugger une migration de données*
+
+---
+
+<img alt="AIME Duplicates" src={aimeDuplicates} />
+
+---
+
+<img alt="AIME Balloons" src={aimeBalloons} />
